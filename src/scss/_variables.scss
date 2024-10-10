@@ -1,0 +1,21 @@
+// Variable overrides
+//
+// If you want to customize your project please add your variables below.
+
+$enable-deprecation-messages: false !default;
+
+$primary: #00594b;
+$secondary: #00ab66;
+$danger: #ff4136;
+$warning: #fcd803;
+
+$theme-colors: (
+  "primary":    $primary,
+  "secondary":  $secondary,
+  // "success":    $success,
+  // "info":       $info,
+  "warning":    $warning,
+  "danger":     $danger,
+  // "light":      $light,
+  // "dark":       $dark
+);
