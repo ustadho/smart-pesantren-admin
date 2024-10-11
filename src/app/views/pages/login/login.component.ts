@@ -22,6 +22,7 @@ import { Store, select } from '@ngrx/store';
 import * as fromApp from 'src/app/store/app.reducer';
 import * as AuthActions from 'src/app/core/login/store/auth.action'
 import * as AuthSelector from 'src/app/core/login/store/auth.selector';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -54,6 +55,7 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private loginService: LoginService,
+    private router: Router,
     private stateStorageService: StateStorageService,
     private store: Store<fromApp.AppState>
     ) {
@@ -76,12 +78,12 @@ export class LoginComponent {
         // since login is successful, go to stored previousState and clear previousState
         const redirect = this.stateStorageService.getUrl();
         this.store.select('auth').subscribe(data => {
-          // if(redirect) {
-          //   this.stateStorageService.storeUrl(null);
-          //   this.router.navigate([redirect]);
-          // } else {
-          //     this.router.navigate(['/']);
-          // }
+          if(redirect) {
+            this.stateStorageService.storeUrl('');
+            this.router.navigate([redirect]);
+          } else {
+              this.router.navigate(['/']);
+          }
 
         });
       });
