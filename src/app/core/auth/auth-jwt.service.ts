@@ -29,17 +29,17 @@ export class AuthServerProvider {
       .post('api/authenticate', data, {
         observe: 'response',
       })
-      .pipe(map(authenticateSuccess.bind(this)));
-
-    function authenticateSuccess(resp: any) {
-      const bearerToken = resp.headers.get('Authorization');
-      if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
-        const jwt = bearerToken.slice(7, bearerToken.length);
-        // this.storeAuthenticationToken(jwt, credentials.rememberMe);
-        return jwt;
-      }
-    }
+      .pipe(map(this.authenticateSuccess.bind(this, credentials)));
   }
+
+  private authenticateSuccess = (credentials: any, resp: any) => {
+    const bearerToken = resp.headers.get('Authorization');
+    if (bearerToken && bearerToken.startsWith('Bearer ')) {
+      const jwt = bearerToken.slice(7);
+      this.storeAuthenticationToken(jwt, credentials.rememberMe);
+      return jwt;
+    }
+  };
 
   loginWithToken(jwt: any, rememberMe: any) {
     if (jwt) {
@@ -50,7 +50,7 @@ export class AuthServerProvider {
     }
   }
 
-  storeAuthenticationToken(jwt: string, rememberMe: boolean) {
+  storeAuthenticationToken(jwt: string, rememberMe: boolean): void {
     if (rememberMe) {
       this.$localStorage.store('authenticationToken', jwt);
     } else {

@@ -2,8 +2,9 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "paths": {
+      "src/*": ["src/*"],
       "@app/*": ["app/*"],
       "@services/*": ["app/services/*"]
     },

@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { SessionStorageService, LocalStorageService } from 'ngx-webstorage';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
-
+import { Store } from '@ngrx/store';
+import * as fromApp from 'src/app/store/app.reducer';
+import * as AuthActions from '../login/store/auth.action'
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
@@ -11,7 +13,10 @@ export class AccountService {
   private authenticationState = new Subject<any>();
 
   constructor(
-    private sessionStorage: SessionStorageService, private $localStorage: LocalStorageService, private http: HttpClient,
+    private sessionStorage: SessionStorageService,
+    private $localStorage: LocalStorageService,
+    private http: HttpClient,
+    private store: Store<fromApp.AppState>
     ) { }
 
   fetch(): Observable<HttpResponse<any>> {
@@ -86,6 +91,12 @@ export class AccountService {
           // this.languageService.changeLanguage(langKey);
           const token = this.$localStorage.retrieve('authenticationToken') || this.sessionStorage.retrieve('authenticationToken');
 
+          this.store.dispatch(
+            AuthActions.authenticationSuccess({
+              currentAccount: account,
+              token: token,
+            })
+          );
         } else {
           this.userIdentity = null;
           this.authenticated = false;

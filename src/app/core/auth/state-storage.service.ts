@@ -13,7 +13,7 @@ export class StateStorageService {
         this.$sessionStorage.clear('previousState');
     }
 
-    storePreviousState(previousStateName, previousStateParams) {
+    storePreviousState(previousStateName: any, previousStateParams: any) {
         const previousState = { name: previousStateName, params: previousStateParams };
         this.$sessionStorage.store('previousState', previousState);
     }
@@ -30,7 +30,7 @@ export class StateStorageService {
         return this.$sessionStorage.retrieve('previousUrl');
     }
 
-    storeDestinationState(destinationState, destinationStateParams, fromState) {
+    storeDestinationState(destinationState: any, destinationStateParams: any, fromState: any) {
         const destinationInfo = {
             destination: {
                 name: destinationState.name,
