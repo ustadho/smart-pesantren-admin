@@ -10,8 +10,6 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private localStorage: LocalStorageService, private sessionStorage: SessionStorageService) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log('intercept', request);
-
     if (!request || !request.url ||
       (/^http/.test(request.url) && !(environment.SERVER_API_URL && request.url.startsWith(environment.SERVER_API_URL)))) {
       return next.handle(request);

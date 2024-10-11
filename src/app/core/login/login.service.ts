@@ -41,9 +41,14 @@ export class LoginService {
   }
 
   logout() {
-    this.authServerProvider.logout().subscribe(() => {
-      this.router.navigate(['/login']);
-    });
+    this.authServerProvider.logout().subscribe({
+      next: () => {
+        this.router.navigate(['/login']);
+      },
+      error: (err: any) => {
+        console.log('loginService.logout err', err);
+      }
+    })
     this.accountService.authenticate(null);
   }
 }
