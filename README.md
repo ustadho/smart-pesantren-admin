@@ -10,7 +10,7 @@ Generate component
 `ng g c components/shared/button --module=components`
 
 Generate module:
-`test`
+`ng g m views/setting`
 
 Generate environment
 `ng generate environments`

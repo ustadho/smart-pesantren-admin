@@ -42,6 +42,7 @@
     "lodash-es": "^4.17.21",
     "ngrx-store-freeze": "^0.2.4",
     "ngx-scrollbar": "^13.0.3",
+    "ngx-toastr": "^19.0.0",
     "ngx-webstorage": "^18.0.0",
     "rxjs": "~7.8.1",
     "tslib": "^2.7.0",

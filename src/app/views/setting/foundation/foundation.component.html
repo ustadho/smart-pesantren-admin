@@ -1,0 +1,89 @@
+<form
+  class="form-horizontal"
+  name="form"
+  role="form"
+  novalidate
+  (ngSubmit)="onSubmit()"
+  [formGroup]="form"
+>
+  <div class="animated fadeIn" >
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header"><i class="fa fa-edit"></i>Data Yayasan</div>
+          <div class="card-body">
+            <app-base-input
+              [formGroup]="form"
+              controlName="name"
+              label="Nama Yayasan"
+              placeholder="Al-Andalus"
+              labelWidth="col-sm-3 col-md-2"
+              inputWidth="col-sm-9 col-md-10"
+              layout="horizontal"
+              >></app-base-input
+            >
+            <app-base-input
+              [formGroup]="form"
+              label="Alamat"
+              placeholder="Alamat"
+              controlName="address1"
+              labelWidth="col-sm-3 col-md-2"
+              inputWidth="col-sm-9 col-md-10"
+              layout="horizontal"
+              >></app-base-input
+            >
+            <app-base-input
+              [formGroup]="form"
+              controlName="address2"
+              label=""
+              placeholder="Kelurahan - Kecamatan"
+              labelWidth="col-sm-3 col-md-2"
+              inputWidth="col-sm-9 col-md-10"
+              layout="horizontal"
+              >></app-base-input
+            >
+            <app-base-input
+              [formGroup]="form"
+              controlName="address3"
+              label=""
+              placeholder="Kabupaten/Kota - Provinsi"
+              labelWidth="col-sm-3 col-md-2"
+              inputWidth="col-sm-9 col-md-10"
+              layout="horizontal"
+              >></app-base-input
+            >
+            <app-base-input
+              [formGroup]="form"
+              controlName="phone"
+              label="Telepon"
+              placeholder="Kabupaten/Kota - Provinsi"
+              labelWidth="col-sm-3 col-md-2"
+              inputWidth="col-sm-9 col-md-10"
+              layout="horizontal"
+              >></app-base-input
+            >
+            <app-base-input
+              [formGroup]="form"
+              controlName="startDate"
+              type="date"
+              label="Tgl. Berdiri"
+              placeholder="01/01/2010"
+              labelWidth="col-sm-3 col-md-2"
+              inputWidth="col-sm-3 col-md-2"
+              layout="horizontal"
+              >></app-base-input
+            >
+            <div class="row">
+              <div class="col-sm-10 offset-sm-2">
+                <app-submit-button
+                [isSubmitting]="isSubmitting"
+                buttonText="Simpan">
+              </app-submit-button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

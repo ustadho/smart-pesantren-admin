@@ -1,0 +1,12 @@
+<div [ngClass]="{ row: layout === 'horizontal', 'mb-2': true }" [formGroup]="formGroup">
+  <label [ngClass]="labelWidth" class="col-form-label">{{ label }}</label>
+  <div [ngClass]="inputWidth">
+    <input
+      *ngIf="['text', 'number', 'date'].includes(type)"
+      [type]="type"
+      class="form-control"
+      [formControlName]="controlName"
+      [placeholder]="placeholder"
+    />
+  </div>
+</div>

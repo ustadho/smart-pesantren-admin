@@ -9,6 +9,8 @@
 // Import Chart.js custom tooltips styles
 @import "@coreui/chartjs/scss/coreui-chartjs";
 
+@import 'ngx-toastr/toastr-bs5-alert';
+
 // Custom styles for this theme
 @import "theme";
 

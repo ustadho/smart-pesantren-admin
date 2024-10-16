@@ -22,6 +22,7 @@ import { HTTP_INTERCEPTORS, HttpEvent, HttpHandlerFn, HttpRequest, provideHttpCl
 import { provideState, provideStore } from '@ngrx/store';
 import { authReducer } from './core/login/store/auth.reducer';
 import { Observable } from 'rxjs';
+import { provideToastr } from 'ngx-toastr';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -77,7 +78,8 @@ export const appConfig: ApplicationConfig = {
       trace: false, //  If set to true, will include stack trace for every dispatched action, so you can see it in trace tab jumping directly to that part of code
       traceLimit: 75, // maximum stack trace frames to be stored (in case trace option was provided as true)
       connectInZone: true // If set to true, the connection is established within the Angular zone
-    })
+    }),
+    provideToastr(),
   ]
 };
 

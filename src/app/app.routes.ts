@@ -21,7 +21,11 @@ export const routes: Routes = [
       {
         path: 'pages',
         loadChildren: () => import('./views/pages/routes').then((m) => m.routes)
-      }
+      },
+      {
+        path: 'setting',
+        loadChildren: () => import('./views/setting/setting.routes').then((m) => m.routes)
+      },
     ]
   },
   {
