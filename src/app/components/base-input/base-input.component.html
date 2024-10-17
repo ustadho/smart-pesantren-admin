@@ -1,4 +1,7 @@
-<div [ngClass]="{ row: layout === 'horizontal', 'mb-2': true }" [formGroup]="formGroup">
+<div
+  [ngClass]="{ row: layout === 'horizontal', 'mb-2': true }"
+  [formGroup]="formGroup"
+>
   <label [ngClass]="labelWidth" class="col-form-label">{{ label }}</label>
   <div [ngClass]="inputWidth">
     <input
@@ -8,5 +11,16 @@
       [formControlName]="controlName"
       [placeholder]="placeholder"
     />
+    <ng-select
+      *ngIf="type == 'ng-select'"
+      [items]="items"
+      bindLabel="name"
+      bindValue="id"
+      [formControlName]="controlName"
+      (change)="onSelectChange.emit()"
+      (keyup)="search(getValue($event))"
+      [searchFn]="customSearchFn"
+    >
+    </ng-select>
   </div>
 </div>

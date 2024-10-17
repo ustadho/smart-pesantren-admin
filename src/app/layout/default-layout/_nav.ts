@@ -11,6 +11,18 @@ export const navItems: INavData[] = [
     // }
   },
   {
+    name: 'Kepegawaian',
+    url: '/hr',
+    iconComponent: { name: 'cil-notes' },
+    children: [
+      {
+        name: 'Organisasi',
+        url: '/hr/organization',
+        icon: 'nav-icon-bullet'
+      },
+    ]
+  },
+  {
     name: 'Pengaturan',
     url: '/setting',
     iconComponent: { name: 'cil-notes' },

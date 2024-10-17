@@ -1,0 +1,11 @@
+::ng-deep .p-treetable th {
+  height: 25px; /* Atur tinggi sesuai kebutuhan */
+}
+
+::ng-deep .p-treetable tr {
+  height: 25px; /* Atur tinggi sesuai kebutuhan */
+}
+
+::ng-deep .p-treetable td {
+  padding: 5px; /* Kurangi padding untuk baris yang lebih kecil */
+}
