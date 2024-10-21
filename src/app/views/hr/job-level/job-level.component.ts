@@ -31,6 +31,7 @@ export class JobLevelComponent {
       content: ``,
       disabled: false,
       removable: true,
+      active: true,
       data: null,
     });
     this.tabs[newTabIndex].active = true;
@@ -59,7 +60,10 @@ export class JobLevelComponent {
   }
 
   onRemoveTab(tab: ITab) {
-    this.tabs[this.tabs.indexOf(tab) - 1].active = true;
+    const idx = this.tabs.indexOf(tab)
+    if(idx > 0 && this.tabs[idx - 1].active != null) {
+      this.tabs[idx - 1].active = true;
+    }
     this.tabs.splice(this.tabs.indexOf(tab), 1);
     if(this.listComponent) {
       this.listComponent.onRefresh();

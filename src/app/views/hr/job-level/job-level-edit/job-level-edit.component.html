@@ -44,10 +44,9 @@
         inputWidth="col-sm-9 col-md-2"
         layout="horizontal"
       ></app-base-input>
-    </div>
-    <div class="card-footer">
-      <div class="row">
-        <div class="d-flex justify-content-between">
+
+      <div class="row border-top pt-2">
+        <div class="d-flex justify-content-between px-2">
           <button type="button" class="btn btn-danger mr-2" (click)="onDelete()" *ngIf="form.get('id')?.value != null">
             <i class="fa fa-ban"></i> Hapus
           </button>
