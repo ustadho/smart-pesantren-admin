@@ -7,6 +7,8 @@ import { delay, filter, map, tap } from 'rxjs/operators';
 import { ColorModeService } from '@coreui/angular';
 import { IconSetService } from '@coreui/icons-angular';
 import { iconSubset } from './icons/icon-subset';
+import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { fontAwesomeIcons } from './config/font-awesome-icons';
 
 @Component({
   selector: 'app-root',
@@ -25,12 +27,14 @@ export class AppComponent implements OnInit {
   readonly #colorModeService = inject(ColorModeService);
   readonly #iconSetService = inject(IconSetService);
 
-  constructor() {
+  constructor(private iconLibrary: FaIconLibrary) {
     this.#titleService.setTitle(this.title);
     // iconSet singleton
     this.#iconSetService.icons = { ...iconSubset };
     this.#colorModeService.localStorageItemName.set('smart-pesantren-admin-theme-default');
     this.#colorModeService.eventName.set('ColorSchemeChange');
+
+    this.iconLibrary.addIcons(...fontAwesomeIcons);
   }
 
   ngOnInit(): void {
