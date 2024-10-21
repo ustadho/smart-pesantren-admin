@@ -12,7 +12,8 @@ export const routes: Routes = [
     path: 'job-position',
     loadComponent: () => import('./job-position/job-position.component').then(m => m.JobPositionComponent),
     data: {
-      title: 'Jabatan'
+      title: 'Jabatan',
+      defaultSort: 'name,asc',
     }
   },
   {

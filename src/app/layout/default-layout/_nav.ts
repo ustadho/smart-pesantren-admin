@@ -16,6 +16,11 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-user' },
     children: [
       {
+        name: 'Unit Organisasi',
+        url: '/hr/organization',
+        icon: 'nav-icon-bullet'
+      },
+      {
         name: 'Jabatan',
         url: '/hr/job-position',
         icon: 'nav-icon-bullet'
@@ -23,11 +28,6 @@ export const navItems: INavData[] = [
       {
         name: 'Level Jabatan',
         url: '/hr/job-level',
-        icon: 'nav-icon-bullet'
-      },
-      {
-        name: 'Organisasi',
-        url: '/hr/organization',
         icon: 'nav-icon-bullet'
       },
     ]
