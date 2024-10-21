@@ -7,6 +7,7 @@ import {
   NgSelectComponent,
 } from '@ng-select/ng-select';
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 @Component({
   selector: 'app-base-input',
@@ -17,6 +18,7 @@ import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
     NgLabelTemplateDirective,
     NgOptionTemplateDirective,
     NgSelectComponent,
+    ColorPickerModule,
   ],
   templateUrl: './base-input.component.html',
   styleUrl: './base-input.component.scss',
@@ -31,6 +33,7 @@ export class BaseInputComponent implements OnInit {
   @Input() inputWidth: string = 'col-sm-10';
   @Input() layout: 'horizontal' | 'vertical' = 'horizontal'; // Jenis form horizontal/vertical
   @Input() items: any[] = []
+  @Input() rows: number = 2 // hanya untuk textarea
   @Output() onSelectChange = new EventEmitter<any>();
   @Output() onKeyUp = new EventEmitter<string>();
 
@@ -43,12 +46,17 @@ export class BaseInputComponent implements OnInit {
     { id: 3, name: 'Opel' },
     { id: 4, name: 'Audi' },
   ];
+  public color = '#cccccc';
 
   ngOnInit(): void {
     this.searchText$.pipe(
       debounceTime(300),
       distinctUntilChanged(),
     ).subscribe(x => this.onKeyUp.emit(x))
+
+    if(this.type == 'color-picker') {
+      this.color = this.formGroup.get(this.controlName)?.value
+    }
   }
 
   customSearchFn(term: string, item: any) {
@@ -66,5 +74,10 @@ export class BaseInputComponent implements OnInit {
 
   onSelectKeyUp() {
 
+  }
+
+  public onChangeColor(color: string): void {
+    this.color = color;
+    this.formGroup.get(this.controlName)?.setValue(color);
   }
 }

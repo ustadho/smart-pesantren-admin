@@ -11,6 +11,13 @@
       [formControlName]="controlName"
       [placeholder]="placeholder"
     />
+    <textarea
+      *ngIf="type == 'textarea'"
+      [rows]="rows"
+      class="form-control"
+      [formControlName]="controlName"
+      [placeholder]="placeholder"
+    ></textarea>
     <ng-select
       *ngIf="type == 'ng-select'"
       [items]="items"
@@ -22,5 +29,20 @@
       [searchFn]="customSearchFn"
     >
     </ng-select>
+    <input
+      class="form-control"
+      *ngIf="type == 'color-picker'"
+      [style.background]="color"
+      [cpPresetColors]="[
+        '#fff',
+        '#000',
+        '#2889e9',
+        '#e920e9',
+        '#fff500',
+        'rgb(236,64,64)'
+      ]"
+      [(colorPicker)]="color"
+      (colorPickerChange)="onChangeColor($event)"
+    />
   </div>
 </div>
