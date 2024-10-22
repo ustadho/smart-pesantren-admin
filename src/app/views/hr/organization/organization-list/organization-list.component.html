@@ -2,22 +2,8 @@
   <form [formGroup]="filterForm" (keydown.enter)="$event.preventDefault()">
     <div class="card-body">
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 mb-2">
           <div class="form-row">
-            <!-- <label for="typeId" class="col-md-3"
-                    >Tipe Akun
-                    <ng-select
-                      placeholder="Pilih Tipe Akun"
-                      id="typeId"
-                      name="typeId"
-                      [items]="coaTypes"
-                      bindLabel="name"
-                      bindValue="id"
-                      formControlName="typeId"
-                      (change)="findAll()"
-                    >
-                    </ng-select>
-                  </label> -->
             <label class="col-md-2">
               <div>
                 <button
@@ -44,35 +30,31 @@
           <p-treeTable
             [value]="list"
             [scrollable]="true"
-            class="table-hover pr-0 p-treetable-gridlines"
+            [tableStyle]="{ 'min-width': '50rem' }"
           >
             <ng-template pTemplate="header">
               <tr>
-                <th width="20%" style="background-color: #f0f3f5">Kode</th>
-                <th style="background-color: #f0f3f5">Unit Organisasi</th>
+                <th width="20%">Kode</th>
+                <th>Nama Unit Organisasi</th>
+                <th width="5%">&nbsp;</th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
-              <tr
-                [ttRow]="rowNode"
-                style="cursor: pointer"
-                (click)="edit(rowData)"
-              >
-                <td
-                  width="20%"
-                  [ngClass]="{
-                    'font-weight-bold': rowData?.childCount > 0
-                  }"
-                >
-                  <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-                  {{ rowData.code }}
+              <tr class="table-hover" [ttRow]="rowNode">
+                <td width="20%">
+                  <p-treeTableToggler [rowNode]="rowNode" />
+                  <span><a href="javascript:void(0)" (click)="onEditRow(rowData)"> {{ rowData.code }}</a></span>
                 </td>
-                <td
-                  [ngClass]="{
-                    'font-weight-bold': rowData?.childCount > 0
-                  }"
-                >
-                  {{ rowData.name }}
+                <td>{{ rowData.name }}</td>
+                <td width="5%">
+                  <button
+                    type="button"
+                    class="btn btn-sm"
+                    [ngStyle]="{'background-color': rowData.color}"
+                    (click)="onAdd.emit({parentId:rowData.id, code: rowData.code + '##'})"
+                  >
+                    <i class="fa fa-plus fa-fw"></i>
+                  </button>
                 </td>
               </tr>
             </ng-template>

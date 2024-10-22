@@ -53,7 +53,7 @@ export class OrganizationListComponent {
     );
   }
 
-  edit(x: any) {
+  onEditRow(x: any) {
     this.service.findOne(x.id).subscribe(
       (res: HttpResponse<any[]>) => {
         this.onEdit.emit(res.body);
@@ -61,6 +61,7 @@ export class OrganizationListComponent {
       (res: HttpResponse<any>) => this.onError(res.body)
     );
   }
+
   delete(x: any) {
     Swal.fire({
       title: 'Hapus Akun',

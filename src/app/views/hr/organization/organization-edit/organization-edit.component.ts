@@ -12,6 +12,7 @@ import { OrganizationService } from '../../../../domain/service/organization.ser
 import { SubmitButtonComponent } from '../../../../components/submit-button/submit-button.component';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
+import { JobLevelService } from '../../../../domain/service/job-level.service';
 
 @Component({
   selector: 'app-organization-edit',
@@ -31,23 +32,35 @@ export class OrganizationEditComponent implements OnInit {
   form: FormGroup;
 
   organizations: any[] = [];
+  jobLevels: any[] = [];
   isSubmitting = false;
 
   constructor(
     private fb: FormBuilder,
     private service: OrganizationService,
+    private jobLevelService: JobLevelService,
     private toast: ToastrService
   ) {
+    this.jobLevelService.findAll('').subscribe({
+      next: (res: any) => {
+        this.jobLevels = res.body
+      },
+      error: (err: any) => {
+        console.log(err)
+      }
+    })
     this.form = fb.group({
       id: [null],
       code: [null, [Validators.required]],
       name: [null, [Validators.required]],
       parentId: [null],
+      jobLevelId: [null, [Validators.required]],
       description: [null],
     });
   }
 
   ngOnInit(): void {
+    console.log('this.activeTab',this.activeTab)
     if(this.activeTab?.data != null) {
       this.form.patchValue(this.activeTab.data)
     }
@@ -124,6 +137,7 @@ export class OrganizationEditComponent implements OnInit {
       name: null,
       parentId: null,
       description: null,
+      jobLevelId: null,
     })
   }
 }

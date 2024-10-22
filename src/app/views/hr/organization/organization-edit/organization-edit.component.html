@@ -20,6 +20,18 @@
       <app-base-input
         type="ng-select"
         [formGroup]="form"
+        label="Level"
+        controlName="jobLevelId"
+        labelWidth="col-sm-3 col-md-3"
+        inputWidth="col-sm-9 col-md-3"
+        layout="horizontal"
+        [items]="jobLevels"
+        (onSelectChange)="onSelectChange()"
+        (onKeyUp)="onParentKeyUp($event)"
+      ></app-base-input>
+      <app-base-input
+        type="ng-select"
+        [formGroup]="form"
         label="Sub dari Unit"
         controlName="parentId"
         labelWidth="col-sm-3 col-md-3"

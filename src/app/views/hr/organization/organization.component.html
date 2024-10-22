@@ -8,7 +8,7 @@
             <tab (selectTab)="refreshList($event)">
               <ng-template tabHeading><i class="fa fa-list"></i></ng-template>
               <app-organization-list
-                (onAdd)="onAdd()"
+                (onAdd)="onAdd($event)"
                 (onEdit)="onEdit($event)"
               >
               </app-organization-list>
@@ -39,7 +39,7 @@
   <ng-template let-tab="tab" #formEdit>
     <app-organization-edit
       [activeTab]="tab"
-      (onAdd)="onAdd()"
+      (onAdd)="onAdd($event)"
       (onRemove)="onRemoveTab(tab)"
     ></app-organization-edit>
   </ng-template>

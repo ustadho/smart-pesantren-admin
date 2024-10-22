@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { JobPositionEditComponent } from './job-position-edit/job-position-edit.component';
 import { JobPositionListComponent } from './job-position-list/job-position-list.component';
 import { ITab } from '../../../domain/model/tab.model';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -18,6 +18,8 @@ export class JobPositionComponent implements OnInit{
 
   @ViewChild(JobPositionListComponent)
   private listComponent?: JobPositionListComponent;
+
+  @ViewChild('tabset', { static: false }) tabset?: TabsetComponent;
 
   constructor() {}
 
@@ -60,8 +62,24 @@ export class JobPositionComponent implements OnInit{
   }
 
   onRemoveTab(tab: ITab) {
-    this.tabs[this.tabs.indexOf(tab) - 1].active = true;
-    this.tabs.splice(this.tabs.indexOf(tab), 1);
+    const idx = this.tabs.indexOf(tab)
+    if(idx > 0 && this.tabs[idx - 1].active != null) {
+      this.tabs.splice(idx, 1);
+      if(this.tabs.length > 0)
+        this.tabs[idx - 1].active = true;
+      else if(this.tabset) {
+        this.tabset.tabs[0].active = true
+      }
+    } else {
+      if(this.tabset) {
+        this.tabset.tabs[0].active = true
+      }
+      this.tabs[0].active = true;
+    }
+
+    if(this.listComponent) {
+      this.listComponent.onRefresh();
+    }
   }
 
   refreshList(evt: any) {

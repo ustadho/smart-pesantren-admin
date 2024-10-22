@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TreeTableModule } from 'primeng/treetable';
 import { CommonModule } from '@angular/common';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
 import { OrganizationListComponent } from './organization-list/organization-list.component';
 import { ITab } from '../../../domain/model/tab.model';
 import { OrganizationEditComponent } from './organization-edit/organization-edit.component';
@@ -21,26 +21,29 @@ import { OrganizationService } from '../../../domain/service/organization.servic
 })
 export class OrganizationComponent implements OnInit {
   tabs: ITab[] = [];
-  coaTypes = [];
-  currencies = [];
 
   @ViewChild(OrganizationListComponent)
   private listComponent?: OrganizationListComponent;
 
+  @ViewChild('tabset', { static: false }) tabset?: TabsetComponent;
+
   constructor() {}
 
   ngOnInit(): void {
-    this.onAdd();
+    this.onAdd(null);
   }
 
-  onAdd() {
+  onAdd(d: any) {
     const newTabIndex = this.tabs.length;
     this.tabs.push({
       title: `Data Baru`,
       content: ``,
       disabled: false,
       removable: true,
-      data: null,
+      data: {
+        code: d == null? null: d.code,
+        parentId: d == null? null: d.parentId,
+      },
     });
     this.tabs[newTabIndex].active = true;
   }
@@ -68,8 +71,24 @@ export class OrganizationComponent implements OnInit {
   }
 
   onRemoveTab(tab: ITab) {
-    this.tabs[this.tabs.indexOf(tab) - 1].active = true;
-    this.tabs.splice(this.tabs.indexOf(tab), 1);
+    const idx = this.tabs.indexOf(tab)
+    if(idx > 0 && this.tabs[idx - 1].active != null) {
+      this.tabs.splice(idx, 1);
+      if(this.tabs.length > 0)
+        this.tabs[idx - 1].active = true;
+      else if(this.tabset) {
+        this.tabset.tabs[0].active = true
+      }
+    } else {
+      if(this.tabset) {
+        this.tabset.tabs[0].active = true
+      }
+      this.tabs[0].active = true;
+    }
+
+    if(this.listComponent) {
+      this.listComponent.findAll();
+    }
   }
 
   refreshList(evt: any) {
