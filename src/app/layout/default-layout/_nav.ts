@@ -16,6 +16,10 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-user' },
     children: [
       {
+        name: 'Jam Kerja',
+        url: '/hr/working-hour',
+        icon: 'nav-icon-bullet'
+      },{
         name: 'Unit Organisasi',
         url: '/hr/organization',
         icon: 'nav-icon-bullet'

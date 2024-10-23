@@ -2,12 +2,13 @@
   [ngClass]="{ row: layout === 'horizontal', 'mb-2': true }"
   [formGroup]="formGroup"
 >
-  <label [ngClass]="labelWidth" class="col-form-label">{{ label }}</label>
+  <label [ngClass]="labelWidth" class="col-form-label" [for]="controlName">{{ label }}</label>
   <div [ngClass]="inputWidth">
     <input
       *ngIf="['text', 'number', 'date'].includes(type)"
       [type]="type"
       class="form-control"
+      [id]="controlName"
       [formControlName]="controlName"
       [placeholder]="placeholder"
     />
@@ -15,6 +16,7 @@
       *ngIf="type == 'textarea'"
       [rows]="rows"
       class="form-control"
+      [id]="controlName"
       [formControlName]="controlName"
       [placeholder]="placeholder"
     ></textarea>
@@ -23,6 +25,7 @@
       [items]="items"
       bindLabel="name"
       bindValue="id"
+      [id]="controlName"
       [formControlName]="controlName"
       (change)="onSelectChange.emit()"
       (keyup)="search(getValue($event))"
@@ -30,6 +33,7 @@
     >
     </ng-select>
     <input
+      [id]="controlName"
       class="form-control"
       *ngIf="type == 'color-picker'"
       [style.background]="color"

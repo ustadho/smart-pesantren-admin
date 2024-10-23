@@ -2,10 +2,16 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'working-hour',
+    loadComponent: () => import('./working-hour/working-hour.component').then(m => m.WorkingHourComponent),
+    data: {
+      title: 'Jam Kerja'
+    }
+  },{
     path: 'organization',
     loadComponent: () => import('./organization/organization.component').then(m => m.OrganizationComponent),
     data: {
-      title: 'Page 404'
+      title: 'Unit Organisasi'
     }
   },
   {
