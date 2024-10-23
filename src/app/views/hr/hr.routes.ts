@@ -2,12 +2,20 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'section',
+    loadComponent: () => import('./section/section.component').then(m => m.SectionComponent),
+    data: {
+      title: 'Bagian'
+    }
+  },
+  {
     path: 'working-hour',
     loadComponent: () => import('./working-hour/working-hour.component').then(m => m.WorkingHourComponent),
     data: {
       title: 'Jam Kerja'
     }
-  },{
+  },
+  {
     path: 'organization',
     loadComponent: () => import('./organization/organization.component').then(m => m.OrganizationComponent),
     data: {
