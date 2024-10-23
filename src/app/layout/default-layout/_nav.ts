@@ -38,6 +38,11 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-notes' },
     children: [
       {
+        name: 'Lokasi',
+        url: '/setting/location',
+        icon: 'nav-icon-bullet'
+      },
+      {
         name: 'Yayasan',
         url: '/setting/foundation',
         icon: 'nav-icon-bullet'
