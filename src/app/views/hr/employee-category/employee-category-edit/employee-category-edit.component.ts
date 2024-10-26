@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { SectionService } from '../../../../domain/service/section.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
@@ -11,6 +10,7 @@ import { ITab } from '../../../../domain/model/tab.model';
 import Swal from 'sweetalert2';
 import { SubmitButtonComponent } from '../../../../components/submit-button/submit-button.component';
 import { BaseInputComponent } from '../../../../components/base-input/base-input.component'
+import { EmployeeCategoryService } from 'src/app/domain/service/employee-category.service';
 
 @Component({
   selector: 'app-employee-category-edit',
@@ -39,7 +39,7 @@ export class EmployeeCategoryEditComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private service: SectionService,
+    private service: EmployeeCategoryService,
     private toast: ToastrService
   ) {
     const tStart = new Date('1970-01-01 07:00:00')

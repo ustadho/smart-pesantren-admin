@@ -6,7 +6,7 @@ import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-section',
+  selector: 'app-employee-category',
   standalone: true,
   imports: [CommonModule, TabsModule, EmployeeCategoryListComponent, EmployeeCategoryEditComponent],
   templateUrl: './employee-category.component.html',
