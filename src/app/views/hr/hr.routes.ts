@@ -39,6 +39,14 @@ export const routes: Routes = [
     }
   },
   {
+    path: 'referal-institution',
+    loadComponent: () => import('./referal-institution/referal-institution.component').then(m => m.ReferalInstitutionComponent),
+    data: {
+      title: 'Kategory Pegawai',
+      defaultSort: 'name,asc',
+    }
+  },
+  {
     path: 'employee-category',
     loadComponent: () => import('./employee-category/employee-category.component').then(m => m.EmployeeCategoryComponent),
     data: {

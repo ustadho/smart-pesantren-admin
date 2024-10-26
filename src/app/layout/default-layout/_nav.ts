@@ -41,6 +41,11 @@ export const navItems: INavData[] = [
         icon: 'nav-icon-bullet'
       },
       {
+        name: 'Institusi Rujukan',
+        url: '/hr/referal-institution',
+        icon: 'nav-icon-bullet'
+      },
+      {
         name: 'Kategori Pegawai',
         url: '/hr/employee-category',
         icon: 'nav-icon-bullet'
