@@ -40,6 +40,11 @@ export const navItems: INavData[] = [
         url: '/hr/job-level',
         icon: 'nav-icon-bullet'
       },
+      {
+        name: 'Kategori Pegawai',
+        url: '/hr/employee-category',
+        icon: 'nav-icon-bullet'
+      },
     ]
   },
   {

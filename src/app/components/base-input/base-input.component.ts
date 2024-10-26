@@ -34,6 +34,8 @@ export class BaseInputComponent implements OnInit {
   @Input() layout: 'horizontal' | 'vertical' = 'horizontal'; // Jenis form horizontal/vertical
   @Input() items: any[] = []
   @Input() rows: number = 2 // hanya untuk textarea
+  @Input() autocomplete: string = ''
+  @Input() autofocus: boolean = false
   @Output() onSelectChange = new EventEmitter<any>();
   @Output() onKeyUp = new EventEmitter<string>();
 

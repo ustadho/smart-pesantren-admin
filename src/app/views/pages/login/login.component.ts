@@ -70,7 +70,6 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.loginService.login(this.loginForm.value).then((response: any) => {
         localStorage.setItem('authenticationToken', response);
-        console.log('Logged in successfully, JWT Token:', response);
 
         this.authenticationError = false;
 

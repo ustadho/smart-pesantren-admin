@@ -38,4 +38,12 @@ export const routes: Routes = [
       defaultSort: 'level,asc',
     }
   },
+  {
+    path: 'employee-category',
+    loadComponent: () => import('./employee-category/employee-category.component').then(m => m.EmployeeCategoryComponent),
+    data: {
+      title: 'Kategory Pegawai',
+      defaultSort: 'code,asc',
+    }
+  },
 ];
