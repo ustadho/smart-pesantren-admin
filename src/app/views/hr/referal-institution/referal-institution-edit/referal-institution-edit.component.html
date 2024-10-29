@@ -10,6 +10,17 @@
         layout="horizontal"
       ></app-base-input>
       <app-base-input
+        type="ng-select"
+        [formGroup]="form"
+        label="Kota"
+        [labelFormat]="'${name} - ${provinceName}'"
+        controlName="cityId"
+        labelWidth="col-sm-3 col-md-2"
+        inputWidth="col-sm-9 col-md-8"
+        layout="horizontal"
+        [items]="cities"
+      ></app-base-input>
+      <app-base-input
         type="textarea"
         [formGroup]="form"
         label="Keterangan"

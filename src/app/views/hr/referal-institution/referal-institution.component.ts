@@ -48,7 +48,7 @@ export class ReferalInstitutionComponent implements OnInit{
     if (rowIndex == -1) {
       const newTabIndex = this.tabs.length;
       this.tabs.push({
-        title: `Edit - ${data.code}`,
+        title: `Edit - ${data.name}`,
         content: ``,
         disabled: false,
         removable: true,

@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 import { SubmitButtonComponent } from '../../../../components/submit-button/submit-button.component';
 import { BaseInputComponent } from '../../../../components/base-input/base-input.component'
 import { ReferalInstitutionService } from '../../../../domain/service/referal-institution.service';
+import { CityService } from '../../../../domain/service/city.service';
 
 @Component({
   selector: 'app-referal-institution-edit',
@@ -34,13 +35,14 @@ export class ReferalInstitutionEditComponent implements OnInit {
   @Input() activeTab?: ITab;
   @Output() onRemove = new EventEmitter<any>();
   form: FormGroup;
-
+  cities: any[] = [];
   isSubmitting = signal(false);
   isMeridian = false;
 
   constructor(
     private fb: FormBuilder,
     private service: ReferalInstitutionService,
+    private cityService: CityService,
     private toast: ToastrService
   ) {
     const tStart = new Date('1970-01-01 07:00:00')
@@ -49,6 +51,7 @@ export class ReferalInstitutionEditComponent implements OnInit {
       id: [null],
       code: [null, [Validators.required]],
       name: [null, [Validators.required]],
+      cityId: [null, [Validators.required]],
       description: [null, [Validators.required]],
     });
   }
@@ -60,15 +63,25 @@ export class ReferalInstitutionEditComponent implements OnInit {
         id: d.id,
         code: d.code,
         name: d.name,
+        cityId: d.city?.id,
         description: d.description,
       });
     }
+    this.cityService.findAll('').subscribe((res: any) => {
+      this.cities = res.body;
+    });
   }
 
   onSubmit() {
     this.isSubmitting.set(true);
+    const data = {
+      ...this.form.getRawValue(),
+      city: {
+        id: this.form.getRawValue().cityId
+      }
+    }
     if (this.form.getRawValue().id == null) {
-      this.service.create(this.form.getRawValue()).subscribe({
+      this.service.create(data).subscribe({
         next: (res: any) => {
           this.onSuccess(false)
         },
@@ -77,7 +90,7 @@ export class ReferalInstitutionEditComponent implements OnInit {
         }
       });
     } else {
-      this.service.update(this.form.getRawValue()).subscribe({
+      this.service.update(data).subscribe({
         next: (res: any) => {
           this.onSuccess(true)
         },
