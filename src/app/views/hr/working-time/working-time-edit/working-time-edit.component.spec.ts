@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WorkingHourComponent } from './working-hour.component';
+import { WorkingTimeEditComponent } from './working-time-edit.component';
 
-describe('WorkingHourComponent', () => {
-  let component: WorkingHourComponent;
-  let fixture: ComponentFixture<WorkingHourComponent>;
+describe('WorkingHourEditComponent', () => {
+  let component: WorkingTimeEditComponent;
+  let fixture: ComponentFixture<WorkingTimeEditComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WorkingHourComponent]
+      imports: [WorkingTimeEditComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(WorkingHourComponent);
+    fixture = TestBed.createComponent(WorkingTimeEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
