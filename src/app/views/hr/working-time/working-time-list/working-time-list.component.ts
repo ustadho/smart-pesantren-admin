@@ -2,7 +2,7 @@ import { Component, EventEmitter, inject, OnInit, Output, signal } from '@angula
 import { ITEMS_PER_PAGE } from '../../../../shared/constant/pagination.constants';
 import { SortByDirective, SortDirective, SortService, SortState, sortStateSignal } from '../../../../shared/directive/sort';
 import { ActivatedRoute, Router } from '@angular/router';
-import { WorkingTimeService } from '../../../../domain/service/working-hour.service';
+import { WorkingTimeService } from '../../../../domain/service/working-time.service';
 import { HttpHeaders } from '@angular/common/http';
 import { PageChangedEvent, PaginationModule } from 'ngx-bootstrap/pagination';
 import { combineLatest } from 'rxjs';
@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
-  selector: 'app-working-hour-list',
+  selector: 'app-working-time-list',
   standalone: true,
   imports: [
     FormsModule,
@@ -85,7 +85,7 @@ export class WorkingTimeListComponent implements OnInit {
     }
 
     transition(sortState?: SortState): void {
-      this.router.navigate(['/hr/working-hour'], {
+      this.router.navigate(['/hr/working-time'], {
         relativeTo: this.activatedRoute.parent,
         queryParams: {
           page: this.page,

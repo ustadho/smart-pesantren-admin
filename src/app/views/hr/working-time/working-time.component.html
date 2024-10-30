@@ -7,11 +7,11 @@
           <tabset #tabset>
             <tab (selectTab)="refreshList($event)">
               <ng-template tabHeading><i class="fa fa-list"></i></ng-template>
-              <app-working-hour-list
+              <app-working-time-list
                 (onAdd)="onAdd()"
                 (onEdit)="onEdit($event)"
               >
-              </app-working-hour-list>
+              </app-working-time-list>
             </tab>
             <tab
               *ngFor="let tabz of tabs"
@@ -37,10 +37,10 @@
   </div>
 
   <ng-template let-tab="tab" #formEdit>
-    <app-working-hour-edit
+    <app-working-time-edit
       [activeTab]="tab"
       (onAdd)="onAdd()"
       (onRemove)="onRemoveTab(tab)"
-    ></app-working-hour-edit>
+    ></app-working-time-edit>
   </ng-template>
 </div>

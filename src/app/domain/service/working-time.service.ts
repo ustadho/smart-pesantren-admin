@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { createRequestOption } from '../../shared/util/request-util';
 
 @Injectable({ providedIn: 'root' })
-export class WorkingHourService {
+export class WorkingTimeService {
   private resourceUrl = '/api/hr/working-time';
 
   constructor(private http: HttpClient) { }

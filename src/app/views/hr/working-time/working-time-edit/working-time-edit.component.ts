@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { WorkingTimeService } from '../../../../domain/service/working-hour.service';
+import { WorkingTimeService } from '../../../../domain/service/working-time.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
@@ -13,7 +13,7 @@ import { SubmitButtonComponent } from '../../../../components/submit-button/subm
 import { BaseInputComponent } from '../../../../components/base-input/base-input.component'
 
 @Component({
-  selector: 'app-working-hour-edit',
+  selector: 'app-working-time-edit',
   standalone: true,
   imports: [
     FormsModule,

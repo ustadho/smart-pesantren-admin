@@ -18,7 +18,7 @@ export const routes: Routes = [
     }
   },
   {
-    path: 'working-hour',
+    path: 'working-time',
     loadComponent: () => import('./working-time/working-time.component').then(m => m.WorkingTimeComponent),
     data: {
       title: 'Jam Kerja'
