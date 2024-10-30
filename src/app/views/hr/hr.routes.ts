@@ -2,6 +2,15 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'employee',
+    // loadComponent: () => import('./section/section.component').then(m => m.SectionComponent),
+    loadComponent: () => import('./employee/employee.component').then(m => m.EmployeeComponent),
+    data: {
+      title: 'Data Pegawai',
+      defaultSort: 'name,asc',
+    }
+  },
+  {
     path: 'section',
     loadComponent: () => import('./section/section.component').then(m => m.SectionComponent),
     data: {

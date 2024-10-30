@@ -5,13 +5,23 @@
   <label [ngClass]="labelWidth" class="col-form-label" [for]="controlName">{{ label }}</label>
   <div [ngClass]="inputWidth">
     <input
-      *ngIf="['text', 'number', 'date'].includes(type)"
+      *ngIf="['text', 'number', 'date', 'email'].includes(type)"
       [type]="type"
       [autofocus]="autofocus"
       [autocomplete]="autocomplete"
       class="form-control"
       [id]="controlName"
       [formControlName]="controlName"
+      [placeholder]="placeholder"
+    />
+    <input
+      *ngIf="type == 'bs-datepicker'"
+      type="text"
+      placeholder="Datepicker"
+      class="form-control"
+      [id]="controlName"
+      [formControlName]="controlName"
+      bsDatepicker
       [placeholder]="placeholder"
     />
     <textarea
@@ -25,14 +35,19 @@
     <ng-select
       *ngIf="type == 'ng-select'"
       [items]="items"
-      bindLabel="name"
       bindValue="id"
       [id]="controlName"
       [formControlName]="controlName"
-      (change)="onSelectChange.emit()"
+      (change)="onSelectChange.emit($event)"
       (keyup)="search(getValue($event))"
       [searchFn]="customSearchFn"
     >
+    <ng-template ng-option-tmp let-item="item">
+      {{ formatLabel(item) }}
+    </ng-template>
+    <ng-template ng-label-tmp let-item="item">
+      {{ formatLabel(item) }}
+    </ng-template>
     </ng-select>
     <input
       [id]="controlName"

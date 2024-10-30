@@ -7,7 +7,9 @@ import {
   NgSelectComponent,
 } from '@ng-select/ng-select';
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @Component({
   selector: 'app-base-input',
@@ -18,6 +20,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
     NgLabelTemplateDirective,
     NgOptionTemplateDirective,
     NgSelectComponent,
+    BsDatepickerModule,
     ColorPickerModule,
   ],
   templateUrl: './base-input.component.html',
@@ -36,6 +39,7 @@ export class BaseInputComponent implements OnInit {
   @Input() rows: number = 2 // hanya untuk textarea
   @Input() autocomplete: string = ''
   @Input() autofocus: boolean = false
+  @Input() labelFormat: string = "${name}";
   @Output() onSelectChange = new EventEmitter<any>();
   @Output() onKeyUp = new EventEmitter<string>();
 
@@ -63,11 +67,20 @@ export class BaseInputComponent implements OnInit {
 
   customSearchFn(term: string, item: any) {
     term = term.toLowerCase();
-    return item.name.toLowerCase().includes(term) || item.code == null || item.code.toLowerCase().includes(term);
+    return item.name.toLowerCase().includes(term);
+    // return item.name.toLowerCase().includes(term) || item?.code == null || item?.code.toLowerCase().includes(term);
   }
 
   search(q: string) {
     this.searchText$.next(q);
+  }
+
+  getBindLabel(item: any): string {
+    return this.labelFormat.replace(/\$\{(.*?)\}/g, (_, key) => item[key] || '');
+  }
+
+  formatLabel(item: any): string {
+    return this.labelFormat.replace(/\$\{(.*?)\}/g, (_, key) => item[key] || '');
   }
 
   getValue(event: Event): string {

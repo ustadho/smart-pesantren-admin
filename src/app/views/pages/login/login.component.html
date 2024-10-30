@@ -5,6 +5,9 @@
         <c-card-group>
           <c-card class="p-4">
             <c-card-body>
+              <c-alert color="danger" [(visible)]="authenticationError">
+                Silahkan masukkan Username dan password anda dengan benar!
+              </c-alert>
               <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
                 <h1>Login</h1>
                 <p class="text-body-secondary">Sign In to your account</p>

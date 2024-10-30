@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgStyle } from '@angular/common';
 import { IconDirective } from '@coreui/icons-angular';
 import {
@@ -17,12 +17,15 @@ import {
 } from '@coreui/angular';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoginService } from '../../../core/login/login.service';
-import { StateStorageService } from 'src/app/core/auth/state-storage.service';
+import { StateStorageService } from '../../../core/auth/state-storage.service';
 import { Store, select } from '@ngrx/store';
-import * as fromApp from 'src/app/store/app.reducer';
-import * as AuthActions from 'src/app/core/login/store/auth.action'
-import * as AuthSelector from 'src/app/core/login/store/auth.selector';
+import * as fromApp from '../../../store/app.reducer';
+import * as AuthActions from '../../../core/login/store/auth.action'
+import * as AuthSelector from '../../../core/login/store/auth.selector';
 import { Router } from '@angular/router';
+import { AlertComponent } from '@coreui/angular';
+import { Account } from '../../../core/user/account.model';
+import { map, Observable } from 'rxjs';
 
 
 @Component({
@@ -45,12 +48,15 @@ import { Router } from '@angular/router';
     FormControlDirective,
     ButtonDirective,
     NgStyle,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AlertComponent,
   ],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
   loginForm: FormGroup;
   authenticationError: boolean = false;
+  account$: Observable<Account | null>;
+  currentAccount: Account | null = null ;
 
   constructor(
     private fb: FormBuilder,
@@ -59,10 +65,15 @@ export class LoginComponent {
     private stateStorageService: StateStorageService,
     private store: Store<fromApp.AppState>
     ) {
-    this.loginForm = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
-    });
+      this.account$ = this.store.pipe(
+        select(AuthSelector.selectCurrentAccount),
+        map((account) => account ?? {} as Account)
+      );
+
+      this.loginForm = this.fb.group({
+        username: ['', Validators.required],
+        password: ['', Validators.required],
+      });
   }
 
   onSubmit() {
@@ -85,7 +96,15 @@ export class LoginComponent {
           }
 
         });
+      })
+      .catch((err) => {
+        console.log('catchError', err)
+        this.authenticationError = true;
       });
     }
   }
+
+  ngOnInit() {
+    this.store.dispatch(AuthActions.logout());
+   }
 }
