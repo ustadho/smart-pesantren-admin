@@ -1,0 +1,88 @@
+<form role="form" novalidate (ngSubmit)="onSubmit()" [formGroup]="form">
+  <div class="card">
+    <div class="card-body">
+      <app-base-input
+        [formGroup]="form"
+        controlName="code"
+        label="Kode"
+        labelWidth="col-sm-3 col-md-2"
+        inputWidth="col-sm-4 col-md-2"
+        layout="horizontal"
+      ></app-base-input>
+      <app-base-input
+        [formGroup]="form"
+        label="Jam Kerja"
+        controlName="name"
+        labelWidth="col-sm-3 col-md-2"
+        inputWidth="col-sm-9 col-md-8"
+        layout="horizontal"
+      ></app-base-input>
+      <div class="row">
+        <label class="col-md-2 col-form-label d-flex align-items-center" for="checkInTime">Jam Masuk</label>
+        <div class="col-md-2">
+          <timepicker [showMeridian]="isMeridian" id="checkInTime" formControlName="checkInTime"></timepicker>
+        </div>
+        <label class="col-md-2 col-form-label d-flex align-items-center" for="checkOutTime">Jam Pulang</label>
+        <div class="col-md-2">
+          <timepicker [showMeridian]="isMeridian" id="checkOutTime" formControlName="checkOutTime"></timepicker>
+        </div>
+      </div>
+      <div class="row">
+        <label for="lateTolerance" for="lateTolerance" class="col-md-2 col-form-label">Toleransi Terlambat</label>
+        <div class="col-md-2">
+          <div class="input-group mb-2">
+            <input type="number" class="form-control" id="lateTolerance" formControlName="lateTolerance" placeholder="10" aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <span class="input-group-text" id="basic-addon2">Mnt</span>
+          </div>
+        </div>
+        <label for="lateTolerance" for="earlyLeaveTolerance" class="col-md-2 col-form-label">Toleransi Plg. Cepat</label>
+        <div class="col-md-2">
+          <div class="input-group mb-2">
+            <input type="number" class="form-control" id="earlyLeaveTolerance" formControlName="earlyLeaveTolerance" placeholder="10" aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <span class="input-group-text" id="basic-addon2">Mnt</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <label class="col-md-2 col-form-label d-flex align-items-center" for="scanStartCheckInTime">Awal Scan Masuk</label>
+        <div class="col-md-2">
+          <timepicker [showMeridian]="isMeridian" id="scanStartCheckInTime" formControlName="scanStartCheckInTime"></timepicker>
+        </div>
+        <label class="col-md-2 col-form-label d-flex align-items-center" for="scanEndCheckInTime">Akhir Scan Masuk</label>
+        <div class="col-md-2">
+          <timepicker [showMeridian]="isMeridian" id="scanEndCheckInTime" formControlName="scanEndCheckInTime"></timepicker>
+        </div>
+      </div>
+      <div class="row">
+        <label class="col-md-2 col-form-label d-flex align-items-center" for="scanStartCheckOutTime">Awal Scan Pulang</label>
+        <div class="col-md-2">
+          <timepicker [showMeridian]="isMeridian" id="scanStartCheckOutTime" formControlName="scanStartCheckOutTime"></timepicker>
+        </div>
+        <label class="col-md-2 col-form-label d-flex align-items-center" for="scanEndCheckOutTime">Akhir Scan Pulang</label>
+        <div class="col-md-2">
+          <timepicker [showMeridian]="isMeridian" id="scanEndCheckOutTime" formControlName="scanEndCheckOutTime"></timepicker>
+        </div>
+      </div>
+      <app-base-input
+        type="color-picker"
+        [formGroup]="form"
+        label="Warna"
+        controlName="color"
+        labelWidth="col-sm-3 col-md-2"
+        inputWidth="col-sm-9 col-md-2"
+        layout="horizontal"
+      ></app-base-input>
+
+      <div class="row border-top pt-2">
+        <div class="d-flex justify-content-between px-2">
+          <button type="button" class="btn btn-danger mr-2" (click)="onDelete()" *ngIf="form.get('id')?.value != null">
+            <i class="fa fa-ban"></i> Hapus
+          </button>
+          &nbsp;
+          <app-submit-button [isSubmitting]="isSubmitting()" buttonText="Simpan">
+          </app-submit-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -66,7 +66,7 @@
       />
     </button>
     <ul cDropdownMenu class="pt-0 w-auto">
-      <li>
+      <!-- <li>
         <h6 cDropdownHeader class="bg-body-secondary text-body-secondary fw-semibold py-2 rounded-top">
           Account
         </h6>
@@ -145,9 +145,9 @@
           <svg cIcon class="me-2" name="cilLockLocked"></svg>
           Lock Account
         </a>
-      </li>
+      </li> -->
       <li>
-        <a cDropdownItem routerLink="">
+        <a cDropdownItem routerLink="" (click)="logout()">
           <svg cIcon class="me-2" name="cilAccountLogout"></svg>
           Logout
         </a>

@@ -1,0 +1,86 @@
+<form role="form" novalidate (ngSubmit)="onSubmit()" [formGroup]="form">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6 col-12">
+          <app-base-input
+            type="bs-datepicker"
+            [formGroup]="form"
+            label="Tgl. Gabung"
+            controlName="joinDate"
+            labelWidth="col-sm-3 col-md-3"
+            inputWidth="col-sm-9 col-md-6"
+            layout="horizontal"
+            [items]="sections"
+          ></app-base-input>
+        </div>
+        <div class="col-md-6 col-12">
+          <app-base-input
+            type="ng-select"
+            [formGroup]="form"
+            label="Status Pegawai"
+            controlName="statusId"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-9 col-md-8"
+            layout="horizontal"
+            [items]="employeeStatus"
+          ></app-base-input>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-12">
+          <app-base-input
+            type="ng-select"
+            [formGroup]="form"
+            label="Direktorat"
+            controlName="organizationId"
+            labelWidth="col-sm-3 col-md-3"
+            inputWidth="col-sm-9 col-md-9"
+            layout="horizontal"
+            [items]="organizations"
+            (onSelectChange)="onSelectChange()"
+            (onKeyUp)="onParentKeyUp($event)"
+          ></app-base-input>
+        </div>
+        <div class="col-md-6 col-12">
+          <app-base-input
+            type="ng-select"
+            [formGroup]="form"
+            label="Bagian"
+            controlName="sectionId"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-9 col-md-8"
+            layout="horizontal"
+            [items]="sections"
+          ></app-base-input>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-12">
+          <app-base-input
+            type="ng-select"
+            [formGroup]="form"
+            label="Jabatan"
+            controlName="jobPositionId"
+            labelWidth="col-sm-3 col-md-3"
+            inputWidth="col-sm-9 col-md-9"
+            layout="horizontal"
+            [items]="jobPositions"
+          ></app-base-input>
+        </div>
+        <div class="col-md-6 col-12">
+          <app-base-input
+            type="ng-select"
+            [formGroup]="form"
+            label="Atasan Langsung"
+            controlName="managerId"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-9 col-md-8"
+            layout="horizontal"
+            [items]="employees"
+          ></app-base-input>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

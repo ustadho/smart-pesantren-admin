@@ -1,0 +1,66 @@
+<form role="form" novalidate [formGroup]="form">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-row">
+            <label class="col-md-2 px-lg-2">
+              <div class="">
+                <!-- <button type="button" class="btn btn-secondary">
+                  <fa-icon [icon]="['fas', 'sync']"></fa-icon>
+                </button> -->
+                <button
+                  type="button"
+                  class="btn btn-sm btn-primary"
+                  (click)="onAddEducation()"
+                >
+                  <i class="fa fa-plus fa-fw"></i>
+                </button>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="table table-sm table-hover">
+              <thead>
+                <tr>
+                  <th><span> Grade </span></th>
+                  <th><span> Institusi </span></th>
+                  <th><span> Jurusan </span></th>
+                  <th><span> Th. Masuk </span></th>
+                  <th><span> Th. Lulus </span></th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container
+                  formArrayName="formalEducations"
+                  *ngFor="
+                    let d of getFormDetailControls.controls;
+                    let i = index;
+                    let first = first;
+                    let last = last
+                  "
+                >
+                  <tr
+                    [formGroupName]="i"
+                    [ngStyle]="{ cursor: 'pointer' }"
+                    (click)="onEdit(i)"
+                  >
+                    <td>{{ d.value.educationLevelName }}</td>
+                    <td>{{ d.value.institutionName }}</td>
+                    <td>{{ d.value.majors }}</td>
+                    <td class="text-right">{{ d.value.startYear }}</td>
+                    <td class="text-right">{{ d.value.endYear }}</td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

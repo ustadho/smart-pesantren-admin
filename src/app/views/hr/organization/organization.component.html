@@ -1,0 +1,46 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header"><i class="fa fa-edit"></i>Unit Organisasi</div>
+        <div class="card-body">
+          <tabset #tabset>
+            <tab (selectTab)="refreshList($event)">
+              <ng-template tabHeading><i class="fa fa-list"></i></ng-template>
+              <app-organization-list
+                (onAdd)="onAdd($event)"
+                (onEdit)="onEdit($event)"
+              >
+              </app-organization-list>
+            </tab>
+            <tab
+              *ngFor="let tabz of tabs"
+              [heading]="tabz.title"
+              [active]="tabz.active"
+              (selectTab)="tabz.active = true"
+              (deselect)="tabz.active = false"
+              [disabled]="tabz.disabled"
+              [removable]="tabz.removable"
+              (removed)="onRemoveTab(tabz)"
+              [customClass]="tabz.customClass"
+            >
+              <ng-template
+                [ngTemplateOutlet]="formEdit"
+                [ngTemplateOutletContext]="{ tab: tabz }"
+              >
+              </ng-template>
+            </tab>
+          </tabset>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template let-tab="tab" #formEdit>
+    <app-organization-edit
+      [activeTab]="tab"
+      (onAdd)="onAdd($event)"
+      (onRemove)="onRemoveTab(tab)"
+    ></app-organization-edit>
+  </ng-template>
+</div>

@@ -1,0 +1,140 @@
+<form role="form" novalidate [formGroup]="form">
+  <div class="card">
+    <div class="card-body">
+      <app-base-input
+        type="ng-select"
+        [formGroup]="form"
+        label="Status Pernikahan"
+        controlName="maritalStatusId"
+        labelWidth="col-sm-3 col-md-2"
+        inputWidth="col-sm-9 col-md-3"
+        layout="horizontal"
+        [items]="maritalStatuses"
+      ></app-base-input>
+      <div class="row">
+        <div class="col-md-6 col-12">
+          <app-base-input
+            type="text"
+            [formGroup]="form"
+            label="No Telepon"
+            controlName="phone"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-9 col-md-8"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+        <div class="col-md-6 col-12">
+          <app-base-input
+            type="email"
+            [formGroup]="form"
+            label="Email"
+            controlName="email"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-9 col-md-8"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+      </div>
+      <h3 class="title-group-header mt-4">Alamat Tetap</h3>
+      <div class="row">
+        <div class="col-md-8">
+          <app-base-input
+            [formGroup]="form"
+            controlName="permanentAddress"
+            label="Alamat KTP"
+            labelWidth="col-sm-4 col-md-3"
+            inputWidth="col-sm-8 col-md-8"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+        <div class="col-md-4">
+          <div class="row">
+            <label class="col-form-label col-md-3" for="rtRw">RT/RW</label>
+            <div class="col-md-3">
+              <input
+                type="text"
+                class="form-control"
+                id="rtRw"
+                formControlName="permanentRT"
+                placeholder="RT"
+              />
+            </div>
+            <div class="col-md-3">
+              <input
+                type="text"
+                class="form-control"
+                id="rw"
+                formControlName="permanentRW"
+                placeholder="RW"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <app-base-input
+        type="ng-select"
+        [formGroup]="form"
+        label="Kelurahan"
+        controlName="permanentSubdistrictId"
+        labelWidth="col-sm-3 col-md-2"
+        inputWidth="col-sm-9 col-md-8"
+        layout="horizontal"
+        [items]="permanentSubDistricts"
+        [labelFormat]="
+          '${name} - ${districtName} - ${cityName} -${provinceName}'
+        "
+        (onKeyUp)="onPermanentSubDistrictKeyUp($event)"
+      ></app-base-input>
+      <h3 class="title-group-header mt-4">Alamat Domisili</h3>
+      <div class="row">
+        <div class="col-md-8">
+          <app-base-input
+            [formGroup]="form"
+            controlName="residentialAddress"
+            label="Alamat Domisili"
+            labelWidth="col-sm-4 col-md-3"
+            inputWidth="col-sm-8 col-md-8"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+        <div class="col-md-4">
+          <div class="row">
+            <label class="col-form-label col-md-3" for="rtRw">RT/RW</label>
+            <div class="col-md-3">
+              <input
+                type="text"
+                class="form-control"
+                id="rtRw"
+                formControlName="residentialRT"
+                placeholder="RT"
+              />
+            </div>
+            <div class="col-md-3">
+              <input
+                type="text"
+                class="form-control"
+                id="rw"
+                formControlName="residentialRW"
+                placeholder="RW"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <app-base-input
+        type="ng-select"
+        [formGroup]="form"
+        label="Kelurahan"
+        controlName="residentialSubdistrictId"
+        labelWidth="col-sm-3 col-md-2"
+        inputWidth="col-sm-9 col-md-8"
+        layout="horizontal"
+        [items]="residentialSubDistricts"
+        [labelFormat]="
+          '${name} - ${districtName} - ${cityName} -${provinceName}'
+        "
+        (onKeyUp)="onResidentialSubDistrictKeyUp($event)"
+      ></app-base-input>
+    </div>
+  </div>
+</form>

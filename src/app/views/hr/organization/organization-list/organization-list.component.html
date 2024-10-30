@@ -1,0 +1,66 @@
+<div class="card">
+  <form [formGroup]="filterForm" (keydown.enter)="$event.preventDefault()">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12 mb-2">
+          <div class="form-row">
+            <label class="col-md-2">
+              <div>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  (click)="findAll()"
+                >
+                  <i class="fa fa-refresh fa-fw"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  (click)="onAdd.emit()"
+                >
+                  <i class="fa fa-plus fa-fw"></i>
+                </button>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="list != null">
+        <div class="col-md-12">
+          <p-treeTable
+            [value]="list"
+            [scrollable]="true"
+            [tableStyle]="{ 'min-width': '50rem' }"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th width="20%">Kode</th>
+                <th>Nama Unit Organisasi</th>
+                <th width="5%">&nbsp;</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+              <tr class="table-hover" [ttRow]="rowNode">
+                <td width="20%">
+                  <p-treeTableToggler [rowNode]="rowNode" />
+                  <span><a href="javascript:void(0)" (click)="onEditRow(rowData)"> {{ rowData.code }}</a></span>
+                </td>
+                <td>{{ rowData.name }}</td>
+                <td width="5%">
+                  <button
+                    type="button"
+                    class="btn btn-sm"
+                    [ngStyle]="{'background-color': rowData.color}"
+                    (click)="onAdd.emit({parentId:rowData.id, code: rowData.code + '##'})"
+                  >
+                    <i class="fa fa-plus fa-fw"></i>
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-treeTable>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

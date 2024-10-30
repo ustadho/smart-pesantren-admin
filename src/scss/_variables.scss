@@ -7,13 +7,14 @@ $enable-deprecation-messages: false !default;
 $primary: #00594b;
 $secondary: #00ab66;
 $danger: #ff4136;
+$info: hsl(103, 46%, 62%);
 $warning: #fcd803;
 
 $theme-colors: (
   "primary":    $primary,
   "secondary":  $secondary,
   // "success":    $success,
-  // "info":       $info,
+  "info":       $info,
   "warning":    $warning,
   "danger":     $danger,
   // "light":      $light,

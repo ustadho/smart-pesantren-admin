@@ -2,77 +2,76 @@ import { INavData } from '@coreui/angular';
 
 export const navItems: INavData[] = [
   {
-    name: 'Pages',
-    url: '/login',
-    iconComponent: { name: 'cil-star' },
+    name: 'Dashboard',
+    url: '/dashboard',
+    iconComponent: { name: 'cil-speedometer' },
+    // badge: {
+    //   color: 'info',
+    //   text: 'NEW'
+    // }
+  },
+  {
+    name: 'Kepegawaian',
+    url: '/hr',
+    iconComponent: { name: 'cil-user' },
     children: [
       {
-        name: 'Login',
-        url: '/login',
+        name: 'Data Pegawai',
+        url: '/hr/employee',
         icon: 'nav-icon-bullet'
       },
       {
-        name: 'Register',
-        url: '/register',
+        name: 'Bagian',
+        url: '/hr/section',
         icon: 'nav-icon-bullet'
       },
       {
-        name: 'Error 404',
-        url: '/404',
+        name: 'Jam Kerja',
+        url: '/hr/working-hour',
         icon: 'nav-icon-bullet'
       },
       {
-        name: 'Error 500',
-        url: '/500',
+        name: 'Unit Organisasi',
+        url: '/hr/organization',
         icon: 'nav-icon-bullet'
-      }
+      },
+      {
+        name: 'Jabatan',
+        url: '/hr/job-position',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Level Jabatan',
+        url: '/hr/job-level',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Institusi Rujukan',
+        url: '/hr/referal-institution',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Kategori Pegawai',
+        url: '/hr/employee-category',
+        icon: 'nav-icon-bullet'
+      },
     ]
   },
   {
-    name: 'Forms',
-    url: '/forms',
+    name: 'Pengaturan',
+    url: '/setting',
     iconComponent: { name: 'cil-notes' },
     children: [
       {
-        name: 'Form Control',
-        url: '/forms/form-control',
+        name: 'Lokasi',
+        url: '/setting/location',
         icon: 'nav-icon-bullet'
       },
       {
-        name: 'Select',
-        url: '/forms/select',
+        name: 'Yayasan',
+        url: '/setting/foundation',
         icon: 'nav-icon-bullet'
       },
-      {
-        name: 'Checks & Radios',
-        url: '/forms/checks-radios',
-        icon: 'nav-icon-bullet'
-      },
-      {
-        name: 'Range',
-        url: '/forms/range',
-        icon: 'nav-icon-bullet'
-      },
-      {
-        name: 'Input Group',
-        url: '/forms/input-group',
-        icon: 'nav-icon-bullet'
-      },
-      {
-        name: 'Floating Labels',
-        url: '/forms/floating-labels',
-        icon: 'nav-icon-bullet'
-      },
-      {
-        name: 'Layout',
-        url: '/forms/layout',
-        icon: 'nav-icon-bullet'
-      },
-      {
-        name: 'Validation',
-        url: '/forms/validation',
-        icon: 'nav-icon-bullet'
-      }
     ]
   },
 ];

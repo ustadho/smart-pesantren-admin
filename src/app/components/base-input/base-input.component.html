@@ -1,0 +1,69 @@
+<div
+  [ngClass]="{ row: layout === 'horizontal', 'mb-2': true }"
+  [formGroup]="formGroup"
+>
+  <label [ngClass]="labelWidth" class="col-form-label" [for]="controlName">{{ label }}</label>
+  <div [ngClass]="inputWidth">
+    <input
+      *ngIf="['text', 'number', 'date', 'email'].includes(type)"
+      [type]="type"
+      [autofocus]="autofocus"
+      [autocomplete]="autocomplete"
+      class="form-control"
+      [id]="controlName"
+      [formControlName]="controlName"
+      [placeholder]="placeholder"
+    />
+    <input
+      *ngIf="type == 'bs-datepicker'"
+      type="text"
+      placeholder="Datepicker"
+      class="form-control"
+      [id]="controlName"
+      [formControlName]="controlName"
+      bsDatepicker
+      [placeholder]="placeholder"
+    />
+    <textarea
+      *ngIf="type == 'textarea'"
+      [rows]="rows"
+      class="form-control"
+      [id]="controlName"
+      [formControlName]="controlName"
+      [placeholder]="placeholder"
+    ></textarea>
+    <ng-select
+      *ngIf="type == 'ng-select'"
+      [items]="items"
+      bindValue="id"
+      [id]="controlName"
+      [formControlName]="controlName"
+      (change)="onSelectChange.emit($event)"
+      (keyup)="search(getValue($event))"
+      [searchFn]="customSearchFn"
+    >
+    <ng-template ng-option-tmp let-item="item">
+      {{ formatLabel(item) }}
+    </ng-template>
+    <ng-template ng-label-tmp let-item="item">
+      {{ formatLabel(item) }}
+    </ng-template>
+    </ng-select>
+    <input
+      [id]="controlName"
+      class="form-control"
+      *ngIf="type == 'color-picker'"
+      [style.background]="color"
+      [cpPresetColors]="[
+        '#fff',
+        '#000',
+        '#2889e9',
+        '#e920e9',
+        '#fff500',
+        'rgb(236,64,64)'
+      ]"
+      [(colorPicker)]="color"
+      (colorPickerChange)="onChangeColor($event)"
+    />
+  </div>
+</div>
