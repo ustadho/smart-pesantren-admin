@@ -78,6 +78,21 @@
             inputWidth="col-sm-9 col-md-8"
             layout="horizontal"
             [items]="employees"
+            (onKeyUp)="onManagerKeyup($event)"
+          ></app-base-input>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-12">
+          <app-base-input
+            type="ng-select"
+            [formGroup]="form"
+            label="Jam Kerja"
+            controlName="workingHourId"
+            labelWidth="col-sm-3 col-md-3"
+            inputWidth="col-sm-9 col-md-9"
+            layout="horizontal"
+            [items]="workingHours"
           ></app-base-input>
         </div>
       </div>

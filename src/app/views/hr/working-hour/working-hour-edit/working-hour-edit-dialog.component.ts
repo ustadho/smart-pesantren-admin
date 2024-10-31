@@ -16,17 +16,16 @@ import {
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { BaseInputComponent } from '../../../../components/base-input/base-input.component';
-import { ITab } from '../../../../domain/model/tab.model';
-import { EducationLevelService } from '../../../../domain/service/education-level.service';
+import { DayService } from '../../../../domain/service/day.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Subject, Subscription } from 'rxjs';
-import { ReferalInstitutionService } from '../../../../domain/service/referal-institution.service';
+import { WorkingTimeService } from '../../../../domain/service/working-time.service';
 import { HttpResponse } from '@angular/common/http';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 
 @Component({
-  selector: 'app-employee-edit-education-dialog',
+  selector: 'app-working-hour-edit-dialog',
   standalone: true,
   imports: [
     CommonModule,
@@ -34,52 +33,48 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
     BaseInputComponent,
     FontAwesomeModule,
   ],
-  templateUrl: './employee-edit-education-dialog.component.html',
+  templateUrl: './working-hour-edit-dialog.component.html',
 })
-export class EmployeeEditEducationFormalDialogComponent implements OnInit {
+export class WorkingHourEditDialogComponent implements OnInit {
   form: FormGroup;
   data: any = null;
   rowIndex: number = -1;
-  educationLevels: any[] = [];
-  referalInstitutions: any[] = [];
+  days: any[] = [];
+  workingTimes: any[] = [];
   employeeName: string =''
   public onClose: Subject<Object> = new Subject();
   bsConfig: Partial<BsDatepickerConfig>;
+  title: string =''
 
-  private educationLevelService = inject(EducationLevelService);
-  private referalInstitutionService = inject(ReferalInstitutionService);
+  private dayService = inject(DayService);
+  private workingTimeService = inject(WorkingTimeService);
   private toast = inject(ToastrService);
 
   constructor(private fb: FormBuilder, public modalRef: BsModalRef) {
     this.form = this.fb.group({
       id: [null],
-      educationLevelId:[null, [Validators.required]],
-      educationLevelName:[null, [Validators.required]],
-      institutionId:[null, [Validators.required]],
-      institutionName:[null, [Validators.required]],
-      faculty:[null],
-      majors:[null],
-      score: [0],
-      startYear: [null],
-      endYear: [null],
-      description: [null]
+      dayId:[null, [Validators.required]],
+      dayName:[null, [Validators.required]],
+      workingTimeId:[null, [Validators.required]],
+      workingTimeName:[null, [Validators.required]],
+      checkInTime: [null, [Validators.required]],
+      checkOutTime: [null, [Validators.required]],
     })
     this.bsConfig = {
-      minMode: 'year',
-      dateInputFormat: 'YYYY' // Format tampilan menjadi hanya tahun
     };
   }
 
   ngOnInit(): void {
-    this.educationLevelService.findAll('').subscribe((res: any) => {
-      this.educationLevels = res.body;
+    this.dayService.findAll().subscribe((res: any) => {
+      this.days = res.body;
     });
-    this.referalInstitutionService.findAll('').subscribe((res: HttpResponse<any[]>) => {
+    this.workingTimeService.findAll('').subscribe((res: HttpResponse<any[]>) => {
+      console.log('res', res)
       if(res.body != null) {
-        this.referalInstitutions = res.body.map((i: any) => {
+        this.workingTimes = res.body.map((i: any) => {
           return {
             ...i,
-            completeLabel: i.name + ' - ' + i.city?.name
+            completeLabel: `${i.name} [${i.checkInTime} - ${i.checkOutTime}]`
           };
         });
       }
@@ -89,12 +84,16 @@ export class EmployeeEditEducationFormalDialogComponent implements OnInit {
     }
   }
 
-  onSelectEducationLevelChange(evt: any) {
-    this.form.get("educationLevelName")?.setValue(evt == null? null: evt.name)
+  onSelectDayChange(evt: any) {
+    this.form.get("dayName")?.setValue(evt == null? null: evt.name)
   }
 
-  onSelectReferalInstitutionChange(evt: any) {
-    this.form.get("institutionName")?.setValue(evt == null? null: evt.name)
+  onSelectWorkingTimeChange(evt: any) {
+    this.form.patchValue({
+      workingTimeName: evt.name,
+      checkInTime: new Date(`'1970-01-01 ${evt.checkInTime}`),
+      checkOutTime: new Date(`'1970-01-01 ${evt.checkOutTime}`),
+    })
   }
 
   onSave() {

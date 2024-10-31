@@ -1,74 +1,61 @@
-import { CommonModule } from '@angular/common';
-import { HttpHeaders } from '@angular/common/http';
-import { Component, EventEmitter, inject, Input, OnInit, Output, signal } from '@angular/core';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, EventEmitter, inject, OnInit, Output, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ITEMS_PER_PAGE } from 'src/app/shared/constant/pagination.constants';
+import { SortByDirective, SortDirective, SortService, SortState, sortStateSignal } from 'src/app/shared/directive/sort';
+import { WorkingHourService } from '../../../../domain/service/working-hour.service';
+import { HttpHeaders } from '@angular/common/http';
 import { PageChangedEvent, PaginationModule } from 'ngx-bootstrap/pagination';
 import { combineLatest } from 'rxjs';
-import { JobPositionService } from '../../../../domain/service/job-position.service';
-import { EmployeeService } from '../../../../domain/service/employee.service';
-import { SORT } from '../../../../shared/constant/navigation.constants';
-import { ITEMS_PER_PAGE } from '../../../../shared/constant/pagination.constants';
-import { SortByDirective, SortDirective, SortService, SortState, sortStateSignal } from '../../../../shared/directive/sort';
-import { NgSelectComponent } from '@ng-select/ng-select';
+import { SORT } from 'src/app/shared/constant/navigation.constants';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
-  selector: 'app-employee-list',
+  selector: 'app-working-hour-list',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
-    ReactiveFormsModule,
+    CommonModule,
     PaginationModule,
-    FontAwesomeModule,
     SortDirective,
     SortByDirective,
-    NgSelectComponent,
+    FontAwesomeModule,
   ],
-  templateUrl: './employee-list.component.html',
-  styleUrl: './employee-list.component.scss'
+  templateUrl: './working-hour-list.component.html',
+  styleUrl: './working-hour-list.component.scss'
 })
-export class EmployeeListComponent implements OnInit{
+export class WorkingHourListComponent implements OnInit {
   @Output() onAdd = new EventEmitter<any>();
   @Output() onEdit = new EventEmitter<any>();
-  @Input() organizations: any[] = []
 
   public q = '';
-  public unorId = '';
   public totalItems: number = 0;
   public page: any;
   public previousPage: any;
   public itemsPerPage = ITEMS_PER_PAGE;
   public predicate: any;
   public data: any[] = [];
-  filterForm: any;
 
   isLoading = signal(false);
   sortState = sortStateSignal({});
 
-  private fb = inject(FormBuilder);
-  private employeeService = inject(EmployeeService);
+  private workingHourService = inject(WorkingHourService);
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
   private sortService = inject(SortService);
 
   ngOnInit(): void {
-    this.filterForm = this.fb.group({
-      q: [null],
-      unorId: [null],
-    })
     this.handleNavigation();
   }
 
   public loadAll() {
-    this.employeeService
+    this.workingHourService
       .query({
         page: this.page - 1,
         size: this.itemsPerPage,
         sort: this.sortService.buildSortParam(this.sortState(), 'name'),
-        q: this.filterForm.getRawValue().q??'',
-        unor: this.filterForm.getRawValue().unorId??'',
+        q: this.q,
       })
       .subscribe({
         next: (res: any) => {
@@ -98,7 +85,7 @@ export class EmployeeListComponent implements OnInit{
   }
 
   transition(sortState?: SortState): void {
-    this.router.navigate(['/hr/employee'], {
+    this.router.navigate(['/hr/working-hour'], {
       relativeTo: this.activatedRoute.parent,
       queryParams: {
         page: this.page,
@@ -118,7 +105,7 @@ export class EmployeeListComponent implements OnInit{
   }
 
   onSelectRow(d: any) {
-    this.employeeService.findOne(d.id).subscribe((res: any) => {
+    this.workingHourService.findOne(d.id).subscribe((res: any) => {
       this.onEdit.emit(res.body);
     });
   }
@@ -127,3 +114,5 @@ export class EmployeeListComponent implements OnInit{
     return d.id;
   }
 }
+
+

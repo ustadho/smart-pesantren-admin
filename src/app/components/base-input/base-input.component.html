@@ -2,7 +2,9 @@
   [ngClass]="{ row: layout === 'horizontal', 'mb-2': true }"
   [formGroup]="formGroup"
 >
-  <label [ngClass]="labelWidth" class="col-form-label" [for]="controlName">{{ label }}</label>
+  <label [ngClass]="labelWidth" class="col-form-label" [for]="controlName">{{
+    label
+  }}</label>
   <div [ngClass]="inputWidth">
     <input
       *ngIf="['text', 'number', 'date', 'email'].includes(type)"
@@ -13,6 +15,11 @@
       [id]="controlName"
       [formControlName]="controlName"
       [placeholder]="placeholder"
+      [ngClass]="{
+        'is-invalid':
+          formGroup.get(controlName)?.invalid &&
+          formGroup.get(controlName)?.touched
+      }"
     />
     <input
       *ngIf="type == 'bs-datepicker'"
@@ -23,6 +30,11 @@
       [formControlName]="controlName"
       bsDatepicker
       [placeholder]="placeholder"
+      [ngClass]="{
+        'is-invalid':
+          formGroup.get(controlName)?.invalid &&
+          formGroup.get(controlName)?.touched
+      }"
     />
     <textarea
       *ngIf="type == 'textarea'"
@@ -31,6 +43,11 @@
       [id]="controlName"
       [formControlName]="controlName"
       [placeholder]="placeholder"
+      [ngClass]="{
+        'is-invalid':
+          formGroup.get(controlName)?.invalid &&
+          formGroup.get(controlName)?.touched
+      }"
     ></textarea>
     <ng-select
       *ngIf="type == 'ng-select'"
@@ -41,13 +58,18 @@
       (change)="onSelectChange.emit($event)"
       (keyup)="search(getValue($event))"
       [searchFn]="customSearchFn"
+      [ngClass]="{
+        'is-invalid':
+          formGroup.get(controlName)?.invalid &&
+          formGroup.get(controlName)?.touched
+      }"
     >
-    <ng-template ng-option-tmp let-item="item">
-      {{ formatLabel(item) }}
-    </ng-template>
-    <ng-template ng-label-tmp let-item="item">
-      {{ formatLabel(item) }}
-    </ng-template>
+      <ng-template ng-option-tmp let-item="item">
+        {{ formatLabel(item) }}
+      </ng-template>
+      <ng-template ng-label-tmp let-item="item">
+        {{ formatLabel(item) }}
+      </ng-template>
     </ng-select>
     <input
       [id]="controlName"
@@ -64,6 +86,14 @@
       ]"
       [(colorPicker)]="color"
       (colorPickerChange)="onChangeColor($event)"
+      [ngClass]="{
+        'is-invalid':
+          formGroup.get(controlName)?.invalid &&
+          formGroup.get(controlName)?.touched
+      }"
     />
+    <div *ngIf="formGroup.get(controlName)?.errors?.['required'] && formGroup.get(controlName)?.touched" class="invalid-feedback">
+      {{label}} harus diisi
+    </div>
   </div>
 </div>

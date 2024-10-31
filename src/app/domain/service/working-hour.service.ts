@@ -5,7 +5,7 @@ import { createRequestOption } from '../../shared/util/request-util';
 
 @Injectable({ providedIn: 'root' })
 export class WorkingHourService {
-  private resourceUrl = '/api/hr/working-time';
+  private resourceUrl = '/api/hr/working-hour';
 
   constructor(private http: HttpClient) { }
 
