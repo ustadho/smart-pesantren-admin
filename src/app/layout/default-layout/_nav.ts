@@ -21,6 +21,11 @@ export const navItems: INavData[] = [
         icon: 'nav-icon-bullet'
       },
       {
+        name: 'Mutasi Pegawai',
+        url: '/hr/employee-transfer',
+        icon: 'nav-icon-bullet'
+      },
+      {
         name: 'Bagian',
         url: '/hr/section',
         icon: 'nav-icon-bullet'

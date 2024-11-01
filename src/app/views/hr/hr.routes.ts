@@ -3,10 +3,17 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: 'employee',
-    // loadComponent: () => import('./section/section.component').then(m => m.SectionComponent),
     loadComponent: () => import('./employee/employee.component').then(m => m.EmployeeComponent),
     data: {
       title: 'Data Pegawai',
+      defaultSort: 'name,asc',
+    }
+  },
+  {
+    path: 'employee-transfer',
+    loadComponent: () => import('./employee-transfer/employee-transfer.component').then(m => m.EmployeeTransferComponent),
+    data: {
+      title: 'Mutasi Pegawai',
       defaultSort: 'name,asc',
     }
   },
