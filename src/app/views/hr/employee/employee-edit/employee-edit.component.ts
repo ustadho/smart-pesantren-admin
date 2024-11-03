@@ -22,17 +22,12 @@ import { SubmitButtonComponent } from '../../../../components/submit-button/subm
 import { ITab } from '../../../../domain/model/tab.model';
 import { EmployeeService } from '../../../../domain/service/employee.service';
 import { JobLevelService } from '../../../../domain/service/job-level.service';
-import { JobPositionService } from '../../../../domain/service/job-position.service';
-import { EmployeeStatusService } from '../../../../domain/service/employee-status.service';
-import { OrganizationService } from '../../../../domain/service/organization.service';
-import { SectionService } from '../../../../domain/service/section.service';
-import { CityService } from '../../../../domain/service/city.service';
 import Swal from 'sweetalert2';
-import { EmployeeCategoryService } from '../../../../domain/service/employee-category.service';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { EmployeeEditPersonalComponent } from './employee-edit-education.component';
 import { EmployeeEditUnorComponent } from './employee-edit-unor.component';
 import { EmployeeEditAddressComponent } from './employee-edit-personal.component';
+import { EmployeeEditWorkingHourComponent } from './employee-edit-working-hour.component';
 
 @Component({
   selector: 'app-employee-edit',
@@ -46,6 +41,7 @@ import { EmployeeEditAddressComponent } from './employee-edit-personal.component
     EmployeeEditPersonalComponent,
     EmployeeEditUnorComponent,
     EmployeeEditAddressComponent,
+    EmployeeEditWorkingHourComponent,
   ],
   templateUrl: './employee-edit.component.html',
   styleUrl: './employee-edit.component.scss',
@@ -110,6 +106,7 @@ export class EmployeeEditComponent implements OnInit {
       statusId: [null, [Validators.required]],
       workingHourId: [null, [Validators.required]],
       formalEducations: this.fb.array([]),
+      workingHours: this.fb.array([]),
     });
   }
 
@@ -129,6 +126,12 @@ export class EmployeeEditComponent implements OnInit {
       educations.clear();
       data.formalEducations.forEach((e: any) => {
         educations.push(this.fb.group(e));
+      });
+
+      const workingHours = this.form.get('workingHours') as FormArray;
+      workingHours.clear();
+      data.workingHours.forEach((e: any) => {
+        workingHours.push(this.fb.group(e));
       });
     }
   }
