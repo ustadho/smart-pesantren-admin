@@ -31,16 +31,6 @@ export const navItems: INavData[] = [
         icon: 'nav-icon-bullet'
       },
       {
-        name: 'Jam Kerja',
-        url: '/hr/working-hour',
-        icon: 'nav-icon-bullet'
-      },
-      {
-        name: 'Jam Absen',
-        url: '/hr/working-time',
-        icon: 'nav-icon-bullet'
-      },
-      {
         name: 'Unit Organisasi',
         url: '/hr/organization',
         icon: 'nav-icon-bullet'
@@ -68,9 +58,26 @@ export const navItems: INavData[] = [
     ]
   },
   {
+    name: 'Absensi',
+    url: '/presence',
+    iconComponent: { name: 'cil-notes' },
+    children: [
+      {
+        name: 'Jam Kerja',
+        url: '/presence/working-hour',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Jam Absen',
+        url: '/presence/working-time',
+        icon: 'nav-icon-bullet'
+      },
+    ]
+  },
+  {
     name: 'Pengaturan',
     url: '/setting',
-    iconComponent: { name: 'cil-notes' },
+    iconComponent: { name: 'cil-calculator' },
     children: [
       {
         name: 'Lokasi',

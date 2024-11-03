@@ -85,7 +85,7 @@ export class WorkingHourListComponent implements OnInit {
   }
 
   transition(sortState?: SortState): void {
-    this.router.navigate(['/hr/working-hour'], {
+    this.router.navigate(['/presence/working-hour'], {
       relativeTo: this.activatedRoute.parent,
       queryParams: {
         page: this.page,
