@@ -14,7 +14,7 @@ export const routes: Routes = [
     loadComponent: () => import('./employee-transfer/employee-transfer.component').then(m => m.EmployeeTransferComponent),
     data: {
       title: 'Mutasi Pegawai',
-      defaultSort: 'name,asc',
+      defaultSort: 'effectiveDate,desc',
     }
   },
   {

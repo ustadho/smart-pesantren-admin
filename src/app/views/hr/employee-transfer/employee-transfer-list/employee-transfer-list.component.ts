@@ -54,7 +54,7 @@ export class EmployeeTransferListComponent implements OnInit {
       .query({
         page: this.page - 1,
         size: this.itemsPerPage,
-        sort: this.sortService.buildSortParam(this.sortState(), 'name'),
+        sort: this.sortService.buildSortParam(this.sortState(), 'effectiveDate'),
         q: this.q,
       })
       .subscribe({

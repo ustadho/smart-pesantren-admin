@@ -242,7 +242,7 @@ export class EmployeeEditComponent implements OnInit {
 
   onReset() {
     this.form.patchValue({
-      id: [null],
+      id: null,
       managerId: null,
       categoryId: null,
       employeeNo: null,

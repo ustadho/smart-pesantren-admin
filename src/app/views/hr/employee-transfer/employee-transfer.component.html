@@ -37,10 +37,16 @@
   </div>
 
   <ng-template let-tab="tab" #formEdit>
-    <!-- <app-job-position-edit
+    <app-employee-transfer-edit
       [activeTab]="tab"
       (onAdd)="onAdd()"
       (onRemove)="onRemoveTab(tab)"
-    ></app-job-position-edit> -->
+      [organizations]="organizations"
+      [sections]="sections"
+      [jobPositions]="jobPositions"
+      [jobLevels]="jobLevels"
+      [employeeStatus]="employeeStatus"
+      [jobLevels]="jobLevels"
+    ></app-employee-transfer-edit>
   </ng-template>
 </div>
