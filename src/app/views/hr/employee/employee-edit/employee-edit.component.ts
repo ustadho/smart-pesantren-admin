@@ -105,6 +105,7 @@ export class EmployeeEditComponent implements OnInit {
       joinDate: [new Date(), [Validators.required]],
       statusId: [null, [Validators.required]],
       workingHourId: [null, [Validators.required]],
+      workingShift: [false, [Validators.required]],
       formalEducations: this.fb.array([]),
       workingHours: this.fb.array([]),
     });

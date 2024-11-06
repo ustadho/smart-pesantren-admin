@@ -1,12 +1,12 @@
 import { Component, EventEmitter, inject, OnInit, Output, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ITEMS_PER_PAGE } from 'src/app/shared/constant/pagination.constants';
-import { SortByDirective, SortDirective, SortService, SortState, sortStateSignal } from 'src/app/shared/directive/sort';
+import { ITEMS_PER_PAGE } from '../../../../shared/constant/pagination.constants';
+import { SORT } from '../../../../shared/constant/navigation.constants';
+import { SortByDirective, SortDirective, SortService, SortState, sortStateSignal } from '../../../../shared/directive/sort';
 import { WorkingHourService } from '../../../../domain/service/working-hour.service';
 import { HttpHeaders } from '@angular/common/http';
 import { PageChangedEvent, PaginationModule } from 'ngx-bootstrap/pagination';
 import { combineLatest } from 'rxjs';
-import { SORT } from 'src/app/shared/constant/navigation.constants';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';

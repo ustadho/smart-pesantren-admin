@@ -63,6 +63,11 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-notes' },
     children: [
       {
+        name: 'Jadwal Kerja',
+        url: '/presence/working-calendar',
+        icon: 'nav-icon-bullet'
+      },
+      {
         name: 'Jam Kerja',
         url: '/presence/working-hour',
         icon: 'nav-icon-bullet'

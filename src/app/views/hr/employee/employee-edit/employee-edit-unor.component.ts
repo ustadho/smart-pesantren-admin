@@ -13,7 +13,6 @@ import { SectionService } from '../../../../domain/service/section.service';
 import { CityService } from '../../../../domain/service/city.service';
 import Swal from 'sweetalert2';
 import { EmployeeCategoryService } from '../../../../domain/service/employee-category.service';
-import { WorkingHourService } from 'src/app/domain/service/working-hour.service';
 
 @Component({
   selector: 'app-employee-edit-unor',
@@ -54,7 +53,6 @@ export class EmployeeEditUnorComponent implements OnInit {
   private sectionService = inject(SectionService);
   private employeeStatusService = inject(EmployeeStatusService);
   private employeeService = inject(EmployeeService);
-  private workingHourService = inject(WorkingHourService);
   private toast = inject(ToastrService);
 
 
@@ -118,9 +116,6 @@ export class EmployeeEditUnorComponent implements OnInit {
     this.employeeService.findAll('').subscribe((res: any) => {
       this.employees = res.body;
     });
-    this.workingHourService.findAll('').subscribe((res: any) => {
-      this.workingHours = res.body;
-    })
   }
   onParentKeyUp(e: any) {
     this.jobLevelService.findAll(e).subscribe((res: any) => {

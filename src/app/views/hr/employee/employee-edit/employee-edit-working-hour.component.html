@@ -6,21 +6,13 @@
           <div class="form-row">
             <label class="col-md-2 px-lg-2">
               <div class="">
-                <!-- <button type="button" class="btn btn-secondary">
-                  <fa-icon [icon]="['fas', 'sync']"></fa-icon>
-                </button> -->
-                <button
-                  type="button"
-                  class="btn btn-sm btn-primary"
-                  (click)="onAddWorkingHour()"
-                >
-                  <i class="fa fa-plus fa-fw"></i>
-                </button>
+
               </div>
             </label>
           </div>
         </div>
       </div>
+      <h5 class="title-group-header">Jam Kerja Umum/ Non Shift</h5>
       <div class="row">
         <div class="col-md-12">
           <div class="table-responsive">
@@ -53,8 +45,31 @@
                   </tr>
                 </ng-container>
               </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="3">
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-secondary"
+                      (click)="onAddWorkingHour()"
+                    >
+                      Tambah Jam Kerja
+                    </button>
+                  </td>
+                </tr>
+              </tfoot>
             </table>
           </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-md-12">
+        <div class="form-check ms-3">
+          <input class="form-check-input" type="checkbox" formControlName="workingShift" name="workingShift" id="workingShift">
+          <label class="form-check-label text-danger" for="workingShift">
+            Pegawai bekerja secara shift
+          </label>
         </div>
       </div>
     </div>

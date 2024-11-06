@@ -52,9 +52,6 @@ export class EmployeeEditWorkingHourComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    if (this.activeTab?.data != null) {
-      this.form.patchValue(this.activeTab.data);
-    }
     this.workingHourService.findAll('').subscribe((res: any) => {
       this.workingHours = res.body;
     });
