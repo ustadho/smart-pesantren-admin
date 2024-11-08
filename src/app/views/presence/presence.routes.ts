@@ -2,6 +2,13 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'holiday',
+    loadComponent: () => import('./holiday/holiday.component').then(m => m.HolidayComponent),
+    data: {
+      title: 'Jam Kerja'
+    }
+  },
+  {
     path: 'working-calendar',
     loadComponent: () => import('./working-schedule/working-schedule.component').then(m => m.WorkingScheduleComponent),
     data: {

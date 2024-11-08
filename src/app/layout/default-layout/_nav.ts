@@ -68,6 +68,11 @@ export const navItems: INavData[] = [
         icon: 'nav-icon-bullet'
       },
       {
+        name: 'Hari Libur',
+        url: '/presence/holiday',
+        icon: 'nav-icon-bullet'
+      },
+      {
         name: 'Jam Kerja',
         url: '/presence/working-hour',
         icon: 'nav-icon-bullet'
