@@ -54,11 +54,11 @@ export class EmployeeListComponent implements OnInit{
   private sortService = inject(SortService);
 
   ngOnInit(): void {
-    this.handleNavigation();
     this.filterForm = this.fb.group({
       q: [null],
       unorId: [null],
     })
+    this.handleNavigation();
   }
 
   public loadAll() {
@@ -119,7 +119,6 @@ export class EmployeeListComponent implements OnInit{
 
   onSelectRow(d: any) {
     this.employeeService.findOne(d.id).subscribe((res: any) => {
-      console.log('onEdit', res.body)
       this.onEdit.emit(res.body);
     });
   }

@@ -3,7 +3,6 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: 'employee',
-    // loadComponent: () => import('./section/section.component').then(m => m.SectionComponent),
     loadComponent: () => import('./employee/employee.component').then(m => m.EmployeeComponent),
     data: {
       title: 'Data Pegawai',
@@ -11,17 +10,18 @@ export const routes: Routes = [
     }
   },
   {
+    path: 'employee-transfer',
+    loadComponent: () => import('./employee-transfer/employee-transfer.component').then(m => m.EmployeeTransferComponent),
+    data: {
+      title: 'Mutasi Pegawai',
+      defaultSort: 'effectiveDate,desc',
+    }
+  },
+  {
     path: 'section',
     loadComponent: () => import('./section/section.component').then(m => m.SectionComponent),
     data: {
       title: 'Bagian'
-    }
-  },
-  {
-    path: 'working-hour',
-    loadComponent: () => import('./working-hour/working-hour.component').then(m => m.WorkingHourComponent),
-    data: {
-      title: 'Jam Kerja'
     }
   },
   {

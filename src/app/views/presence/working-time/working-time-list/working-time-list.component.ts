@@ -2,7 +2,7 @@ import { Component, EventEmitter, inject, OnInit, Output, signal } from '@angula
 import { ITEMS_PER_PAGE } from '../../../../shared/constant/pagination.constants';
 import { SortByDirective, SortDirective, SortService, SortState, sortStateSignal } from '../../../../shared/directive/sort';
 import { ActivatedRoute, Router } from '@angular/router';
-import { WorkingHourService } from '../../../../domain/service/working-hour.service';
+import { WorkingTimeService } from '../../../../domain/service/working-time.service';
 import { HttpHeaders } from '@angular/common/http';
 import { PageChangedEvent, PaginationModule } from 'ngx-bootstrap/pagination';
 import { combineLatest } from 'rxjs';
@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
-  selector: 'app-working-hour-list',
+  selector: 'app-working-time-list',
   standalone: true,
   imports: [
     FormsModule,
@@ -22,10 +22,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     SortByDirective,
     FontAwesomeModule,
   ],
-  templateUrl: './working-hour-list.component.html',
-  styleUrl: './working-hour-list.component.scss'
+  templateUrl: './working-time-list.component.html',
+  styleUrl: './working-time-list.component.scss'
 })
-export class WorkingHourListComponent implements OnInit {
+export class WorkingTimeListComponent implements OnInit {
     @Output() onAdd = new EventEmitter<any>();
     @Output() onEdit = new EventEmitter<any>();
 
@@ -40,7 +40,7 @@ export class WorkingHourListComponent implements OnInit {
     isLoading = signal(false);
     sortState = sortStateSignal({});
 
-    private workingHourService = inject(WorkingHourService);
+    private workingHourService = inject(WorkingTimeService);
     private activatedRoute = inject(ActivatedRoute);
     private router = inject(Router);
     private sortService = inject(SortService);
@@ -85,7 +85,7 @@ export class WorkingHourListComponent implements OnInit {
     }
 
     transition(sortState?: SortState): void {
-      this.router.navigate(['/hr/working-hour'], {
+      this.router.navigate(['/presence/working-time'], {
         relativeTo: this.activatedRoute.parent,
         queryParams: {
           page: this.page,

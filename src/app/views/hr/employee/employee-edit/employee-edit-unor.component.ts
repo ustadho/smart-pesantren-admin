@@ -37,6 +37,7 @@ export class EmployeeEditUnorComponent implements OnInit {
   employeeStatus: any[] = [];
   employees: any[] = [];
   cities: any[] = [];
+  workingHours: any[] = [];
   isSubmitting = signal(false);
   sexs = [
     {id: "M", name: "Laki-Laki"},
@@ -119,6 +120,12 @@ export class EmployeeEditUnorComponent implements OnInit {
   onParentKeyUp(e: any) {
     this.jobLevelService.findAll(e).subscribe((res: any) => {
       this.jobLevels = res.body;
+    });
+  }
+
+  onManagerKeyup(e: any) {
+    this.employeeService.findAll(e).subscribe((res: any) => {
+      this.employees = res.body;
     });
   }
 

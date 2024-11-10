@@ -27,6 +27,10 @@ export const routes: Routes = [
         loadChildren: () => import('./views/hr/hr.routes').then((m) => m.routes)
       },
       {
+        path: 'presence',
+        loadChildren: () => import('./views/presence/presence.routes').then((m) => m.routes)
+      },
+      {
         path: 'setting',
         loadChildren: () => import('./views/setting/setting.routes').then((m) => m.routes)
       },

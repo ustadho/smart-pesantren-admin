@@ -1,0 +1,61 @@
+<form role="form" novalidate>
+  <div class="modal-header">
+    <strong> {{title}} </strong>
+    <small> &nbsp; {{ employeeName }} </small>
+    <button
+      type="button"
+      class="btn-close close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-base-input
+      type="bs-datepicker"
+      [formGroup]="form"
+      label="Tgl. Efektif"
+      controlName="effectiveDate"
+      labelWidth="col-sm-3 col-md-3"
+      inputWidth="col-sm-9 col-md-7"
+      layout="horizontal"
+    ></app-base-input>
+    <app-base-input
+      type="ng-select"
+      [formGroup]="form"
+      label="Jam Kerja"
+      controlName="workingHourId"
+      labelWidth="col-sm-3 col-md-3"
+      inputWidth="col-sm-9 col-md-9"
+      layout="horizontal"
+      [items]="workingHours"
+      (onSelectChange)="onSelectWorkingHourChange($event)"
+    ></app-base-input>
+    <app-base-input
+      type="textarea"
+      [formGroup]="form"
+      label="Keterangan"
+      controlName="description"
+      labelWidth="col-sm-3 col-md-3"
+      inputWidth="col-sm-9 col-md-9"
+      layout="horizontal"
+    ></app-base-input>
+    <div class="row mt-4">
+      <div class="d-flex justify-content-between">
+        <button
+          [hidden]="rowIndex < 0"
+          type="button"
+          class="btn btn-danger mr-2"
+          (click)="onDelete()"
+        >
+          <i class="fa fa-ban"></i> Hapus
+        </button>
+        <div [hidden]="rowIndex >= 0">&nbsp;</div>
+        <button type="button" class="btn btn-primary" (click)="onSave()">
+          Simpan
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

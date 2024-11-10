@@ -1,18 +1,23 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { WorkingHourListComponent} from './working-hour-list/working-hour-list.component'
-import { WorkingHourEditComponent} from './working-hour-edit/working-hour-edit.component'
-import { ITab } from '../../../domain/model/tab.model'
 import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
+import { WorkingHourListComponent } from './working-hour-list/working-hour-list.component';
+import { ITab } from 'src/app/domain/model/tab.model';
+import { WorkingHourEditComponent } from './working-hour-edit/working-hour-edit.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-working-hour',
   standalone: true,
-  imports: [CommonModule, TabsModule, WorkingHourListComponent, WorkingHourEditComponent],
+  imports: [
+    CommonModule,
+    WorkingHourListComponent,
+    WorkingHourEditComponent,
+    TabsModule,
+  ],
   templateUrl: './working-hour.component.html',
   styleUrl: './working-hour.component.scss'
 })
-export class WorkingHourComponent implements OnInit{
+export class WorkingHourComponent implements OnInit {
   tabs: ITab[] = [];
 
   @ViewChild(WorkingHourListComponent)

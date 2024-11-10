@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { WorkingHourService } from '../../../../domain/service/working-hour.service';
+import { WorkingTimeService } from '../../../../domain/service/working-time.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
@@ -13,7 +13,7 @@ import { SubmitButtonComponent } from '../../../../components/submit-button/subm
 import { BaseInputComponent } from '../../../../components/base-input/base-input.component'
 
 @Component({
-  selector: 'app-working-hour-edit',
+  selector: 'app-working-time-edit',
   standalone: true,
   imports: [
     FormsModule,
@@ -27,10 +27,10 @@ import { BaseInputComponent } from '../../../../components/base-input/base-input
     FontAwesomeModule,
     SubmitButtonComponent,
   ],
-  templateUrl: './working-hour-edit.component.html',
-  styleUrl: './working-hour-edit.component.scss'
+  templateUrl: './working-time-edit.component.html',
+  styleUrl: './working-time-edit.component.scss'
 })
-export class WorkingHourEditComponent implements OnInit {
+export class WorkingTimeEditComponent implements OnInit {
   @Input() activeTab?: ITab;
   @Output() onRemove = new EventEmitter<any>();
   form: FormGroup;
@@ -40,7 +40,7 @@ export class WorkingHourEditComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private service: WorkingHourService,
+    private service: WorkingTimeService,
     private toast: ToastrService
   ) {
     const tStart = new Date('1970-01-01 07:00:00')

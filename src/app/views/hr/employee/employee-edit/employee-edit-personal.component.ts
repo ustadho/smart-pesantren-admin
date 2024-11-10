@@ -42,7 +42,6 @@ export class EmployeeEditAddressComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('employee-edit-personal', this.activeTab?.data)
     if (this.form.getRawValue() != null) {
       if(this.form.getRawValue().permanentSubdistrictId != null) {
         this.subdistrictService.findBy(this.form.getRawValue().permanentSubdistrictId).subscribe((res: any) => {

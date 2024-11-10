@@ -51,9 +51,6 @@ export class EmployeeEditPersonalComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    if (this.activeTab?.data != null) {
-      this.form.patchValue(this.activeTab.data);
-    }
     this.educationLevelService.findAll('').subscribe((res: any) => {
       this.educationLevels = res.body;
     });

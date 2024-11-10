@@ -75,7 +75,6 @@ export class EmployeeEditEducationFormalDialogComponent implements OnInit {
       this.educationLevels = res.body;
     });
     this.referalInstitutionService.findAll('').subscribe((res: HttpResponse<any[]>) => {
-      console.log('res', res)
       if(res.body != null) {
         this.referalInstitutions = res.body.map((i: any) => {
           return {
