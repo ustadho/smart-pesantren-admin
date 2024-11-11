@@ -68,7 +68,10 @@
                     >
                       <td>{{ d.code }}</td>
                       <td>{{ d.name }}</td>
-                      <td>{{ d.isDefault }}</td>
+                      <td>
+                        <span *ngIf="d.isDefault; else unchecked">&#x2714;</span>
+                        <ng-template #unchecked>&#x2716;</ng-template>
+                      </td>
                       <td>{{ d.startDate | date: 'dd/MM/yyyy' }}</td>
                       <td>{{ d.endDate | date: 'dd/MM/yyyy' }}</td>
                     </tr>

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BaseInputComponent } from '../../../../components/base-input/base-input.component';
 import { SubmitButtonComponent } from '../../../../components/submit-button/submit-button.component';
 import { ColorPickerModule } from 'ngx-color-picker';
@@ -51,7 +51,30 @@ export class AcademicYearEditComponent {
     console.group('onSelectChange');
   }
 
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach((field) => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      }
+    });
+  }
+
   onSubmit() {
+    this.validateAllFormFields(this.form);
+    for (let el in this.form.controls) {
+      if (
+        this.form.controls[el].errors ||
+        this.form.controls[el].status === 'INVALID'
+      ) {
+        this.toast.error(`${el} harus diisi!`)
+        console.log(el);
+      }
+    }
+
+
     this.isSubmitting = true;
     if (this.form.getRawValue().id == null) {
       this.service.create(this.form.getRawValue()).subscribe((res: any) => {
@@ -60,7 +83,11 @@ export class AcademicYearEditComponent {
         setTimeout(() => {
           this.onReset();
         }, 200);
-      });
+      }, ((e: any) => {
+        console.log(e)
+        this.isSubmitting = false
+        this.toast.error(e.error.detail)
+      }));
     } else {
       this.service.update(this.form.getRawValue()).subscribe((res: any) => {
         this.isSubmitting = false
@@ -69,7 +96,10 @@ export class AcademicYearEditComponent {
         setTimeout(() => {
           this.onReset();
         }, 200);
-      });
+      }, ((e: any) => {
+        this.isSubmitting = false
+        this.toast.error(e.error.detail)
+      }));
     }
   }
 
@@ -104,12 +134,19 @@ export class AcademicYearEditComponent {
   }
 
   onReset() {
-    this.form.patchValue({
-      id: null,
-      code: null,
-      name: null,
-      parentId: null,
-      description: null,
-    })
+    // this.form.patchValue({
+    //   id: null,
+    //   code: null,
+    //   name: null,
+    //   parentId: null,
+    //   description: null,
+    // })
+    this.form.reset();
+
+    this.form.markAsPristine();
+    this.form.markAsUntouched();
+    this.form.updateValueAndValidity();
+
+
   }
 }
