@@ -11,6 +11,14 @@ export const navItems: INavData[] = [
     // }
   },
   {
+    name: 'Pendidikan',
+    url: '/academic',
+    iconComponent: { name: 'cil-calendar' },
+    children: [
+
+    ]
+  },
+  {
     name: 'Kepegawaian',
     url: '/hr',
     iconComponent: { name: 'cil-user' },
@@ -89,6 +97,11 @@ export const navItems: INavData[] = [
     url: '/setting',
     iconComponent: { name: 'cil-calculator' },
     children: [
+      {
+        name: 'Tahun Ajaran',
+        url: '/setting/academic-year',
+        icon: 'nav-icon-bullet'
+      },
       {
         name: 'Lokasi',
         url: '/setting/location',

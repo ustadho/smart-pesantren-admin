@@ -2,6 +2,14 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'academic-year',
+    loadComponent: () => import('./academic-year/academic-year.component').then(m => m.AcademicYearComponent),
+    data: {
+      title: 'Tahun Akademik',
+      defaultSort: 'code,desc',
+    }
+  },
+  {
     path: 'location',
     loadComponent: () => import('./location/location.component').then(m => m.LocationComponent),
     data: {
