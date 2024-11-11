@@ -49,9 +49,10 @@
                   <thead>
                     <tr jhiSort [sortState]="sortState" (sortChange)="transition($event)">
                       <th jhiSortBy="code"><span> Kode </span><fa-icon icon="sort"></fa-icon></th>
-                      <th jhiSortBy="name"><span> Keterangan </span><fa-icon icon="sort"></fa-icon></th>
-                      <th jhiSortBy="level"><span> Level </span><fa-icon icon="sort"></fa-icon></th>
-                      <th>Color</th>
+                      <th jhiSortBy="name"><span> Nama </span><fa-icon icon="sort"></fa-icon></th>
+                      <th jhiSortBy="active"><span> Aktif </span><fa-icon icon="sort"></fa-icon></th>
+                      <th jhiSortBy="startDate"><span> Mulai </span><fa-icon icon="sort"></fa-icon></th>
+                      <th jhiSortBy="endDate"><span> Sampai </span><fa-icon icon="sort"></fa-icon></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -67,8 +68,9 @@
                     >
                       <td>{{ d.code }}</td>
                       <td>{{ d.name }}</td>
-                      <td>{{ d.level }}</td>
-                      <td [ngStyle]="{'background-color': d.color}">&nbsp;</td>
+                      <td>{{ d.isDefault }}</td>
+                      <td>{{ d.startDate | date: 'dd/MM/yyyy' }}</td>
+                      <td>{{ d.endDate | date: 'dd/MM/yyyy' }}</td>
                     </tr>
                   </tbody>
                 </table>

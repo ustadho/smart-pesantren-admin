@@ -32,8 +32,8 @@ export class AcademicYearEditComponent {
       code: [null, [Validators.required]],
       name: [null, [Validators.required]],
       description: [null],
-      startDate: [null, [Validators.required]],
-      endDate: [null, [Validators.required]],
+      startDate: [new Date(), [Validators.required]],
+      endDate: [new Date(), [Validators.required]],
       isDefault: [true, [Validators.required]],
     });
   }
