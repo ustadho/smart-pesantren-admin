@@ -1,0 +1,124 @@
+<div class="animated fadeIn">
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="filterForm" (keydown.enter)="$event.preventDefault()">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-row">
+                <label for="name" class="col-md-6"
+                  >Pencarian
+                  <input
+                    class="form-control"
+                    id="input1-group2"
+                    name="input1-group2"
+                    placeholder="Cari username atau email..."
+                    type="text"
+                    autocomplete="off"
+                    (keyup.enter)="filter($event)"
+                    formControlName="q"
+                  />
+                </label>
+                <label class="col-md-2">
+                  &nbsp;
+                  <div class="btn-group" role="group" aria-label="Refresh and Add button">
+                    <button
+                      type="button"
+                      class="btn btn-success"
+                      (click)="loadAll()"
+                    >
+                      <i class="fa fa-refresh fa-fw"></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      (click)="onAdd.emit()"
+                    >
+                      <i class="fa fa-plus fa-fw"></i>
+                    </button>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div id="no-more-tables" class="table-responsive">
+          <table class="table table-sm table-hover">
+          <thead>
+            <tr jhiSort [sortState]="sortState" (sortChange)="transition($event)">
+              <th jhiSortBy="login"><span> Login </span><fa-icon icon="sort"></fa-icon></th>
+              <th jhiSortBy="email"><span> Email </span><fa-icon icon="sort"></fa-icon></th>
+              <th jhiSortBy="status"><span> Status </span><fa-icon icon="sort"></fa-icon></th>
+              <th><span> Otoritas </span><fa-icon icon="sort"></fa-icon></th>
+              <th jhiSortBy="createdAt"><span> Dibuat Tgl </span><fa-icon icon="sort"></fa-icon></th>
+              <th jhiSortBy="lastModifiedBy"><span> Last Modified By </span><fa-icon icon="sort"></fa-icon></th>
+              <th jhiSortBy="lastModifiedDate"><span> Last Modified Date </span><fa-icon icon="sort"></fa-icon></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let user of listData; trackBy: trackIdentity"
+              style="cursor: pointer;"
+              (click)="edit(user)"
+            >
+              <td data-title="UserID">
+                {{
+                  user.login
+                }}
+              </td>
+              <td data-title="Email">{{ user.email }}</td>
+              <td data-title="Status">
+                <button
+                  class="btn btn-danger btn-sm"
+                  (click)="setActive(user, true)"
+                  *ngIf="!user.activated"
+                >
+                  Deactivated
+                </button>
+                <button
+                  class="btn btn-success btn-sm"
+                  (click)="setActive(user, false)"
+                  *ngIf="user.activated"
+                  [disabled]="currentAccount.login === user.login"
+                >
+                  Activated
+                </button>
+              </td>
+              <td data-title="Authority">
+                <div *ngFor="let authority of user.authorities">
+                  <span class="badge bg-secondary">{{ authority }}</span>
+                </div>
+              </td>
+              <td data-title="Created Date">
+                {{ user.createdDate | date: "dd/MM/yy HH:mm" }}
+              </td>
+              <td data-title="Last Modified By">
+                {{ user.lastModifiedBy }}
+              </td>
+              <td data-title="Last Modified Date">
+                {{ user.lastModifiedDate | date: "dd/MM/yy HH:mm" }}
+              </td>
+            </tr>
+          </tbody>
+          </table>
+        </div>
+        <div
+          class="d-flex justify-content-center"
+          *ngIf="totalItems > itemsPerPage"
+        >
+          <pagination
+            [totalItems]="totalItems"
+            [(ngModel)]="page"
+            [boundaryLinks]="true"
+            (pageChanged)="loadPage($event)"
+            [itemsPerPage]="itemsPerPage"
+            [maxSize]="10"
+            previousText="&lsaquo;"
+            nextText="&rsaquo;"
+            firstText="&laquo;"
+            lastText="&raquo;"
+          >
+          </pagination>
+        </div>
+      </div>
+    </div>
+  </div>

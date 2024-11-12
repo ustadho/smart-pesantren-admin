@@ -2,6 +2,14 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'user-management',
+    loadComponent: () => import('./user-management/user-management.component').then(m => m.UserManagementComponent),
+    data: {
+      title: 'Kelola Pengguna',
+      defaultSort: 'login,asc',
+    }
+  },
+  {
     path: 'academic-year',
     loadComponent: () => import('./academic-year/academic-year.component').then(m => m.AcademicYearComponent),
     data: {
