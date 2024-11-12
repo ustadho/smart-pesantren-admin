@@ -1,15 +1,15 @@
 import { Component, ViewChild } from '@angular/core';
 import { ITab } from 'src/app/domain/model/tab.model';
 import { UserManagementListComponent } from './user-management-list/user-management-list.component';
-import { JobLevelEditComponent } from '../../hr/job-level/job-level-edit/job-level-edit.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { CommonModule } from '@angular/common';
+import { UserManagementEditComponent } from './user-management-edit/user-management-edit.component';
 
 @Component({
   selector: 'app-user-management',
   standalone: true,
   imports: [
-    CommonModule, TabsModule, UserManagementComponent, UserManagementListComponent
+    CommonModule, TabsModule, UserManagementListComponent, UserManagementEditComponent
   ],
   templateUrl: './user-management.component.html',
   styleUrl: './user-management.component.scss'
@@ -49,7 +49,7 @@ export class UserManagementComponent {
     if (rowIndex == -1) {
       const newTabIndex = this.tabs.length;
       this.tabs.push({
-        title: `Edit - ${data.code}`,
+        title: `Edit - ${data.login}`,
         content: ``,
         disabled: false,
         removable: true,

@@ -8,7 +8,7 @@ export const routes: Routes = [
     data: {
       // title: $localize`Dashboard`
       title: `Dashboard`,
-      authorities: ['SUPERADMIN'],
+      authorities: ['ROLE_SUPERADMIN'],
     },
     canActivate: [UserRouteAccessService],
   }

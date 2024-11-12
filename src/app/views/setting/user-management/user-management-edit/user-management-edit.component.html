@@ -1,1 +1,106 @@
-<p>user-management-edit works!</p>
+<form role="form" novalidate (ngSubmit)="onSubmit()" [formGroup]="form">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <app-base-input
+            [formGroup]="form"
+            controlName="login"
+            label="Login"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-4 col-md-6"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+        <div class="col-md-6">
+          <div class="form-check ms-3">
+            <input class="form-check-input" type="checkbox" formControlName="activated" name="activated" id="activated">
+            <label class="form-check-label text-danger" for="activated">
+              Aktif
+            </label>
+          </div>
+        </div>
+      </div>
+      <app-base-input
+        type="ng-select"
+        [formGroup]="form"
+        label="Pegawai"
+        controlName="personId"
+        labelWidth="col-sm-3 col-md-2"
+        inputWidth="col-sm-9 col-md-8"
+        layout="horizontal"
+        [items]="employees"
+        (onKeyUp)="onEmployeeKeyup($event)"
+        (onSelectChange)="onSelectEmployeeChange($event)"
+      ></app-base-input>
+      <div class="row">
+        <div class="col-md-6">
+          <app-base-input
+            [formGroup]="form"
+            label="Nama Depan"
+            controlName="firstName"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-9 col-md-8"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+        <div class="col-md-6">
+          <app-base-input
+            [formGroup]="form"
+            label="Nama Belakang"
+            controlName="lastName"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-9 col-md-8"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <app-base-input
+            type="email"
+            [formGroup]="form"
+            label="Email"
+            controlName="email"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-9 col-md-8"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+      </div>
+      <div class="row">
+        <label class="col-md-2" jhiTranslate="userManagement.profiles"
+            >Profiles</label
+          >
+          <div class="col-md-10">
+            <select
+              class="form-control"
+              multiple
+              name="authority"
+              formControlName="authorities"
+            >
+              <option *ngFor="let authority of authorities" [value]="authority">
+                {{ authority }}
+              </option>
+            </select>
+            <div
+              *ngIf="form.get('authorities')?.errors?.['required'] && form.get('authorities')?.touched"
+              class="invalid-feedback"
+            >
+              Authority harus diisi
+            </div>
+          </div>
+      </div>
+      <div class="row border-top pt-2">
+        <div class="d-flex justify-content-between px-2">
+          <button type="button" class="btn btn-danger mr-2" (click)="onDelete()" *ngIf="form.get('id')?.value != null">
+            <i class="fa fa-ban"></i> Hapus
+          </button>
+          &nbsp;
+          <app-submit-button [isSubmitting]="isSubmitting" buttonText="Simpan">
+          </app-submit-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

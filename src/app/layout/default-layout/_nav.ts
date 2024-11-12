@@ -98,6 +98,11 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-calculator' },
     children: [
       {
+        name: 'Pengguna',
+        url: '/setting/user-management',
+        icon: 'nav-icon-bullet'
+      },
+      {
         name: 'Tahun Ajaran',
         url: '/setting/academic-year',
         icon: 'nav-icon-bullet'
