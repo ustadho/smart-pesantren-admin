@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BaseInputComponent } from '../../../../components/base-input/base-input.component';
 import { SubmitButtonComponent } from '../../../../components/submit-button/submit-button.component';
@@ -8,6 +8,7 @@ import { ITab } from '../../../../domain/model/tab.model';
 import { AcademicYearService } from '../../../../domain/service/academic-year.service';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
+import Utils from '../../../../shared/util/util';
 
 @Component({
   selector: 'app-academic-year-edit',
@@ -18,9 +19,10 @@ import Swal from 'sweetalert2';
 })
 export class AcademicYearEditComponent {
   @Input() activeTab?: ITab;
+  @Input() curriculums: any[] = [];
   @Output() onRemove = new EventEmitter<any>();
   form: FormGroup;
-  isSubmitting = false;
+  isSubmitting = signal(false);
 
   constructor(
     private fb: FormBuilder,
@@ -35,6 +37,7 @@ export class AcademicYearEditComponent {
       startDate: [new Date(), [Validators.required]],
       endDate: [new Date(), [Validators.required]],
       isDefault: [true, [Validators.required]],
+      curriculumId: [null, [Validators.required]],
     });
   }
 
@@ -63,7 +66,7 @@ export class AcademicYearEditComponent {
   }
 
   onSubmit() {
-    this.validateAllFormFields(this.form);
+    Utils.validateAllFormFields(this.form);
     for (let el in this.form.controls) {
       if (
         this.form.controls[el].errors ||
@@ -74,33 +77,47 @@ export class AcademicYearEditComponent {
       }
     }
 
-
-    this.isSubmitting = true;
-    if (this.form.getRawValue().id == null) {
-      this.service.create(this.form.getRawValue()).subscribe((res: any) => {
-        this.isSubmitting = false
-        this.toast.success('Tambah data sukses')
-        setTimeout(() => {
-          this.onReset();
-        }, 200);
-      }, ((e: any) => {
-        console.log(e)
-        this.isSubmitting = false
-        this.toast.error(e.error.detail)
-      }));
-    } else {
-      this.service.update(this.form.getRawValue()).subscribe((res: any) => {
-        this.isSubmitting = false
-        this.toast.success('Update data sukses')
-        this.onRemove.emit(this.activeTab)
-        setTimeout(() => {
-          this.onReset();
-        }, 200);
-      }, ((e: any) => {
-        this.isSubmitting = false
-        this.toast.error(e.error.detail)
-      }));
+    if (this.form.valid) {
+      this.isSubmitting.set(true);
+      if (this.form.getRawValue().id == null) {
+        this.service.create(this.form.getRawValue()).subscribe({
+          next: (res: any) => {
+            this.onSuccess(false)
+          },
+          error: (e: any) => {
+            this.onError(e)
+          }
+        });
+      } else {
+        this.service.update(this.form.getRawValue()).subscribe({
+          next: (res: any) => {
+            this.onSuccess(true)
+          },
+          error: (e: any) => {
+            this.onError(e)
+          }
+        });
+      }
     }
+  }
+
+  onSuccess(isUpdate: boolean) {
+    let message = 'Tambah data sukses'
+    if(isUpdate) {
+      message = 'Update data sukses';
+      this.onRemove.emit(this.activeTab);
+    }
+    this.isSubmitting.set(false);
+    this.toast.success(message);
+
+    setTimeout(() => {
+      this.onReset();
+    }, 200);
+  }
+
+  onError(e: any) {
+    this.toast.warning(e.error.title);
+    this.isSubmitting.set(false);
   }
 
   onDelete() {
@@ -134,13 +151,6 @@ export class AcademicYearEditComponent {
   }
 
   onReset() {
-    // this.form.patchValue({
-    //   id: null,
-    //   code: null,
-    //   name: null,
-    //   parentId: null,
-    //   description: null,
-    // })
     this.form.reset();
 
     this.form.markAsPristine();

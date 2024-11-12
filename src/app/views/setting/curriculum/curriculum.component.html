@@ -2,13 +2,15 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="card">
-        <div class="card-header"><i class="fa fa-edit"></i> <span class="h5"> Tahun Ajaran</span> </div>
+        <div class="card-header">
+          <i class="fa fa-edit"></i> <span class="h5"> Kurikulum</span>
+        </div>
         <div class="card-body">
           <tabset #tabset>
             <tab (selectTab)="refreshList($event)">
               <ng-template tabHeading><i class="fa fa-list"></i></ng-template>
-              <app-academic-year-list (onAdd)="onAdd()" (onEdit)="onEdit($event)">
-              </app-academic-year-list>
+              <app-curriculum-list (onAdd)="onAdd()" (onEdit)="onEdit($event)">
+              </app-curriculum-list>
             </tab>
             <tab
               *ngFor="let tabz of tabs"
@@ -34,11 +36,10 @@
   </div>
 
   <ng-template let-tab="tab" #formEdit>
-    <app-academic-year-edit
+    <app-curriculum-edit
       [activeTab]="tab"
       (onAdd)="onAdd()"
       (onRemove)="onRemoveTab(tab)"
-      [curriculums]="curriculums"
-    ></app-academic-year-edit>
+    ></app-curriculum-edit>
   </ng-template>
 </div>

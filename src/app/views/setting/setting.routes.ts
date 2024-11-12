@@ -18,6 +18,14 @@ export const routes: Routes = [
     }
   },
   {
+    path: 'curriculum',
+    loadComponent: () => import('./curriculum/curriculum.component').then(m => m.CurriculumComponent),
+    data: {
+      title: 'Kurikulum',
+      defaultSort: 'startYear,desc',
+    }
+  },
+  {
     path: 'institution',
     loadComponent: () => import('./institution/institution.component').then(m => m.InstitutionComponent),
     data: {
