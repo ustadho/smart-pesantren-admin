@@ -108,6 +108,11 @@ export const navItems: INavData[] = [
         icon: 'nav-icon-bullet'
       },
       {
+        name: 'Lembaga Pendidikan',
+        url: '/setting/institution',
+        icon: 'nav-icon-bullet'
+      },
+      {
         name: 'Lokasi',
         url: '/setting/location',
         icon: 'nav-icon-bullet'
