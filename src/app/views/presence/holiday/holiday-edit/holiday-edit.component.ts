@@ -2,8 +2,8 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ITab } from '../../../../domain/model/tab.model';
-import { HRHolidayService } from '../../../../domain/service/hr-holiday';
-import { HolidayService } from '../../../../domain/service/holiday';
+import { HRHolidayService } from '../../../../domain/service/hr-holiday.service';
+import { HolidayService } from '../../../../domain/service/holiday.service';
 import { BaseInputComponent } from '../../../../components/base-input/base-input.component';
 import { SubmitButtonComponent } from '../../../../components/submit-button/submit-button.component';
 import Swal from 'sweetalert2';
@@ -129,7 +129,7 @@ export class HolidayEditComponent implements OnInit {
       confirmButtonText: 'Ya Benar',
     }).then((result) => {
       if (result.value) {
-        this.service.delete(this.activeTab?.data.id).subscribe((response) => {
+        this.service.delete(this.activeTab?.data.id).subscribe(() => {
           if (this.form.getRawValue().id != null) {
             this.toastService.success('Hapus data sukses');
             this.onRemove.emit(this.activeTab);

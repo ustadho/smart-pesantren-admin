@@ -7,7 +7,7 @@ export default class Utils {
 
   }
 
-  static calculateSubTotalItem = (qty: number, length: number, width: number, price: number, discPc): number => {
+  static calculateSubTotalItem = (qty: number, length: number, width: number, price: number, discPc: string): number => {
 
     let tmpAmount = qty*price
     if(length > 0 && width > 0) {
@@ -22,7 +22,7 @@ export default class Utils {
       return subT
     }
     const disc = discPc.split('+');
-    disc.forEach((d) => {
+    disc.forEach((d: string) => {
       if (d !== '') {
         subT *= 1 - parseFloat(d) / 100;
       }
@@ -31,13 +31,13 @@ export default class Utils {
     return subT;
   };
 
-  static calculateDiscAmount = (subtotal, discPc): number => {
+  static calculateDiscAmount = (subtotal: number, discPc: string): number => {
     if (discPc === '') {
       return 0;
     }
     const disc = discPc.split('+');
     let ret = subtotal;
-    disc.forEach((d) => {
+    disc.forEach((d: any) => {
       if (d !== '') {
         ret *= parseFloat(d) / 100;
       }
@@ -46,7 +46,7 @@ export default class Utils {
     return ret;
   };
 
-  static roundUp = (price, num): number => {
+  static roundUp = (price: number, num: number): number => {
     if (isNaN(price)) {
       return price;
     }

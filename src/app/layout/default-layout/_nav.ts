@@ -15,7 +15,11 @@ export const navItems: INavData[] = [
     url: '/academic',
     iconComponent: { name: 'cil-calendar' },
     children: [
-
+      {
+        name: 'Mata Pelajaran',
+        url: '/academic/subject',
+        icon: 'nav-icon-bullet'
+      },
     ]
   },
   {
