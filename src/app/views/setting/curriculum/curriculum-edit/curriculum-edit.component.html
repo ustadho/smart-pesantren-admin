@@ -17,11 +17,11 @@
             <input
               class="form-check-input"
               type="checkbox"
-              formControlName="isDefault"
-              name="isDefault"
-              id="isDefault"
+              formControlName="active"
+              name="active"
+              id="active"
             />
-            <label class="form-check-label text-danger" for="isDefault">
+            <label class="form-check-label text-danger" for="active">
               Aktif
             </label>
           </div>
@@ -29,45 +29,20 @@
       </div>
       <app-base-input
         [formGroup]="form"
-        label="Nama"
+        label="Nama Kurikulum"
         controlName="name"
         labelWidth="col-sm-3 col-md-2"
         inputWidth="col-sm-9 col-md-8"
         layout="horizontal"
       ></app-base-input>
-      <div class="row">
-        <div class="col-md-6">
-          <app-base-input
-            type="bs-datepicker"
-            [formGroup]="form"
-            label="Tgl. Mulai"
-            controlName="startDate"
-            labelWidth="col-sm-3 col-md-4"
-            inputWidth="col-sm-9 col-md-4"
-            layout="horizontal"
-          ></app-base-input>
-        </div>
-        <div class="col-md-6">
-          <app-base-input
-            type="bs-datepicker"
-            [formGroup]="form"
-            label="Tgl. Akhir"
-            controlName="endDate"
-            labelWidth="col-sm-3 col-md-4"
-            inputWidth="col-sm-9 col-md-4"
-            layout="horizontal"
-          ></app-base-input>
-        </div>
-      </div>
       <app-base-input
-        type="ng-select"
+        type="number"
         [formGroup]="form"
-        label="Kurikulum"
-        controlName="curriculumId"
+        label="Tahun"
+        controlName="startYear"
         labelWidth="col-sm-3 col-md-2"
-        inputWidth="col-sm-9 col-md-6"
+        inputWidth="col-sm-9 col-md-2"
         layout="horizontal"
-        [items]="curriculums"
       ></app-base-input>
       <app-base-input
         type="textarea"
@@ -78,7 +53,6 @@
         inputWidth="col-sm-9 col-md-8"
         layout="horizontal"
       ></app-base-input>
-
       <div class="row border-top pt-2">
         <div class="d-flex justify-content-between px-2">
           <button

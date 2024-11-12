@@ -1,34 +1,32 @@
-import { Component, inject, ViewChild } from '@angular/core';
-import { ITab } from '../../../domain/model/tab.model';
-import { AcademicYearListComponent } from './academic-year-list/academic-year-list.component';
 import { CommonModule } from '@angular/common';
-import { AcademicYearEditComponent } from './academic-year-edit/academic-year-edit.component';
+import { Component, ViewChild } from '@angular/core';
 import { TabsModule } from 'ngx-bootstrap/tabs';
-import { AcademicYearService } from '../../../domain/service/academic-year.service';
-import { CurriculumService } from '../../../domain/service/curriculum.service';
+import { ITab } from '../../../domain/model/tab.model';
+import { CurriculumListComponent } from './curriculum-list/curriculum-list.component';
+import { CurriculumEditComponent } from './curriculum-edit/curriculum-edit.component';
 
 @Component({
-  selector: 'app-academic-year',
+  selector: 'app-curriculum',
   standalone: true,
-  imports: [CommonModule, TabsModule, AcademicYearListComponent, AcademicYearEditComponent],
-  templateUrl: './academic-year.component.html',
-  styleUrl: './academic-year.component.scss'
+  imports: [
+    CommonModule,
+    TabsModule,
+    CurriculumListComponent,
+    CurriculumEditComponent,
+  ],
+  templateUrl: './curriculum.component.html',
+  styleUrl: './curriculum.component.scss',
 })
-export class AcademicYearComponent {
+export class CurriculumComponent {
   tabs: ITab[] = [];
-  curriculums: any[] = []
 
-  @ViewChild(AcademicYearListComponent)
-  private listComponent?: AcademicYearListComponent;
-  private curriculumService = inject(CurriculumService);
+  @ViewChild(CurriculumListComponent)
+  private listComponent?: CurriculumListComponent;
 
   constructor() {}
 
   ngOnInit(): void {
     this.onAdd();
-    this.curriculumService.findAll('').subscribe((data) => {
-      this.curriculums = data.body
-    })
   }
 
   onAdd() {
@@ -67,18 +65,18 @@ export class AcademicYearComponent {
   }
 
   onRemoveTab(tab: ITab) {
-    const idx = this.tabs.indexOf(tab)
-    if(idx > 0 && this.tabs[idx - 1].active != null) {
+    const idx = this.tabs.indexOf(tab);
+    if (idx > 0 && this.tabs[idx - 1].active != null) {
       this.tabs[idx - 1].active = true;
     }
     this.tabs.splice(this.tabs.indexOf(tab), 1);
-    if(this.listComponent) {
+    if (this.listComponent) {
       this.listComponent.onRefresh();
     }
   }
 
   refreshList(evt: any) {
-    if(this.listComponent) {
+    if (this.listComponent) {
       this.listComponent.transition();
     }
   }
