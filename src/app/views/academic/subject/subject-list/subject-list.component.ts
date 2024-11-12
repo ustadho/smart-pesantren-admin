@@ -1,18 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, OnInit, Output, signal } from '@angular/core';
+import { Component, EventEmitter, inject, Output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PageChangedEvent, PaginationModule } from 'ngx-bootstrap/pagination';
-import { ITEMS_PER_PAGE } from '../../../../shared/constant/pagination.constants';
 import { SortByDirective, SortDirective, SortService, SortState, sortStateSignal } from '../../../../shared/directive/sort';
-import { HRHolidayService } from '../../../../domain/service/hr-holiday.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { HttpHeaders } from '@angular/common/http';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { combineLatest } from 'rxjs';
 import { SORT } from '../../../../shared/constant/navigation.constants';
+import { ITEMS_PER_PAGE } from '../../../../shared/constant/pagination.constants';
+import { SubjectService } from '../../../../domain/service/subject.service'
+import { ActivatedRoute, Router } from '@angular/router';
+import { SubjectCategoryService } from '../../../../domain/service/subject-category.service';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
-  selector: 'app-holiday-list',
+  selector: 'app-subject-list',
   standalone: true,
   imports: [
     FormsModule,
@@ -22,26 +23,25 @@ import { SORT } from '../../../../shared/constant/navigation.constants';
     SortByDirective,
     FontAwesomeModule,
   ],
-  templateUrl: './holiday-list.component.html',
-  styleUrl: './holiday-list.component.scss'
+  templateUrl: './subject-list.component.html',
+  styleUrl: './subject-list.component.scss'
 })
-export class HolidayListComponent implements OnInit {
+export class SubjectListComponent {
   @Output() onAdd = new EventEmitter<any>();
   @Output() onEdit = new EventEmitter<any>();
-
   public q = '';
-  public y = (new Date()).getFullYear();
   public totalItems: number = 0;
   public page: any;
   public previousPage: any;
   public itemsPerPage = ITEMS_PER_PAGE;
   public predicate: any;
   public data: any[] = [];
+  public categories: any[] = [];
 
   isLoading = signal(false);
   sortState = sortStateSignal({});
 
-  private holidayService = inject(HRHolidayService);
+  private service = inject(SubjectService);
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
   private sortService = inject(SortService);
@@ -51,13 +51,12 @@ export class HolidayListComponent implements OnInit {
   }
 
   public loadAll() {
-    this.holidayService
+    this.service
       .query({
         page: this.page - 1,
         size: this.itemsPerPage,
-        sort: this.sortService.buildSortParam(this.sortState(), 'eventDate'),
+        sort: this.sortService.buildSortParam(this.sortState(), 'code'),
         q: this.q,
-        y: this.y,
       })
       .subscribe({
         next: (res: any) => {
@@ -87,7 +86,7 @@ export class HolidayListComponent implements OnInit {
   }
 
   transition(sortState?: SortState): void {
-    this.router.navigate(['/presence/holiday'], {
+    this.router.navigate(['/academic/subject'], {
       relativeTo: this.activatedRoute.parent,
       queryParams: {
         page: this.page,
@@ -107,7 +106,7 @@ export class HolidayListComponent implements OnInit {
   }
 
   onSelectRow(d: any) {
-    this.holidayService.findOne(d.id).subscribe((res: any) => {
+    this.service.findOne(d.id).subscribe((res: any) => {
       this.onEdit.emit(res.body);
     });
   }
@@ -116,4 +115,3 @@ export class HolidayListComponent implements OnInit {
     return d.id;
   }
 }
-
