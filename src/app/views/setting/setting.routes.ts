@@ -18,6 +18,14 @@ export const routes: Routes = [
     }
   },
   {
+    path: 'institution',
+    loadComponent: () => import('./institution/institution.component').then(m => m.InstitutionComponent),
+    data: {
+      title: 'Lembaga Pendidikan',
+      defaultSort: 'name,asc',
+    }
+  },
+  {
     path: 'location',
     loadComponent: () => import('./location/location.component').then(m => m.LocationComponent),
     data: {

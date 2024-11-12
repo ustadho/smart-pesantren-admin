@@ -12,7 +12,7 @@ import { SortByDirective, SortDirective, SortService, SortState, sortStateSignal
 import Swal from 'sweetalert2';
 import { FormModule } from '@coreui/angular';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { SORT } from 'src/app/shared/constant/navigation.constants';
+import { SORT } from '../../../../shared/constant/navigation.constants';
 
 @Component({
   selector: 'app-user-management-list',

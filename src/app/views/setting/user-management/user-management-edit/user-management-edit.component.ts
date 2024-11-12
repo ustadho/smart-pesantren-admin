@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { BaseInputComponent } from 'src/app/components/base-input/base-input.component';
-import { SubmitButtonComponent } from 'src/app/components/submit-button/submit-button.component';
-import { UserService } from 'src/app/core/user/user.service';
-import { ITab } from 'src/app/domain/model/tab.model';
-import { EmployeeService } from 'src/app/domain/service/employee.service';
+import { BaseInputComponent } from '../../../../components/base-input/base-input.component';
+import { SubmitButtonComponent } from '../../../../components/submit-button/submit-button.component';
+import { UserService } from '../../../../core/user/user.service';
+import { ITab } from '../../../../domain/model/tab.model';
+import { EmployeeService } from '../../../../domain/service/employee.service';
 import Swal from 'sweetalert2';
 
 @Component({
