@@ -1,0 +1,147 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12" [formGroup]="filterForm">
+              <div class="form-row">
+                <label for="institutionId" class="col-md-3">
+                  Institusi/ Lembaga
+                  <ng-select
+                    placeholder="Pilih Institusi/ Lembaga"
+                    id="institutionId"
+                    name="institutionId"
+                    [items]="institutions"
+                    bindLabel="name"
+                    bindValue="id"
+                    formControlName="institutionId"
+                  >
+                  </ng-select>
+                </label>
+                <label for="academicYearId" class="col-md-2">
+                  Tahun Ajaran
+                  <ng-select
+                    placeholder="2024-2025"
+                    id="academicYearId"
+                    name="academicYearId"
+                    [items]="academicYears"
+                    bindLabel="name"
+                    bindValue="id"
+                    formControlName="academicYearId"
+                  >
+                  </ng-select>
+                </label>
+                <label for="q" class="col-md-3"
+                  >Pencarian
+                  <input
+                    id="q"
+                    autocomplete="off"
+                    formControlName="q"
+                    (keyup.enter)="page = 1; loadAll()"
+                    name="q"
+                    type="text"
+                    class="form-control"
+                  />
+                </label>
+                <label class="col-md-2 px-lg-2">
+                  &nbsp;
+                  <div
+                    class="btn-group"
+                    role="group"
+                    aria-label="Refresh and Add button"
+                  >
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      (click)="transition()"
+                      [disabled]="isLoading()"
+                    >
+                      <!-- <i class="fa fa-refresh fa-fw"></i> -->
+                      <fa-icon
+                        [icon]="['fas', 'sync']"
+                        [animation]="isLoading() ? 'spin' : undefined"
+                      ></fa-icon>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      (click)="onAdd.emit()"
+                    >
+                      <i class="fa fa-plus fa-fw"></i>
+                    </button>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table table-sm table-hover">
+                  <thead>
+                    <tr
+                      jhiSort
+                      [sortState]="sortState"
+                      (sortChange)="transition($event)"
+                    >
+                      <th jhiSortBy="code">
+                        <span> Kode </span><fa-icon icon="sort"></fa-icon>
+                      </th>
+                      <th jhiSortBy="name">
+                        <span> Nama Kelas </span><fa-icon icon="sort"></fa-icon>
+                      </th>
+                      <th jhiSortBy="educationLevel.name">
+                        <span> Lokasi </span><fa-icon icon="sort"></fa-icon>
+                      </th>
+                      <th jhiSortBy="level">
+                        <span> Level </span><fa-icon icon="sort"></fa-icon>
+                      </th>
+                      <th jhiSortBy="level">
+                        <span> Lembaga </span><fa-icon icon="sort"></fa-icon>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      *ngFor="
+                        let d of data;
+                        let idx = index;
+                        trackBy: trackIdentity
+                      "
+                      [ngStyle]="{ cursor: 'pointer' }"
+                      (click)="onSelectRow(d)"
+                    >
+                      <td>{{ d.code }}</td>
+                      <td>{{ d.name }}</td>
+                      <td>{{ d.location }}</td>
+                      <td>{{ d.educationLevel }}</td>
+                      <td>{{ d.institusi }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div
+            class="d-flex justify-content-center"
+            *ngIf="totalItems > itemsPerPage"
+          >
+            <pagination
+              [totalItems]="totalItems"
+              [(ngModel)]="page"
+              [boundaryLinks]="true"
+              (pageChanged)="loadPage($event)"
+              [itemsPerPage]="itemsPerPage"
+              previousText="&lsaquo;"
+              nextText="&rsaquo;"
+              firstText="&laquo;"
+              lastText="&raquo;"
+            >
+            </pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
