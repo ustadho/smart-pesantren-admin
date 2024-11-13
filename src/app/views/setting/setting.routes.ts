@@ -18,6 +18,14 @@ export const routes: Routes = [
     }
   },
   {
+    path: 'class-level',
+    loadComponent: () => import('./class-level/class-level.component').then(m => m.ClassLevelComponent),
+    data: {
+      title: 'Level Kelas',
+      defaultSort: 'level,asc',
+    }
+  },
+  {
     path: 'curriculum',
     loadComponent: () => import('./curriculum/curriculum.component').then(m => m.CurriculumComponent),
     data: {

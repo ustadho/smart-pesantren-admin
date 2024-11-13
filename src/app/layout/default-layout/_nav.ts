@@ -16,6 +16,11 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-calendar' },
     children: [
       {
+        name: 'Ruang Kelas',
+        url: '/academic/class-room',
+        icon: 'nav-icon-bullet'
+      },
+      {
         name: 'Mata Pelajaran',
         url: '/academic/subject',
         icon: 'nav-icon-bullet'
@@ -109,6 +114,11 @@ export const navItems: INavData[] = [
       {
         name: 'Tahun Ajaran',
         url: '/setting/academic-year',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Level Kelas',
+        url: '/setting/class-level',
         icon: 'nav-icon-bullet'
       },
       {

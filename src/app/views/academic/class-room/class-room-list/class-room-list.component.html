@@ -4,14 +4,40 @@
       <div class="card">
         <div class="card-body">
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12" [formGroup]="filterForm">
               <div class="form-row">
+                <label for="institutionId" class="col-md-3">
+                  Institusi/ Lembaga
+                  <ng-select
+                    placeholder="Pilih Institusi/ Lembaga"
+                    id="institutionId"
+                    name="institutionId"
+                    [items]="institutions"
+                    bindLabel="name"
+                    bindValue="id"
+                    formControlName="institutionId"
+                  >
+                  </ng-select>
+                </label>
+                <label for="academicYearId" class="col-md-2">
+                  Tahun Ajaran
+                  <ng-select
+                    placeholder="2024-2025"
+                    id="academicYearId"
+                    name="academicYearId"
+                    [items]="academicYears"
+                    bindLabel="name"
+                    bindValue="id"
+                    formControlName="academicYearId"
+                  >
+                  </ng-select>
+                </label>
                 <label for="q" class="col-md-3"
                   >Pencarian
                   <input
                     id="q"
                     autocomplete="off"
-                    [(ngModel)]="q"
+                    formControlName="q"
                     (keyup.enter)="page = 1; loadAll()"
                     name="q"
                     type="text"
@@ -20,7 +46,11 @@
                 </label>
                 <label class="col-md-2 px-lg-2">
                   &nbsp;
-                  <div class="btn-group" role="group" aria-label="Refresh and Add button">
+                  <div
+                    class="btn-group"
+                    role="group"
+                    aria-label="Refresh and Add button"
+                  >
                     <button
                       type="button"
                       class="btn btn-secondary"
@@ -59,14 +89,16 @@
                         <span> Kode </span><fa-icon icon="sort"></fa-icon>
                       </th>
                       <th jhiSortBy="name">
-                        <span> Nama Kurikulum </span
-                        ><fa-icon icon="sort"></fa-icon>
+                        <span> Nama Kelas </span><fa-icon icon="sort"></fa-icon>
                       </th>
-                      <th jhiSortBy="startYear">
-                        <span> Tahun </span><fa-icon icon="sort"></fa-icon>
+                      <th jhiSortBy="educationLevel.name">
+                        <span> Lokasi </span><fa-icon icon="sort"></fa-icon>
                       </th>
-                      <th jhiSortBy="active">
-                        <span> Aktif </span><fa-icon icon="sort"></fa-icon>
+                      <th jhiSortBy="level">
+                        <span> Level </span><fa-icon icon="sort"></fa-icon>
+                      </th>
+                      <th jhiSortBy="level">
+                        <span> Lembaga </span><fa-icon icon="sort"></fa-icon>
                       </th>
                     </tr>
                   </thead>
@@ -82,11 +114,9 @@
                     >
                       <td>{{ d.code }}</td>
                       <td>{{ d.name }}</td>
-                      <td>{{ d.startYear }}</td>
-                      <td>
-                        <span *ngIf="d.active; else unchecked">&#x2714;</span>
-                        <ng-template #unchecked>&#x2716;</ng-template>
-                      </td>
+                      <td>{{ d.location }}</td>
+                      <td>{{ d.educationLevel }}</td>
+                      <td>{{ d.institusi }}</td>
                     </tr>
                   </tbody>
                 </table>

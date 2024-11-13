@@ -59,14 +59,17 @@
                         <span> Kode </span><fa-icon icon="sort"></fa-icon>
                       </th>
                       <th jhiSortBy="name">
-                        <span> Nama Kurikulum </span
+                        <span> Nama Level </span
                         ><fa-icon icon="sort"></fa-icon>
                       </th>
-                      <th jhiSortBy="startYear">
-                        <span> Tahun </span><fa-icon icon="sort"></fa-icon>
+                      <th jhiSortBy="level">
+                        <span> Tingkat </span><fa-icon icon="sort"></fa-icon>
                       </th>
-                      <th jhiSortBy="active">
-                        <span> Aktif </span><fa-icon icon="sort"></fa-icon>
+                      <th jhiSortBy="educationLevel.name">
+                        <span> Level Pendidikan </span><fa-icon icon="sort"></fa-icon>
+                      </th>
+                      <th jhiSortBy="color">
+                        <span> Warna </span><fa-icon icon="sort"></fa-icon>
                       </th>
                     </tr>
                   </thead>
@@ -82,10 +85,14 @@
                     >
                       <td>{{ d.code }}</td>
                       <td>{{ d.name }}</td>
-                      <td>{{ d.startYear }}</td>
+                      <td>{{ d.level }}</td>
+                      <td>{{ d.educationLevel }}</td>
                       <td>
-                        <span *ngIf="d.active; else unchecked">&#x2714;</span>
-                        <ng-template #unchecked>&#x2716;</ng-template>
+                        <span
+                          class="badge"
+                          [ngStyle]="{ 'background-color': d.color }"
+                          >&nbsp;</span
+                        >
                       </td>
                     </tr>
                   </tbody>
