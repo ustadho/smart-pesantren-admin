@@ -112,6 +112,11 @@ export const navItems: INavData[] = [
         icon: 'nav-icon-bullet'
       },
       {
+        name: 'Level Kelas',
+        url: '/setting/class-level',
+        icon: 'nav-icon-bullet'
+      },
+      {
         name: 'Kurikulum',
         url: '/setting/curriculum',
         icon: 'nav-icon-bullet'
