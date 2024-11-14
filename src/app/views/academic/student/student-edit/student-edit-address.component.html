@@ -1,0 +1,64 @@
+<form role="form" novalidate [formGroup]="form">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-10 col-12">
+          <app-base-input
+            [formGroup]="form"
+            controlName="address1"
+            label="Alamat"
+            labelWidth="col-sm-4 col-md-2"
+            inputWidth="col-sm-8 col-md-10"
+            layout="horizontal"
+          ></app-base-input>
+          <div class="row">
+            <div class="col-md-3">
+              <app-base-input
+                [formGroup]="form"
+                controlName="rt"
+                label="RT"
+                labelWidth="col-sm-4 col-md-8"
+                inputWidth="col-sm-8 col-md-4"
+                layout="horizontal"
+              ></app-base-input>
+            </div>
+            <div class="col-md-3">
+              <app-base-input
+                [formGroup]="form"
+                controlName="rw"
+                label="RW"
+                labelWidth="col-sm-4 col-md-4"
+                inputWidth="col-sm-8 col-md-6"
+                layout="horizontal"
+              ></app-base-input>
+            </div>
+            <div class="col-md-4">
+              <app-base-input
+                [formGroup]="form"
+                controlName="postalCode"
+                label="Kode Pos"
+                labelWidth="col-sm-4 col-md-4"
+                inputWidth="col-sm-8 col-md-6"
+                layout="horizontal"
+              ></app-base-input>
+            </div>
+          </div>
+          <app-base-input
+            type="ng-select"
+            [formGroup]="form"
+            label="Kelurahan"
+            controlName="subDistrictId"
+            labelWidth="col-sm-3 col-md-2"
+            inputWidth="col-sm-9 col-md-10"
+            layout="horizontal"
+            [items]="subDistricts"
+            [labelFormat]="
+              '${name} - ${districtName} - ${cityName} -${provinceName}'
+            "
+            (onKeyUp)="onSubDistrictKeyUp($event)"
+          ></app-base-input>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

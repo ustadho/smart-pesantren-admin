@@ -1,0 +1,199 @@
+<form role="form" novalidate (ngSubmit)="onSubmit()" [formGroup]="form">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-10">
+          <div class="row">
+            <div class="col-md-6">
+              <app-base-input
+                type="ng-select"
+                [formGroup]="form"
+                label="Tahun Masuk"
+                controlName="joinYearId"
+                labelWidth="col-sm-3 col-md-4"
+                inputWidth="col-sm-9 col-md-6"
+                layout="horizontal"
+                [items]="academicYears"
+              ></app-base-input>
+            </div>
+            <div class="col-md-6">
+              <app-base-input
+                type="ng-select"
+                [formGroup]="form"
+                label="Kategori"
+                controlName="categoryId"
+                labelWidth="col-sm-3 col-md-4"
+                inputWidth="col-sm-9 col-md-8"
+                layout="horizontal"
+                [items]="categories"
+              ></app-base-input>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 col-12">
+              <app-base-input
+                type="text"
+                [formGroup]="form"
+                label="N.I.S"
+                controlName="nis"
+                labelWidth="col-sm-3 col-md-6"
+                inputWidth="col-sm-9 col-md-6"
+                layout="horizontal"
+              ></app-base-input>
+            </div>
+            <div class="col-md-4 col-12">
+              <app-base-input
+                type="text"
+                [formGroup]="form"
+                label="N.I.S.N"
+                controlName="nisn"
+                labelWidth="col-sm-3 col-md-4"
+                inputWidth="col-sm-9 col-md-8"
+                layout="horizontal"
+              ></app-base-input>
+            </div>
+            <div class="col-md-4 col-12">
+              <app-base-input
+                type="text"
+                [formGroup]="form"
+                label="N.I.K"
+                controlName="nik"
+                labelWidth="col-sm-3 col-md-4"
+                inputWidth="col-sm-9 col-md-8"
+                layout="horizontal"
+              ></app-base-input>
+            </div>
+          </div>
+          <app-base-input
+            [formGroup]="form"
+            controlName="name"
+            label="Nama Santri"
+            labelWidth="col-sm-4 col-md-2"
+            inputWidth="col-sm-8 col-md-10"
+            layout="horizontal"
+          ></app-base-input>
+          <div class="row">
+            <div class="col-md-6 col-12">
+              <app-base-input
+                type="ng-select"
+                [formGroup]="form"
+                label="Jenis Kelamin"
+                controlName="sex"
+                labelWidth="col-sm-3 col-md-4"
+                inputWidth="col-sm-9 col-md-8"
+                layout="horizontal"
+                [items]="sexs"
+              ></app-base-input>
+            </div>
+            <div class="col-md-6 col-12">
+              <app-base-input
+                type="text"
+                [formGroup]="form"
+                label="No. Akta Lahir"
+                controlName="birthCertificateNo"
+                labelWidth="col-sm-3 col-md-4"
+                inputWidth="col-sm-9 col-md-8"
+                layout="horizontal"
+              ></app-base-input>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-12">
+              <app-base-input
+                type="ng-select"
+                [formGroup]="form"
+                label="Tempat Lahir"
+                [labelFormat]="'${name} - ${provinceName}'"
+                controlName="pobId"
+                labelWidth="col-sm-3 col-md-4"
+                inputWidth="col-sm-9 col-md-8"
+                layout="horizontal"
+                [items]="cities"
+              ></app-base-input>
+            </div>
+            <div class="col-md-6">
+              <app-base-input
+                type="bs-datepicker"
+                [formGroup]="form"
+                label="Tgl. Lahir"
+                controlName="dob"
+                labelWidth="col-sm-3 col-md-4"
+                inputWidth="col-sm-9 col-md-8"
+                layout="horizontal"
+              ></app-base-input>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-12">
+              <app-base-input
+                type="ng-select"
+                [formGroup]="form"
+                label="Agama"
+                controlName="religionId"
+                labelWidth="col-sm-3 col-md-4"
+                inputWidth="col-sm-9 col-md-8"
+                layout="horizontal"
+                [items]="religions"
+              ></app-base-input>
+            </div>
+            <div class="col-md-6">
+              <app-base-input
+                type="ng-select"
+                [formGroup]="form"
+                label="Kewarganegaraan"
+                controlName="nationalityId"
+                labelWidth="col-sm-3 col-md-4"
+                inputWidth="col-sm-9 col-md-8"
+                layout="horizontal"
+                [items]="countries"
+              ></app-base-input>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="card">
+              <img
+              src="../../../../../assets/images/avatars/2.jpg"
+              class="card-img-top"
+              alt="Foto"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="row pb-2">
+        <div class="col-md-12">
+          <tabset>
+            <tab heading="Alamat" id="tabAddress">
+              <app-student-edit-address
+                [form]="form"
+              ></app-student-edit-address>
+            </tab>
+            <tab heading="Catatan" id="tabNotes">
+              <app-student-edit-notes [form]="form"></app-student-edit-notes>
+            </tab>
+          </tabset>
+        </div>
+      </div>
+
+      <div class="row border-top pt-2">
+        <div class="d-flex justify-content-between px-2">
+          <button
+            type="button"
+            class="btn btn-danger mr-2"
+            (click)="onDelete()"
+            *ngIf="form.get('id')?.value != null"
+          >
+            <i class="fa fa-ban"></i> Hapus
+          </button>
+          &nbsp;
+          <app-submit-button
+            [isSubmitting]="isSubmitting()"
+            buttonText="Simpan"
+          >
+          </app-submit-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

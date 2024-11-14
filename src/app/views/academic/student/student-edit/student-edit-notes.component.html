@@ -1,0 +1,16 @@
+<form role="form" novalidate [formGroup]="form">
+  <div class="card">
+    <div class="card-body">
+      <app-base-input
+        type="textarea"
+        [formGroup]="form"
+        label="Catatan"
+        [rows]="8"
+        controlName="notes"
+        labelWidth="col-sm-3 col-md-2"
+        inputWidth="col-sm-9 col-md-12"
+        layout="vertical"
+      ></app-base-input>
+    </div>
+  </div>
+</form>

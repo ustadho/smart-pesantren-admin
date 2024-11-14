@@ -2,6 +2,14 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'student',
+    loadComponent: () => import('./student/student.component').then(m => m.StudentComponent),
+    data: {
+      title: 'Data Kelas',
+      defaultSort: 'name,asc',
+    }
+  },
+  {
     path: 'class-room',
     loadComponent: () => import('./class-room/class-room.component').then(m => m.ClassRoomComponent),
     data: {

@@ -31,6 +31,7 @@ export class StudentCategoryEditComponent {
       id: [null],
       name: [null, [Validators.required]],
       description: [null],
+      default: [false, [Validators.required]],
     });
   }
 

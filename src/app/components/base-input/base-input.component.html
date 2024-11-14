@@ -118,6 +118,18 @@
           formGroup.get(controlName)?.touched
       }"
     />
+    <div class="form-check" *ngIf="type == 'checkbox'">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        [formControlName]="controlName"
+        [name]="controlName"
+        [id]="controlName"
+      />
+      <label class="form-check-label" for="isDefault">
+        Ya
+      </label>
+    </div>
     <div
       *ngIf="formGroup.get(controlName)?.errors?.['required'] && formGroup.get(controlName)?.touched"
       class="invalid-feedback"

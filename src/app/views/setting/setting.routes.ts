@@ -18,6 +18,14 @@ export const routes: Routes = [
     }
   },
   {
+    path: 'student-category',
+    loadComponent: () => import('./student-category/student-category.component').then(m => m.StudentCategoryComponent),
+    data: {
+      title: 'Kategori Santri',
+      defaultSort: 'name,asc',
+    }
+  },
+  {
     path: 'class-level',
     loadComponent: () => import('./class-level/class-level.component').then(m => m.ClassLevelComponent),
     data: {
