@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { NgStyle } from '@angular/common';
 import { IconDirective } from '@coreui/icons-angular';
 import {
@@ -57,6 +57,7 @@ export class LoginComponent implements OnInit{
   authenticationError: boolean = false;
   account$: Observable<Account | null>;
   currentAccount: Account | null = null ;
+  isSubmitting = signal(false);
 
   constructor(
     private fb: FormBuilder,
@@ -77,13 +78,13 @@ export class LoginComponent implements OnInit{
   }
 
   onSubmit() {
-    console.log('submit')
     if (this.loginForm.valid) {
+      this.isSubmitting.set(true);
       this.loginService.login(this.loginForm.value).then((response: any) => {
         localStorage.setItem('authenticationToken', response);
 
         this.authenticationError = false;
-
+        this.isSubmitting.set(false);
         // previousState was set in the authExpiredInterceptor before being redirected to login modal.
         // since login is successful, go to stored previousState and clear previousState
         const redirect = this.stateStorageService.getUrl();
@@ -98,6 +99,7 @@ export class LoginComponent implements OnInit{
         });
       })
       .catch((err) => {
+        this.isSubmitting.set(false);
         console.log('catchError', err)
         this.authenticationError = true;
       });
