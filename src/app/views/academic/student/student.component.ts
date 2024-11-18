@@ -10,6 +10,7 @@ import { CityService } from '../../../domain/service/city.service';
 import { AcademicYearService } from '../../../domain/service/academic-year.service';
 import { ReligionService } from '../../../domain/service/religion.service';
 import { CountryService } from '../../../domain/service/country.service';
+import { InstitutionService } from '../../../domain/service/institution.service';
 
 @Component({
   selector: 'app-student',
@@ -30,6 +31,7 @@ export class StudentComponent {
   academicYears: any[] = [];
   religions: any[] = [];
   countries: any[] = [];
+  institutions: any[] = [];
 
   @ViewChild(StudentListComponent)
   private listComponent?: StudentListComponent;
@@ -38,6 +40,7 @@ export class StudentComponent {
   private cityService = inject(CityService);
   private religionService = inject(ReligionService);
   private countryService = inject(CountryService);
+  private institutionService = inject(InstitutionService);
 
 
   constructor() {}
@@ -57,6 +60,9 @@ export class StudentComponent {
     })
     this.countryService.findAll('').subscribe((res: any) => {
       this.countries = res.body;
+    })
+    this.institutionService.findAll('').subscribe((res: any) => {
+      this.institutions = res.body;
     })
     this.onAdd();
   }

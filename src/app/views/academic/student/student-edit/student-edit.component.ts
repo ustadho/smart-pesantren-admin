@@ -34,6 +34,7 @@ export class StudentEditComponent {
   @Input() cities: any[] = []
   @Input() religions: any[] = []
   @Input() countries: any[] = []
+  @Input() institutions: any[] = []
 
   @Output() onRemove = new EventEmitter<any>();
   form: FormGroup;
@@ -51,6 +52,7 @@ export class StudentEditComponent {
     const today = new Date();
     this.form = fb.group({
       id: [null],
+      institutionId: [null, [Validators.required]],
       joinYearId: [null, [Validators.required]],
       categoryId: [null, [Validators.required]],
       nis: [null, [Validators.required]],
