@@ -1,30 +1,26 @@
-import { Component, inject, ViewChild } from '@angular/core';
-import { ITab } from '../../../domain/model/tab.model';
-import { StudentService } from '../../../domain/service/student.service';
-import { StudentListComponent } from './student-list/student-list.component'
-import { StudentEditComponent } from './student-edit/student-edit.component'
 import { CommonModule } from '@angular/common';
+import { Component, inject, ViewChild } from '@angular/core';
 import { TabsModule } from 'ngx-bootstrap/tabs';
-import { StudentCategoryService } from '../../../domain/service/student-category.service';
+import { ITab } from '../../../domain/model/tab.model';
+import { GuardianListComponent } from './guardian-list/guardian-list.component';
+import { GuardianEditComponent } from './guardian-edit/guardian-edit.component';
 import { CityService } from '../../../domain/service/city.service';
-import { AcademicYearService } from '../../../domain/service/academic-year.service';
 import { ReligionService } from '../../../domain/service/religion.service';
 import { CountryService } from '../../../domain/service/country.service';
-import { InstitutionService } from '../../../domain/service/institution.service';
 
 @Component({
-  selector: 'app-student',
+  selector: 'app-guardian',
   standalone: true,
   imports: [
     CommonModule,
     TabsModule,
-    StudentListComponent,
-    StudentEditComponent
+    GuardianListComponent,
+    GuardianEditComponent
   ],
-  templateUrl: './student.component.html',
-  styleUrl: './student.component.scss'
+  templateUrl: './guardian.component.html',
+  styleUrl: './guardian.component.scss'
 })
-export class StudentComponent {
+export class GuardianComponent {
   tabs: ITab[] = [];
   categories: any[] = [];
   cities: any[] = [];
@@ -33,36 +29,24 @@ export class StudentComponent {
   countries: any[] = [];
   institutions: any[] = [];
 
-  @ViewChild(StudentListComponent)
-  private listComponent?: StudentListComponent;
-  private categoryService = inject(StudentCategoryService);
-  private academicYearService = inject(AcademicYearService);
+  @ViewChild(GuardianListComponent)
+  private listComponent?: GuardianListComponent;
   private cityService = inject(CityService);
   private religionService = inject(ReligionService);
   private countryService = inject(CountryService);
-  private institutionService = inject(InstitutionService);
 
 
   constructor() {}
 
   ngOnInit(): void {
-    this.categoryService.findAll('').subscribe((res: any) => {
-      this.categories = res.body;
-    })
     this.cityService.findAll('').subscribe((res: any) => {
       this.cities = res.body;
-    })
-    this.academicYearService.findAll('').subscribe((res: any) => {
-      this.academicYears = res.body;
     })
     this.religionService.findAll('').subscribe((res: any) => {
       this.religions = res.body;
     })
     this.countryService.findAll('').subscribe((res: any) => {
       this.countries = res.body;
-    })
-    this.institutionService.findAll('').subscribe((res: any) => {
-      this.institutions = res.body;
     })
     this.onAdd();
   }

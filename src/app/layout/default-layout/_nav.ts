@@ -30,6 +30,11 @@ export const navItems: INavData[] = [
         url: '/academic/subject',
         icon: 'nav-icon-bullet'
       },
+      {
+        name: 'Wali Santri',
+        url: '/academic/guardian',
+        icon: 'nav-icon-bullet'
+      },
     ]
   },
   {

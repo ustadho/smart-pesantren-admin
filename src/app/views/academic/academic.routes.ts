@@ -25,5 +25,12 @@ export const routes: Routes = [
       defaultSort: 'name,asc',
     }
   },
-
+  {
+    path: 'guardian',
+    loadComponent: () => import('./guardian/guardian.component').then(m => m.GuardianComponent),
+    data: {
+      title: 'Wali Santri',
+      defaultSort: 'name,asc',
+    }
+  },
 ];
