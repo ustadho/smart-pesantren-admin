@@ -14,24 +14,21 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
 import { BaseInputComponent } from '../../../../components/base-input/base-input.component';
-import { SubmitButtonComponent } from '../../../../components/submit-button/submit-button.component';
 import { ITab } from '../../../../domain/model/tab.model';
 import { SubDistrictService } from '../../../../domain/service/subdistricts.service';
-import { MaritalStatusService } from '../../../../domain/service/marital-status.service';
 
 @Component({
-  selector: 'app-student-edit-address',
+  selector: 'app-student-edit-parent',
   standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
     BaseInputComponent,
   ],
-  templateUrl: './student-edit-address.component.html',
+  templateUrl: './student-edit-parent.component.html',
 })
-export class StudentEditAddressComponent implements OnInit {
+export class StudentEditParentComponent implements OnInit {
   @Input() activeTab?: ITab;
   @Input() form!: FormGroup;
   @Input() religions: any[] = [];

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 import { ITab } from '../../../../domain/model/tab.model';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GuardianService } from '../../../../domain/service/guardian.service';
+import { SubDistrictService } from '../../../../domain/service/subdistricts.service';
 import { ToastrService } from 'ngx-toastr';
 import Utils from '../../../../shared/util/util';
 import Swal from 'sweetalert2';
@@ -9,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { SubmitButtonComponent } from '../../../../components/submit-button/submit-button.component';
 import { BaseInputComponent } from '../../../../components/base-input/base-input.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { MaritalStatusService } from '../../../../domain/service/marital-status.service';
 
 @Component({
   selector: 'app-guardian-edit',
@@ -28,6 +30,9 @@ export class GuardianEditComponent {
   @Input() cities: any[] = []
   @Input() religions: any[] = []
   @Input() countries: any[] = []
+  @Input() maritalStatuses: any[] = []
+  @Input() personTitles: any[] = []
+  @Input() employmentTypes: any[] = []
 
   @Output() onRemove = new EventEmitter<any>();
   form: FormGroup;
@@ -35,11 +40,14 @@ export class GuardianEditComponent {
     { id: 'M', name: 'Laki-Laki' },
     { id: 'F', name: 'Perempuan' },
   ];
+  permanentSubDistricts: any[] = [];
+  residentialSubDistricts: any[] = [];
   isSubmitting = signal(false);
 
   constructor(
     private fb: FormBuilder,
     private service: GuardianService,
+    private subdistrictService: SubDistrictService,
     private toast: ToastrService
   ) {
     const today = new Date();
@@ -47,6 +55,8 @@ export class GuardianEditComponent {
       id: [null],
       nik: [null],
       name: [null, [Validators.required]],
+      titleId: [null, [Validators.required]],
+      phone: [null, [Validators.required]],
       email: [null],
       sex: [null, [Validators.required]],
       pobId: [null, [Validators.required]],
@@ -55,12 +65,20 @@ export class GuardianEditComponent {
       bloodType: [null],
       childNo: [1],
       numberOfSibling: [1],
-      religionId: [null, [Validators.required]],
-      nationalityId: [null, [Validators.required]],
-      address: [null, [Validators.required]],
-      rt: [null],
-      rw: [null],
-      subDistrictId: [null, [Validators.required]],
+      maritalStatusId: [2, [Validators.required]],
+      religionId: [1, [Validators.required]],
+      nationalityId: [1, [Validators.required]],
+      employmentTypeId: [null, [Validators.required]],
+      permanentAddress: [null, [Validators.required]],
+      permanentRT: [null],
+      permanentRW: [null],
+      permanentSubdistrictId: [null, [Validators.required]],
+      permanentPostalCode: [null],
+      residentialAddress: [null, [Validators.required]],
+      residentialRT: [null],
+      residentialRW: [null],
+      residentialSubdistrictId: [null, [Validators.required]],
+      residentialPostalCode: [null],
       postalCode: [null],
       kksNo: [null],
       yatim: [false],
@@ -85,10 +103,32 @@ export class GuardianEditComponent {
     if (this.activeTab?.data != null) {
       this.form.patchValue(this.activeTab.data);
     }
+    if(this.form.getRawValue().permanentSubdistrictId != null) {
+      this.subdistrictService.findBy(this.form.getRawValue().permanentSubdistrictId).subscribe((res: any) => {
+        this.permanentSubDistricts = [res.body]
+      })
+    }
+    if(this.form.getRawValue().residentialSubdistrictId != null) {
+      this.subdistrictService.findBy(this.form.getRawValue().residentialSubdistrictId).subscribe((res: any) => {
+        this.residentialSubDistricts = [res.body]
+      })
+    }
   }
 
-  onSelectChange() {
-    console.group('onSelectChange');
+  onTitleChange(e: any) {
+    this.form.get('sex')?.setValue(e.sex);
+  }
+
+  onSubDistrictKeyUp(e: any) {
+    this.subdistrictService.search(e).subscribe((res: any) => {
+      this.permanentSubDistricts = res.body;
+    });
+  }
+
+  onResidentialSubDistrictKeyUp(e: any) {
+    this.subdistrictService.search(e).subscribe((res: any) => {
+      this.residentialSubDistricts = res.body;
+    });
   }
 
   onSubmit() {

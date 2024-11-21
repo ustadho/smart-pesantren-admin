@@ -6,7 +6,7 @@
           <app-base-input
             type="ng-select"
             [formGroup]="form"
-            label="Institusi/ Lembaga"
+            label="Institusi"
             controlName="institutionId"
             labelWidth="col-sm-3 col-md-2"
             inputWidth="col-sm-9 col-md-6"
@@ -101,8 +101,8 @@
                 [formGroup]="form"
                 label="No. Akta Lahir"
                 controlName="birthCertificateNo"
-                labelWidth="col-sm-3 col-md-4"
-                inputWidth="col-sm-9 col-md-8"
+                labelWidth="col-sm-3 col-md-5"
+                inputWidth="col-sm-9 col-md-7"
                 layout="horizontal"
               ></app-base-input>
             </div>
@@ -127,35 +127,9 @@
                 [formGroup]="form"
                 label="Tgl. Lahir"
                 controlName="dob"
-                labelWidth="col-sm-3 col-md-4"
-                inputWidth="col-sm-9 col-md-8"
+                labelWidth="col-sm-3 col-md-5"
+                inputWidth="col-sm-9 col-md-7"
                 layout="horizontal"
-              ></app-base-input>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6 col-12">
-              <app-base-input
-                type="ng-select"
-                [formGroup]="form"
-                label="Agama"
-                controlName="religionId"
-                labelWidth="col-sm-3 col-md-4"
-                inputWidth="col-sm-9 col-md-8"
-                layout="horizontal"
-                [items]="religions"
-              ></app-base-input>
-            </div>
-            <div class="col-md-6">
-              <app-base-input
-                type="ng-select"
-                [formGroup]="form"
-                label="Kewarganegaraan"
-                controlName="nationalityId"
-                labelWidth="col-sm-3 col-md-4"
-                inputWidth="col-sm-9 col-md-8"
-                layout="horizontal"
-                [items]="countries"
               ></app-base-input>
             </div>
           </div>
@@ -175,10 +149,19 @@
       <div class="row pb-2">
         <div class="col-md-12">
           <tabset>
-            <tab heading="Alamat" id="tabAddress">
+            <tab heading="Info Pribadi & Alamat" id="tabAddress">
               <app-student-edit-address
                 [form]="form"
+                [countries]="countries"
+                [religions]="religions"
               ></app-student-edit-address>
+            </tab>
+            <tab heading="Orang Tua" id="tabParent">
+              <app-student-edit-parent
+                [form]="form"
+                [countries]="countries"
+                [religions]="religions"
+              ></app-student-edit-parent>
             </tab>
             <tab heading="Catatan" id="tabNotes">
               <app-student-edit-notes [form]="form"></app-student-edit-notes>

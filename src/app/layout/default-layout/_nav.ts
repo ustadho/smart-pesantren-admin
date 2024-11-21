@@ -89,11 +89,11 @@ export const navItems: INavData[] = [
     url: '/presence',
     iconComponent: { name: 'cil-notes' },
     children: [
-      {
-        name: 'Jadwal Kerja',
-        url: '/presence/working-calendar',
-        icon: 'nav-icon-bullet'
-      },
+      // {
+      //   name: 'Jadwal Kerja',
+      //   url: '/presence/working-calendar',
+      //   icon: 'nav-icon-bullet'
+      // },
       {
         name: 'Hari Libur',
         url: '/presence/holiday',

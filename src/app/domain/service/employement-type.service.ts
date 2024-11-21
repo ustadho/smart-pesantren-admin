@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class EmployementTypeService {
+export class EmploymentTypeService {
   private resourceUrl = '/api/employment-type';
 
   constructor(private http: HttpClient) { }

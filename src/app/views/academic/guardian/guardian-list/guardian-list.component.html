@@ -48,13 +48,13 @@
                 <table class="table table-sm table-hover">
                   <thead>
                     <tr jhiSort [sortState]="sortState" (sortChange)="transition($event)">
-                      <th jhiSortBy="institution.name"><span> Institusi </span><fa-icon icon="sort"></fa-icon></th>
-                      <th jhiSortBy="nis"><span> NIS </span><fa-icon icon="sort"></fa-icon></th>
-                      <th jhiSortBy="name"><span> Nama Santri</span><fa-icon icon="sort"></fa-icon></th>
-                      <th jhiSortBy="sex"><span> Putra/Putri</span><fa-icon icon="sort"></fa-icon></th>
+                      <th jhiSortBy="title"><span> Title</span><fa-icon icon="sort"></fa-icon></th>
+                      <th jhiSortBy="name"><span> Nama</span><fa-icon icon="sort"></fa-icon></th>
+                      <th jhiSortBy="sex"><span> Jenis Kelamin</span><fa-icon icon="sort"></fa-icon></th>
                       <th jhiSortBy="dob"><span> Tgl. Lahir </span><fa-icon icon="sort"></fa-icon></th>
-                      <th jhiSortBy="status"><span> Status </span><fa-icon icon="sort"></fa-icon></th>
-                      <th jhiSortBy="joinYear.coode"><span> Tahun </span><fa-icon icon="sort"></fa-icon></th>
+                      <th jhiSortBy="phone"><span> No. HP </span><fa-icon icon="sort"></fa-icon></th>
+                      <th jhiSortBy="email"><span> Email </span><fa-icon icon="sort"></fa-icon></th>
+                      <th jhiSortBy="address"><span> Alamat </span><fa-icon icon="sort"></fa-icon></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -68,16 +68,13 @@
                       (click)="onSelectRow(d)"
 
                     >
-                      <td>{{ d.institution }}</td>
-                      <td>{{ d.nis }}</td>
+                      <td>{{ d.title }}</td>
                       <td>{{ d.name }}</td>
                       <td>{{ d.sex }}</td>
                       <td>{{ d.dob | date: 'dd/MM/yyyy' }}</td>
-                      <td>
-                        <span *ngIf="d.active; else unchecked">&#x2714;</span>
-                        <ng-template #unchecked>&#x2716;</ng-template>
-                      </td>
-                      <td>{{ d.joinYear }}</td>
+                      <td>{{ d.phone }}</td>
+                      <td>{{ d.email }}</td>
+                      <td>{{ d.address }}</td>
                     </tr>
                   </tbody>
                 </table>

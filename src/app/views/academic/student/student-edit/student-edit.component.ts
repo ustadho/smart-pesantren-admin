@@ -11,6 +11,7 @@ import { BaseInputComponent } from '../../../../components/base-input/base-input
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { StudentEditAddressComponent } from './student-edit-address.component';
 import { StudentEditNotesComponent } from './student-edit-notes.component';
+import { StudentEditParentComponent } from './student-edit-parent.component';
 
 @Component({
   selector: 'app-student-edit',
@@ -23,6 +24,7 @@ import { StudentEditNotesComponent } from './student-edit-notes.component';
     TabsModule,
     StudentEditAddressComponent,
     StudentEditNotesComponent,
+    StudentEditParentComponent,
   ],
   templateUrl: './student-edit.component.html',
   styleUrl: './student-edit.component.scss'
@@ -59,6 +61,7 @@ export class StudentEditComponent {
       nisn: [null],
       nik: [null],
       name: [null, [Validators.required]],
+      phone: [null],
       email: [null],
       sex: [null, [Validators.required]],
       pobId: [null, [Validators.required]],
@@ -85,6 +88,16 @@ export class StudentEditComponent {
       certificateNo: [null],
       skhunNo: [null],
       fatherId: [null],
+      fatherName: [null, [Validators.required]],
+      fatherReligionId: [null, [Validators.required]],
+      fatherNationalityId: [null, [Validators.required]],
+      fatherPhone: [null],
+      fatherEmail: [null],
+      fatherAdress: [null, [Validators.required]],
+      fatherRT: [null, [Validators.required]],
+      fatherRW: [null, [Validators.required]],
+      fatherPostalCode: [null, [Validators.required]],
+      fatherSubDistrictId: [null, [Validators.required]],
       motherId: [null],
       fatherGuardianId: [null],
       motherGuardianId: [null],

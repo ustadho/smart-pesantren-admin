@@ -7,6 +7,9 @@ import { GuardianEditComponent } from './guardian-edit/guardian-edit.component';
 import { CityService } from '../../../domain/service/city.service';
 import { ReligionService } from '../../../domain/service/religion.service';
 import { CountryService } from '../../../domain/service/country.service';
+import { PersonTitleService } from '../../../domain/service/person-title.service';
+import { MaritalStatusService } from '../../../domain/service/marital-status.service';
+import { EmploymentTypeService } from '../../../domain/service/employement-type.service';
 
 @Component({
   selector: 'app-guardian',
@@ -28,13 +31,18 @@ export class GuardianComponent {
   religions: any[] = [];
   countries: any[] = [];
   institutions: any[] = [];
+  maritalStatuses: any[] = [];
+  employmentTypes: any[] = [];
+  personTitles: any[] = [];
 
   @ViewChild(GuardianListComponent)
   private listComponent?: GuardianListComponent;
   private cityService = inject(CityService);
   private religionService = inject(ReligionService);
   private countryService = inject(CountryService);
-
+  private personTitleService = inject(PersonTitleService);
+  private maritalStatusService = inject(MaritalStatusService);
+  private employementTypeService = inject(EmploymentTypeService);
 
   constructor() {}
 
@@ -47,6 +55,18 @@ export class GuardianComponent {
     })
     this.countryService.findAll('').subscribe((res: any) => {
       this.countries = res.body;
+    })
+    this.personTitleService.findAll('').subscribe((res: any) => {
+      this.personTitleService = res.body;
+    })
+    this.maritalStatusService.findAll('').subscribe((res: any) => {
+      this.maritalStatuses = res.body
+    })
+    this.personTitleService.findAll('').subscribe((res: any) => {
+      this.personTitles = res.body
+    })
+    this.employementTypeService.findAll('').subscribe((res: any) => {
+      this.employmentTypes = res.body
     })
     this.onAdd();
   }
