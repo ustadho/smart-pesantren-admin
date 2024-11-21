@@ -8,6 +8,11 @@
   }
 }
 
+.align-center {
+  display: flex;
+  justify-content: center; /* Untuk horizontal */
+  align-items: center;    /* Untuk vertikal */
+}
 // ng-scrollbar css variables
 //.cui-scrollbar {
 //  --scrollbar-border-radius: 7px;
