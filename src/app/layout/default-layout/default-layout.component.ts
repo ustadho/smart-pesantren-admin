@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { NgScrollbar } from 'ngx-scrollbar';
 
-import { IconDirective } from '@coreui/icons-angular';
+import { NgProgressbar } from 'ngx-progressbar';
+import { NgProgressRouter } from 'ngx-progressbar/router';
 import {
   ContainerComponent,
   ShadowOnScrollDirective,
@@ -35,7 +36,6 @@ function isOverflown(element: HTMLElement) {
     SidebarHeaderComponent,
     SidebarBrandComponent,
     RouterLink,
-    IconDirective,
     NgScrollbar,
     SidebarNavComponent,
     SidebarFooterComponent,
@@ -45,7 +45,9 @@ function isOverflown(element: HTMLElement) {
     ShadowOnScrollDirective,
     ContainerComponent,
     RouterOutlet,
-    DefaultFooterComponent
+    DefaultFooterComponent,
+    NgProgressbar,
+    NgProgressRouter
   ]
 })
 export class DefaultLayoutComponent {

@@ -18,11 +18,13 @@ import { IconSetService } from '@coreui/icons-angular';
 import { routes } from './app.routes';
 import { provideNgxWebstorage, withLocalStorage, withNgxWebstorageConfig, withSessionStorage } from 'ngx-webstorage';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { HTTP_INTERCEPTORS, HttpEvent, HttpHandlerFn, HttpRequest, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpEvent, HttpHandlerFn, HttpRequest, provideHttpClient, withFetch, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { provideState, provideStore } from '@ngrx/store';
 import { authReducer } from './core/login/store/auth.reducer';
 import { Observable } from 'rxjs';
 import { provideToastr } from 'ngx-toastr';
+import { provideNgProgressOptions } from 'ngx-progressbar';
+import { progressInterceptor } from 'ngx-progressbar/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -43,6 +45,8 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideHttpClient(
       withInterceptorsFromDi(),
+      withFetch(),
+      withInterceptors([progressInterceptor])
     ),
     {
       provide: HTTP_INTERCEPTORS,
