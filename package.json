@@ -49,6 +49,7 @@
     "ngrx-store-freeze": "^0.2.4",
     "ngx-bootstrap": "^18.0.2",
     "ngx-color-picker": "^17.0.0",
+    "ngx-progressbar": "^13.0.0",
     "ngx-scrollbar": "^13.0.3",
     "ngx-toastr": "^19.0.0",
     "ngx-webstorage": "^18.0.0",

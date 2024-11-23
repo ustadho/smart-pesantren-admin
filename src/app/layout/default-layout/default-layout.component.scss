@@ -8,6 +8,15 @@
   }
 }
 
+.ng-progress-bar {
+  --ng-progress-color: #00ab66; /* Hijau */
+}
+
+.align-center {
+  display: flex;
+  justify-content: center; /* Untuk horizontal */
+  align-items: center;    /* Untuk vertikal */
+}
 // ng-scrollbar css variables
 //.cui-scrollbar {
 //  --scrollbar-border-radius: 7px;

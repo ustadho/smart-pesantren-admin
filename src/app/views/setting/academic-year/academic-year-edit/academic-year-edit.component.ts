@@ -156,7 +156,7 @@ export class AcademicYearEditComponent {
     this.form.markAsPristine();
     this.form.markAsUntouched();
     this.form.updateValueAndValidity();
-
+    this.form.get('isDefault')?.setValue(true);
 
   }
 }

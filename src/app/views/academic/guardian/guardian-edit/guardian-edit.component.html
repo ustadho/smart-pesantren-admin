@@ -1,0 +1,310 @@
+<form role="form" novalidate (ngSubmit)="onSubmit()" [formGroup]="form">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-8">
+          <app-base-input
+            [formGroup]="form"
+            controlName="name"
+            label="Nama"
+            labelWidth="col-sm-4 col-md-3"
+            inputWidth="col-sm-8 col-md-9"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+        <div class="col-md-4 col-12">
+          <app-base-input
+            type="ng-select"
+            [formGroup]="form"
+            label="Panggilan"
+            controlName="titleId"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-9 col-md-8"
+            layout="horizontal"
+            [items]="personTitles"
+            (onSelectChange)="onTitleChange($event)"
+          ></app-base-input>
+        </div>
+        <div class="col-md-3 col-12"></div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-12">
+          <app-base-input
+            type="ng-select"
+            [formGroup]="form"
+            label="Jenis Kelamin"
+            controlName="sex"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-9 col-md-8"
+            layout="horizontal"
+            [items]="sexs"
+          ></app-base-input>
+        </div>
+        <div class="col-md-6 col-12">
+          <app-base-input
+            type="text"
+            [formGroup]="form"
+            label="N.I.K"
+            controlName="nik"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-9 col-md-8"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-12">
+          <app-base-input
+            type="ng-select"
+            [formGroup]="form"
+            label="Tempat Lahir"
+            [labelFormat]="'${name} - ${provinceName}'"
+            controlName="pobId"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-9 col-md-8"
+            layout="horizontal"
+            [items]="cities"
+          ></app-base-input>
+        </div>
+        <div class="col-md-4">
+          <app-base-input
+            type="bs-datepicker"
+            [formGroup]="form"
+            label="Tgl. Lahir"
+            controlName="dob"
+            labelWidth="col-sm-3 col-md-6"
+            inputWidth="col-sm-9 col-md-6"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+        <div class="col-md-2">
+          <app-base-input
+            type="ng-select"
+            [formGroup]="form"
+            label="W.N"
+            controlName="nationalityId"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-9 col-md-8"
+            layout="horizontal"
+            [items]="countries"
+          ></app-base-input>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-12">
+          <app-base-input
+            type="ng-select"
+            [formGroup]="form"
+            label="Agama"
+            controlName="religionId"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-9 col-md-8"
+            layout="horizontal"
+            [items]="religions"
+          ></app-base-input>
+        </div>
+        <div class="col-md-6">
+          <app-base-input
+            type="ng-select"
+            [formGroup]="form"
+            label="Status Pernikahan"
+            controlName="maritalStatusId"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-9 col-md-8"
+            layout="horizontal"
+            [items]="maritalStatuses"
+          ></app-base-input>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-12">
+          <app-base-input
+            type="ng-select"
+            [formGroup]="form"
+            label="Pekerjaan"
+            controlName="employmentTypeId"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-9 col-md-8"
+            layout="horizontal"
+            [items]="employmentTypes"
+          ></app-base-input>
+        </div>
+        <div class="col-md-6">
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-12">
+          <app-base-input
+            [formGroup]="form"
+            label="No. HP"
+            controlName="phone"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-9 col-md-8"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+        <div class="col-md-6">
+          <app-base-input
+            type="email"
+            [formGroup]="form"
+            label="Email"
+            controlName="email"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-9 col-md-8"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+      </div>
+      <h3 class="title-group-header mt-4">Alamat Tetap/ KTP</h3>
+      <div class="row">
+        <div class="col-md-8">
+          <app-base-input
+            [formGroup]="form"
+            controlName="permanentAddress"
+            label="Alamat"
+            labelWidth="col-sm-4 col-md-3"
+            inputWidth="col-sm-8 col-md-9"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+        <div class="col-md-2">
+          <app-base-input
+            [formGroup]="form"
+            controlName="permanentRT"
+            label="RT"
+            labelWidth="col-sm-4 col-md-6"
+            inputWidth="col-sm-8 col-md-6"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+        <div class="col-md-2">
+          <app-base-input
+            [formGroup]="form"
+            controlName="permanentRW"
+            label="RW"
+            labelWidth="col-sm-4 col-md-6"
+            inputWidth="col-sm-8 col-md-6"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+          <app-base-input
+            type="ng-select"
+            [formGroup]="form"
+            label="Kelurahan"
+            controlName="permanentSubdistrictId"
+            labelWidth="col-sm-3 col-md-3"
+            inputWidth="col-sm-9 col-md-9"
+            layout="horizontal"
+            [items]="permanentSubDistricts"
+            [labelFormat]="
+              '${name} - ${districtName} - ${cityName} -${provinceName}'
+            "
+            (onKeyUp)="onSubDistrictKeyUp($event)"
+          ></app-base-input>
+        </div>
+        <div class="col-md-4">
+          <app-base-input
+            [formGroup]="form"
+            controlName="permanentPostalCode"
+            label="Kode Pos"
+            labelWidth="col-sm-4 col-md-3"
+            inputWidth="col-sm-8 col-md-6"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+      </div>
+      <h3 class="title-group-header mt-4">Alamat Domisili</h3>
+      <div class="row">
+        <div class="col-md-8">
+          <app-base-input
+            [formGroup]="form"
+            controlName="residentialAddress"
+            label="Alamat Domisili"
+            labelWidth="col-sm-4 col-md-3"
+            inputWidth="col-sm-8 col-md-9"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+        <div class="col-md-2">
+          <app-base-input
+            [formGroup]="form"
+            controlName="residentialRT"
+            label="RT"
+            labelWidth="col-sm-4 col-md-6"
+            inputWidth="col-sm-8 col-md-6"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+        <div class="col-md-2">
+          <app-base-input
+            [formGroup]="form"
+            controlName="residentialRW"
+            label="RW"
+            labelWidth="col-sm-4 col-md-6"
+            inputWidth="col-sm-8 col-md-6"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+          <app-base-input
+            type="ng-select"
+            [formGroup]="form"
+            label="Kelurahan Domisili"
+            controlName="residentialSubdistrictId"
+            labelWidth="col-sm-3 col-md-3"
+            inputWidth="col-sm-9 col-md-9"
+            layout="horizontal"
+            [items]="residentialSubDistricts"
+            [labelFormat]="
+              '${name} - ${districtName} - ${cityName} -${provinceName}'
+            "
+            (onKeyUp)="onResidentialSubDistrictKeyUp($event)"
+          ></app-base-input>
+        </div>
+        <div class="col-md-4">
+          <app-base-input
+            [formGroup]="form"
+            controlName="residentialPostalCode"
+            label="Kode Pos"
+            labelWidth="col-sm-4 col-md-3"
+            inputWidth="col-sm-8 col-md-6"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+      </div>
+      <div class="row border-top pt-2">
+        <div class="d-flex justify-content-between px-2">
+          <button
+            type="button"
+            class="btn btn-danger mr-2"
+            (click)="onDelete()"
+            *ngIf="form.get('id')?.value != null"
+          >
+            <i class="fa fa-ban"></i> Hapus
+          </button>
+          &nbsp;
+          <app-submit-button
+            [isSubmitting]="isSubmitting()"
+            buttonText="Simpan"
+          >
+          </app-submit-button>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="row pb-2">
+        <div class="col-md-12">
+          <tabset>
+            <tab heading="Alamat" id="tabAddress"> </tab>
+            <tab heading="Catatan" id="tabNotes"> </tab>
+          </tabset>
+        </div>
+      </div> -->
+  </div>
+</form>

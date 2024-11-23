@@ -1,0 +1,50 @@
+<form role="form" novalidate (ngSubmit)="onSubmit()" [formGroup]="form">
+  <div class="card">
+    <div class="card-body">
+      <app-base-input
+        [formGroup]="form"
+        label="Nama"
+        controlName="name"
+        labelWidth="col-sm-3 col-md-2"
+        inputWidth="col-sm-9 col-md-8"
+        layout="horizontal"
+      ></app-base-input>
+      <app-base-input
+        type="textarea"
+        [formGroup]="form"
+        label="Keterangan"
+        controlName="description"
+        labelWidth="col-sm-3 col-md-2"
+        inputWidth="col-sm-9 col-md-8"
+        layout="horizontal"
+      ></app-base-input>
+      <app-base-input
+        type="checkbox"
+        [formGroup]="form"
+        label="Default"
+        controlName="default"
+        labelWidth="col-sm-3 col-md-2"
+        inputWidth="col-sm-9 col-md-8"
+        layout="horizontal"
+      ></app-base-input>
+      <div class="row border-top pt-2">
+        <div class="d-flex justify-content-between px-2">
+          <button
+            type="button"
+            class="btn btn-danger mr-2"
+            (click)="onDelete()"
+            *ngIf="form.get('id')?.value != null"
+          >
+            <i class="fa fa-ban"></i> Hapus
+          </button>
+          &nbsp;
+          <app-submit-button
+            [isSubmitting]="isSubmitting()"
+            buttonText="Simpan"
+          >
+          </app-submit-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

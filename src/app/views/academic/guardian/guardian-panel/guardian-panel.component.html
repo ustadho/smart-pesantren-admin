@@ -1,0 +1,108 @@
+<form role="form" novalidate [formGroup]="form">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="mb-2 row">
+            <label for="name" class="col-md-3 col-form-label">Nama</label>
+            <div class="col-md-9">
+              <div class="input-group">
+                <input
+                  type="text"
+                  id="name"
+                  formControlName="name"
+                  class="form-control"
+                  aria-label="Nama"
+                />
+                <button
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  (click)="onLookup()"
+                >
+                  <fa-icon [icon]="['fas', 'search']"></fa-icon>
+                </button>
+                <!-- <button class="btn btn-outline-primary" type="button" >
+                  <fa-icon [icon]="['fas', 'plus']"></fa-icon>
+                </button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-12">
+          <app-base-input
+            type="ng-select"
+            [formGroup]="form"
+            label="Panggilan"
+            controlName="titleId"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-9 col-md-8"
+            layout="horizontal"
+            [items]="personTitles"
+            (onSelectChange)="onTitleChange($event)"
+          ></app-base-input>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <app-base-input
+            [formGroup]="form"
+            controlName="phone"
+            label="No. HP"
+            labelWidth="col-sm-4 col-md-4"
+            inputWidth="col-sm-8 col-md-6"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+        <div class="col-md-6">
+          <app-base-input
+            type="email"
+            [formGroup]="form"
+            controlName="email"
+            label="Email"
+            labelWidth="col-sm-4 col-md-4"
+            inputWidth="col-sm-8 col-md-8"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+          <app-base-input
+            [formGroup]="form"
+            controlName="permanentAddress"
+            label="Alamat"
+            labelWidth="col-sm-4 col-md-3"
+            inputWidth="col-sm-8 col-md-9"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+        <div class="col-md-2">
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">RT</span>
+            <input type="text" class="form-control" />
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">RW</span>
+            <input type="text" class="form-control" />
+          </div>
+        </div>
+      </div>
+      <app-base-input
+        type="ng-select"
+        [formGroup]="form"
+        label="Kelurahan"
+        controlName="permanentSubdistrictId"
+        labelWidth="col-sm-3 col-md-2"
+        inputWidth="col-sm-9 col-md-10"
+        layout="horizontal"
+        [items]="subDistricts"
+        [labelFormat]="
+          '${name} - ${districtName} - ${cityName} -${provinceName}'
+        "
+        (onKeyUp)="onSubDistrictKeyUp($event)"
+      ></app-base-input>
+    </div>
+  </div>
+</form>

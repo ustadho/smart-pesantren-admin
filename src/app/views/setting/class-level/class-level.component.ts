@@ -4,8 +4,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ClassLevelListComponent } from './class-level-list/class-level-list.component';
 import { ClassLevelEditComponent } from './class-level-edit/class-level-edit.component';
 import { ITab } from '../../../domain/model/tab.model';
-import { ClassLevelService } from 'src/app/domain/service/class-level.service';
-import { EducationLevelService } from 'src/app/domain/service/education-level.service';
+import { EducationLevelService } from '../../../domain/service/education-level.service';
 
 @Component({
   selector: 'app-class-level',

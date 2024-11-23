@@ -1,0 +1,11 @@
+<form role="form" novalidate [formGroup]="form">
+  <div class="card">
+    <div class="card-body">
+      <h3 class="title-group-header mt-4">Ayah</h3>
+      <app-guardian-panel [form]="fatherGroup" [personTitles]="maleTitles"  sex="M"></app-guardian-panel>
+
+      <h3 class="title-group-header mt-4">Bunda</h3>
+      <app-guardian-panel [form]="motherGroup" [personTitles]="femaleTitles" sex="F"></app-guardian-panel>
+    </div>
+  </div>
+</form>

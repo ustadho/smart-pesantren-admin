@@ -16,6 +16,11 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-calendar' },
     children: [
       {
+        name: 'Data Santri',
+        url: '/academic/student',
+        icon: 'nav-icon-bullet'
+      },
+      {
         name: 'Ruang Kelas',
         url: '/academic/class-room',
         icon: 'nav-icon-bullet'
@@ -23,6 +28,11 @@ export const navItems: INavData[] = [
       {
         name: 'Mata Pelajaran',
         url: '/academic/subject',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Wali Santri',
+        url: '/academic/guardian',
         icon: 'nav-icon-bullet'
       },
     ]
@@ -79,11 +89,11 @@ export const navItems: INavData[] = [
     url: '/presence',
     iconComponent: { name: 'cil-notes' },
     children: [
-      {
-        name: 'Jadwal Kerja',
-        url: '/presence/working-calendar',
-        icon: 'nav-icon-bullet'
-      },
+      // {
+      //   name: 'Jadwal Kerja',
+      //   url: '/presence/working-calendar',
+      //   icon: 'nav-icon-bullet'
+      // },
       {
         name: 'Hari Libur',
         url: '/presence/holiday',
@@ -119,6 +129,11 @@ export const navItems: INavData[] = [
       {
         name: 'Level Kelas',
         url: '/setting/class-level',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Kategori Santri',
+        url: '/setting/student-category',
         icon: 'nav-icon-bullet'
       },
       {
