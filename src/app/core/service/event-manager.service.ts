@@ -14,7 +14,7 @@ export class JhiEventWithContent<T> {
 })
 export class KasEventManager {
   observable: Observable<JhiEventWithContent<any> | string>;
-  observer: Observer<JhiEventWithContent<any> | string>;
+  observer!: Observer<JhiEventWithContent<any> | string>;
 
   constructor() {
     this.observable = Observable.create((observer: Observer<JhiEventWithContent<any> | string>) => {
@@ -50,6 +50,7 @@ export class KasEventManager {
             // return event.content;
             return event;
           }
+          return undefined;
         })
       )
       .subscribe(callback);

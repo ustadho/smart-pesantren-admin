@@ -12,35 +12,34 @@ import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
 import { ITab } from '../../../../domain/model/tab.model';
 import { SubDistrictService } from '../../../../domain/service/subdistricts.service';
-import { GuardianPanelComponent } from 'src/app/views/academic/guardian/guardian-panel/guardian-panel.component';
+import { GuardianPanelComponent } from '../../guardian/guardian-panel/guardian-panel.component';
 import { KasEventManager } from '../../../../core/service/event-manager.service';
 
 @Component({
-  selector: 'app-student-edit-parent',
+  selector: 'app-student-edit-guardian',
   standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
     GuardianPanelComponent,
   ],
-  templateUrl: './student-edit-parent.component.html',
+  templateUrl: './student-edit-guardian.component.html',
 })
-export class StudentEditParentComponent implements OnInit {
+export class StudentEditGuardianComponent implements OnInit {
   @Input() activeTab?: ITab;
   @Input() form!: FormGroup;
   @Input() religions: any[] = [];
   @Input() countries: any[] = [];
-
   @Output() onRemove = new EventEmitter<any>();
+  maleTitles: any[] = [];
+  femaleTitles: any[] = [];
+
   isLoaded = false;
 
   subDistricts: any[] = [];
-  maleTitles: any[] = [];
-  femaleTitles: any[] = [];
   residentialSubDistricts: any[] = [];
   isSubmitting = signal(false);
   private subdistrictService = inject(SubDistrictService);
@@ -82,10 +81,10 @@ export class StudentEditParentComponent implements OnInit {
   }
 
   get fatherGroup() {
-    return this.form.get('father') as FormGroup;
+    return this.form.get('fatherGuardian') as FormGroup;
   }
 
   get motherGroup() {
-    return this.form.get('mother') as FormGroup;
+    return this.form.get('motherGuardian') as FormGroup;
   }
 }

@@ -12,6 +12,9 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { StudentEditAddressComponent } from './student-edit-address.component';
 import { StudentEditNotesComponent } from './student-edit-notes.component';
 import { StudentEditParentComponent } from './student-edit-parent.component';
+import { StudentEditGuardianComponent } from './student-edit-guardian.component';
+import { PersonTitleService } from '../../../../domain/service/person-title.service';
+import { KasEventManager } from '../../../../core/service/event-manager.service';
 
 @Component({
   selector: 'app-student-edit',
@@ -25,6 +28,7 @@ import { StudentEditParentComponent } from './student-edit-parent.component';
     StudentEditAddressComponent,
     StudentEditNotesComponent,
     StudentEditParentComponent,
+    StudentEditGuardianComponent,
   ],
   templateUrl: './student-edit.component.html',
   styleUrl: './student-edit.component.scss'
@@ -37,6 +41,8 @@ export class StudentEditComponent {
   @Input() religions: any[] = []
   @Input() countries: any[] = []
   @Input() institutions: any[] = []
+  @Input() personTitles: any[] = []
+
 
   @Output() onRemove = new EventEmitter<any>();
   form: FormGroup;
@@ -45,12 +51,51 @@ export class StudentEditComponent {
     { id: 'F', name: 'Perempuan' },
   ];
   isSubmitting = signal(false);
+  gForm = {
+    id: [null],
+    isEmployee: [false],
+    name: [null, [Validators.required]],
+    sex: [null],
+    titleId: [null],
+    nik: [null],
+    dob: [null],
+    religionId: [null],
+    pobId: [null],
+    nationalityId: [null],
+    employmentTypeId: [null],
+    monthlyRevenue: [null],
+    maritalStatusId: [null],
+    educationLevelId: [null],
+    permanentAddress: [null, [Validators.required]],
+    permanentRT: [null],
+    permanentRW: [null],
+    permanentSubdistrictId: [null, [Validators.required]],
+    permanentPostalCode: [null],
+    residentialAddress: [null],
+    residentialRT: [null],
+    residentialRW: [null],
+    residentialSubdistrictId: [null],
+    residentialPostalCode: [null],
+    email: [null],
+    phone: [null, [Validators.required]],
+    status: [null],
+  }
 
   constructor(
     private fb: FormBuilder,
     private service: StudentService,
-    private toast: ToastrService
+    private personTitleService: PersonTitleService,
+    private toast: ToastrService,
+    private eventManager: KasEventManager
   ) {
+    this.personTitleService.findAll('').subscribe((res: any) => {
+      this.personTitles = res.body
+      this.eventManager.broadcast({
+        name: 'personTitlesLoaded',
+        content: this.personTitles,
+      });
+    })
+
     const today = new Date();
     this.form = fb.group({
       id: [null],
@@ -87,20 +132,10 @@ export class StudentEditComponent {
       examParticipantNo: [null],
       certificateNo: [null],
       skhunNo: [null],
-      fatherId: [null],
-      fatherName: [null, [Validators.required]],
-      fatherReligionId: [null, [Validators.required]],
-      fatherNationalityId: [null, [Validators.required]],
-      fatherPhone: [null],
-      fatherEmail: [null],
-      fatherAdress: [null, [Validators.required]],
-      fatherRT: [null, [Validators.required]],
-      fatherRW: [null, [Validators.required]],
-      fatherPostalCode: [null, [Validators.required]],
-      fatherSubDistrictId: [null, [Validators.required]],
-      motherId: [null],
-      fatherGuardianId: [null],
-      motherGuardianId: [null],
+      father: this.fb.group(this.gForm),
+      mother: this.fb.group(this.gForm),
+      fatherGuardian: this.fb.group(this.gForm),
+      motherGuardian: this.fb.group(this.gForm),
       status: [null],
       photo: [null],
       active: [true, [Validators.required]],
@@ -111,6 +146,19 @@ export class StudentEditComponent {
   ngOnInit(): void {
     if (this.activeTab?.data != null) {
       this.form.patchValue(this.activeTab.data);
+    } else {
+      this.form.get('father')?.patchValue({
+        sex: 'M',
+        title: 'BPK',
+        religionId: 1,
+        nationalityId: 1,
+      })
+      this.form.get('mother')?.patchValue({
+        sex: 'F',
+        title: 'IBU',
+        religionId: 1,
+        nationalityId: 1,
+      })
     }
     this.categories.map((item: any) => {
       if(item.default == true) {
