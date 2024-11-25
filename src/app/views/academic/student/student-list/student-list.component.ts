@@ -7,9 +7,12 @@ import { StudentService } from '../../../../domain/service/student.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageChangedEvent, PaginationModule } from 'ngx-bootstrap/pagination';
 import { SORT } from '../../../../shared/constant/navigation.constants';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
+import { InstitutionService } from '../../../../domain/service/institution.service';
+import { AcademicYearService } from '../../../../domain/service/academic-year.service';
+import { NgSelectComponent } from '@ng-select/ng-select';
 
 
 @Component({
@@ -17,11 +20,13 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [
     FormsModule,
+    ReactiveFormsModule,
     CommonModule,
     PaginationModule,
     SortDirective,
     SortByDirective,
     FontAwesomeModule,
+    NgSelectComponent,
   ],
   templateUrl: './student-list.component.html',
   styleUrl: './student-list.component.scss'
@@ -29,7 +34,7 @@ import { CommonModule } from '@angular/common';
 export class StudentListComponent {
   @Output() onAdd = new EventEmitter<any>();
   @Output() onEdit = new EventEmitter<any>();
-  public q = '';
+  public institutionId = '';
   public totalItems: number = 0;
   public page: any;
   public previousPage: any;
@@ -37,17 +42,34 @@ export class StudentListComponent {
   public predicate: any;
   public data: any[] = [];
   public categories: any[] = [];
+  public institutions: any[] =[];
+  public academicYears: any[] =[];
+  filterForm: any;
 
   isLoading = signal(false);
   sortState = sortStateSignal({});
 
+  private fb = inject(FormBuilder);
   private service = inject(StudentService);
+  private institutionService = inject(InstitutionService);
+  private academicYearService = inject(AcademicYearService);
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
   private sortService = inject(SortService);
 
   ngOnInit(): void {
+    this.filterForm = this.fb.group({
+      q: [null],
+      academicYearId: [null],
+      institutionId: [null],
+    })
     this.handleNavigation();
+    this.institutionService.findAll('').subscribe((res: any) => {
+      this.institutions = res.body
+    })
+    this.academicYearService.findAll('').subscribe((res: any) => {
+      this.academicYears = res.body
+    })
   }
 
   public loadAll() {
@@ -56,7 +78,9 @@ export class StudentListComponent {
         page: this.page - 1,
         size: this.itemsPerPage,
         sort: this.sortService.buildSortParam(this.sortState(), 'name'),
-        q: this.q,
+        q: this.filterForm.value.q?? '',
+        iid: this.filterForm.value.institutionId?? '',
+        y: this.filterForm.value.academicYearId?? '',
       })
       .subscribe({
         next: (res: any) => {
@@ -90,6 +114,8 @@ export class StudentListComponent {
       relativeTo: this.activatedRoute.parent,
       queryParams: {
         page: this.page,
+        iid: this.filterForm.value.institutionId,
+        q: this.filterForm.value.q,
         sort: this.sortService.buildSortParam(sortState ?? this.sortState()),
       },
     });
