@@ -1,5 +1,5 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Component, EventEmitter, inject, Output, signal } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, signal } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { ITEMS_PER_PAGE } from '../../../../shared/constant/pagination.constants';
 import { SortByDirective, SortDirective, SortService, SortState, sortStateSignal } from '../../../../shared/directive/sort';
@@ -34,16 +34,15 @@ import { NgSelectComponent } from '@ng-select/ng-select';
 export class StudentListComponent {
   @Output() onAdd = new EventEmitter<any>();
   @Output() onEdit = new EventEmitter<any>();
-  public institutionId = '';
+  @Input() categories: any[] = [];
+  @Input() institutions: any[] =[];
+  @Input() academicYears: any[] =[];
   public totalItems: number = 0;
   public page: any;
   public previousPage: any;
   public itemsPerPage = ITEMS_PER_PAGE;
   public predicate: any;
   public data: any[] = [];
-  public categories: any[] = [];
-  public institutions: any[] =[];
-  public academicYears: any[] =[];
   filterForm: any;
 
   isLoading = signal(false);
@@ -51,8 +50,6 @@ export class StudentListComponent {
 
   private fb = inject(FormBuilder);
   private service = inject(StudentService);
-  private institutionService = inject(InstitutionService);
-  private academicYearService = inject(AcademicYearService);
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
   private sortService = inject(SortService);
@@ -62,14 +59,9 @@ export class StudentListComponent {
       q: [null],
       academicYearId: [null],
       institutionId: [null],
+      categoryId: [null],
     })
     this.handleNavigation();
-    this.institutionService.findAll('').subscribe((res: any) => {
-      this.institutions = res.body
-    })
-    this.academicYearService.findAll('').subscribe((res: any) => {
-      this.academicYears = res.body
-    })
   }
 
   public loadAll() {
@@ -81,6 +73,7 @@ export class StudentListComponent {
         q: this.filterForm.value.q?? '',
         iid: this.filterForm.value.institutionId?? '',
         y: this.filterForm.value.academicYearId?? '',
+        c: this.filterForm.value.categoryId?? '',
       })
       .subscribe({
         next: (res: any) => {
@@ -114,8 +107,10 @@ export class StudentListComponent {
       relativeTo: this.activatedRoute.parent,
       queryParams: {
         page: this.page,
-        iid: this.filterForm.value.institutionId,
+        iid: this.filterForm.value.institutionId??'',
         q: this.filterForm.value.q,
+        y: this.filterForm.value.academicYearId??'',
+        c: this.filterForm.value.categoryId??'',
         sort: this.sortService.buildSortParam(sortState ?? this.sortState()),
       },
     });
