@@ -18,6 +18,14 @@ export const routes: Routes = [
     }
   },
   {
+    path: 'class-room-student',
+    loadComponent: () => import('./class-room-student/class-room-student.component').then(m => m.ClassRoomStudentComponent),
+    data: {
+      title: 'Kelola Data Kelas-Santri',
+      defaultSort: 'name,asc',
+    }
+  },
+  {
     path: 'subject',
     loadComponent: () => import('./subject/subject.component').then(m => m.SubjectComponent),
     data: {

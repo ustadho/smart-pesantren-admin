@@ -30,6 +30,10 @@ export class ClassRoomEditComponent {
   @Output() onRemove = new EventEmitter<any>();
   form: FormGroup;
   isSubmitting = signal(false);
+  sexs = [
+    {id: "M", name: "Putra"},
+    {id: "F", name: "Putri"},
+  ]
 
   constructor(
     private fb: FormBuilder,
@@ -40,6 +44,7 @@ export class ClassRoomEditComponent {
       id: [null],
       code: [null, [Validators.required]],
       name: [null, [Validators.required]],
+      sex: [null, [Validators.required]],
       description: [null],
       capacity: [0, [Validators.required]],
       room: [null, [Validators.required]],
