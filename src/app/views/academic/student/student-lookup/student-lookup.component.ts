@@ -59,7 +59,7 @@ export class StudentLookupComponent {
       q: [null],
       academicYearId: [null],
       categoryId: [null],
-      selectAll: [true, [Validators.required]],
+      selectAll: [false, [Validators.required]],
       items: this.fb.array([])
     })
     this.handleNavigation();

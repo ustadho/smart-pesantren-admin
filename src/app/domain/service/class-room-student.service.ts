@@ -5,6 +5,7 @@ import { createRequestOption } from '../../shared/util/request-util';
 
 @Injectable({ providedIn: 'root' })
 export class ClassRoomStudentService {
+
   private resourceUrl = '/api/academic/class-room-student';
 
   constructor(private http: HttpClient) { }
@@ -15,6 +16,12 @@ export class ClassRoomStudentService {
 
   save(data: any): Observable<any> {
     return this.http.put(`${this.resourceUrl}`, data);
+  }
+
+  deleteById(id: any) : Observable<HttpResponse<any>> {
+    return this.http.delete(`${this.resourceUrl}/${id}`, {
+      observe: 'response',
+    });
   }
 
 }

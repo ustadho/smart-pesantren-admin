@@ -82,6 +82,9 @@
                         <th>
                           <span> Th. Masuk </span>
                         </th>
+                        <th>
+                          <span> &nbsp; </span>
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -100,6 +103,14 @@
                           <td>{{ d.value.nisn }}</td>
                           <td>{{ d.value.name }}</td>
                           <td>{{ d.value.joinYear }}</td>
+                          <td>
+                            <button
+                              class="btn btn-sm btn-outline-danger"
+                              (click)="onDelete(d.value)"
+                            >
+                              <i class="fa fa-trash text-danger"></i>
+                            </button>
+                          </td>
                         </tr>
                       </ng-container>
                     </tbody>

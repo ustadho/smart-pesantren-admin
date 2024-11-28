@@ -15,6 +15,8 @@ import { CommonModule } from '@angular/common';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { StudentLookupComponent } from '../student/student-lookup/student-lookup.component';
 import { SubmitButtonComponent } from '../../../components/submit-button/submit-button.component';
+import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-class-room-student',
@@ -45,6 +47,7 @@ export class ClassRoomStudentComponent {
   private categoryService = inject(StudentCategoryService);
   private classRoomStudentService = inject(ClassRoomStudentService);
   private bsModalService = inject(BsModalService);
+  private toast = inject(ToastrService);
   modalRef?: BsModalRef;
 
   ngOnInit(): void {
@@ -90,7 +93,6 @@ export class ClassRoomStudentComponent {
     if (this.selectedClassRoom == null) {
       return;
     }
-    console.log('sex', this.selectedClassRoom);
     const initialState: ModalOptions = {
       initialState: {
         param: {
@@ -148,19 +150,45 @@ export class ClassRoomStudentComponent {
   }
 
   loadStudent() {
+    const students = this.form.get('students') as FormArray;
+    students?.clear();
+    if(this.form.value.classRoomId == null) {
+      return;
+    }
+
     this.classRoomStudentService
       .findByClassRoomId(this.form.value.classRoomId)
       .subscribe((data) => {
-        console.log(data.body)
         this.form.patchValue(data.body);
         const students = this.form.get('students') as FormArray;
         students.clear();
         students.clear();
         data.body.students.forEach((s: any) => {
-          console.log(s)
           students.push(this.fb.group(s));
         });
       });
+  }
+
+  onDelete(a: any) {
+    Swal.fire({
+      title: 'Hapus data',
+      text: `Anda yakin untuk menghapus ' ${a.name} - ${a.nis}'?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Batal',
+      confirmButtonText: 'Ya Benar',
+    }).then((result) => {
+      if (result.value) {
+        this.classRoomStudentService.deleteById(a.id).subscribe((response) => {
+          if (this.form.getRawValue().id != null) {
+            this.toast.success('Hapus data sukses');
+            this.loadStudent()
+          }
+        });
+      }
+    });
   }
 
   get getFormDetailControls() {
