@@ -28,6 +28,7 @@ import { EmployeeEditPersonalComponent } from './employee-edit-education.compone
 import { EmployeeEditUnorComponent } from './employee-edit-unor.component';
 import { EmployeeEditAddressComponent } from './employee-edit-personal.component';
 import { EmployeeEditWorkingHourComponent } from './employee-edit-working-hour.component';
+import { PersonalPhotoComponent } from '../../../../components/personal-photo/personal-photo.component';
 
 @Component({
   selector: 'app-employee-edit',
@@ -42,6 +43,7 @@ import { EmployeeEditWorkingHourComponent } from './employee-edit-working-hour.c
     EmployeeEditUnorComponent,
     EmployeeEditAddressComponent,
     EmployeeEditWorkingHourComponent,
+    PersonalPhotoComponent
   ],
   templateUrl: './employee-edit.component.html',
   styleUrl: './employee-edit.component.scss',
@@ -58,6 +60,7 @@ export class EmployeeEditComponent implements OnInit {
   @Input() employeeStatus: any[] = [];
   @Input() cities: any[] = [];
   @Input() referalInstitutions: any[] = [];
+  @Input() religions: any[] = [];
 
   isSubmitting = signal(false);
   sexs = [
@@ -84,6 +87,7 @@ export class EmployeeEditComponent implements OnInit {
       phone: [null, [Validators.required]],
       email: [null, [Validators.required]],
       dob: [null, [Validators.required]],
+      religionId: [null, [Validators.required]],
       organizationId: [null, [Validators.required]],
       sectionId: [null, [Validators.required]],
       maritalStatusId: [null, [Validators.required]],
@@ -108,6 +112,7 @@ export class EmployeeEditComponent implements OnInit {
       workingShift: [false, [Validators.required]],
       formalEducations: this.fb.array([]),
       workingHours: this.fb.array([]),
+      photo: [null],
     });
   }
 

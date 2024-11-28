@@ -11,6 +11,7 @@ import { CityService } from '../../../domain/service/city.service';
 import { JobPositionService } from '../../../domain/service/job-position.service';
 import { SectionService } from '../../../domain/service/section.service';
 import { EmployeeStatusService } from '../../../domain/service/employee-status.service';
+import { ReligionService } from '../../../domain/service/religion.service';
 
 @Component({
   selector: 'app-employee',
@@ -34,6 +35,7 @@ export class EmployeeComponent {
   employeeStatus: any[] = [];
   cities: any[] = [];
   referalInstitutions: any[] = [];
+  religions: any[] = [];
 
   private organizationService = inject(OrganizationService);
   private employeeCategoryService = inject(EmployeeCategoryService);
@@ -42,6 +44,7 @@ export class EmployeeComponent {
   private jobPositionService = inject(JobPositionService);
   private sectionService = inject(SectionService);
   private employeeStatusService = inject(EmployeeStatusService);
+  private religionService = inject(ReligionService);
 
   constructor() {}
 
@@ -70,6 +73,9 @@ export class EmployeeComponent {
     });
     this.jobLevelService.findAll('').subscribe((res: any) => {
       this.jobLevels = res.body;
+    });
+    this.religionService.findAll('').subscribe((res: any) => {
+      this.religions = res.body;
     });
   }
 

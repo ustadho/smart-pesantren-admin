@@ -36,7 +36,6 @@ export class PersonalPhotoComponent {
   }
 
   ngOnInit(): void {
-    console.log('ngOnInit', this.form.get('photo')?.value);
     if (this.form.get('photo')?.value != null) {
       this.fileService.downloadImage(this.form.get('photo')?.value).subscribe(
         (value) => {
@@ -64,7 +63,6 @@ export class PersonalPhotoComponent {
         this.fileService.upload(data, currentFile).subscribe(
           (res: any) => {
             if (res && res.fileName != null) {
-              console.log('res', res);
               this.files.push(res);
               this.documentName = '';
               this.form.get('photo')?.setValue(res.fileName);
