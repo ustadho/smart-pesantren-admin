@@ -1,0 +1,34 @@
+<form role="form" novalidate [formGroup]="form">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card p-1">
+        <img
+          [src]="imgURL"
+          class="card-img-top"
+          alt="Foto"
+          priority
+          style="cursor: pointer"
+          (click)="preview()"
+        />
+      </div>
+    </div>
+    <div class="col-md-12 py-2 px-2">
+      <div class="d-grid mx-auto">
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-secondary"
+          (click)="triggerFileInput()"
+        >
+          Ganti Foto
+        </button>
+        <input
+          type="file"
+          #fileInput
+          (change)="onFileChange($event)"
+          style="display: none"
+        />
+        <input type="hidden" formControlName="photo" />
+      </div>
+    </div>
+  </div>
+</form>

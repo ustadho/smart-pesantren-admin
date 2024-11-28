@@ -15,6 +15,7 @@ import { StudentEditParentComponent } from './student-edit-parent.component';
 import { StudentEditGuardianComponent } from './student-edit-guardian.component';
 import { PersonTitleService } from '../../../../domain/service/person-title.service';
 import { KasEventManager } from '../../../../core/service/event-manager.service';
+import { PersonalPhotoComponent } from '../../../../components/personal-photo/personal-photo.component';
 
 @Component({
   selector: 'app-student-edit',
@@ -28,7 +29,7 @@ import { KasEventManager } from '../../../../core/service/event-manager.service'
     StudentEditAddressComponent,
     StudentEditNotesComponent,
     StudentEditParentComponent,
-    StudentEditGuardianComponent,
+    PersonalPhotoComponent,
   ],
   templateUrl: './student-edit.component.html',
   styleUrl: './student-edit.component.scss'
@@ -79,6 +80,7 @@ export class StudentEditComponent {
     email: [null],
     phone: [null, [Validators.required]],
     status: [null],
+    photo: [null],
   }
 
   constructor(
@@ -134,8 +136,8 @@ export class StudentEditComponent {
       skhunNo: [null],
       father: this.fb.group(this.gForm),
       mother: this.fb.group(this.gForm),
-      fatherGuardian: this.fb.group(this.gForm),
-      motherGuardian: this.fb.group(this.gForm),
+      // fatherGuardian: this.fb.group(this.gForm),
+      // motherGuardian: this.fb.group(this.gForm),
       status: [null],
       photo: [null],
       active: [true, [Validators.required]],
