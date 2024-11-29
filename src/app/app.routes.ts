@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { DefaultLayoutComponent } from './layout';
+import { UserRouteAccessService } from './core/auth/user-route-access-service';
 
 export const routes: Routes = [
   {
@@ -13,6 +14,7 @@ export const routes: Routes = [
     data: {
       title: 'Home'
     },
+    canActivate: [UserRouteAccessService],
     children: [
       {
         path: 'dashboard',

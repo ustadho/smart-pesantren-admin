@@ -91,6 +91,23 @@
             </div>
           </div>
       </div>
+      <div class="row pt-2">
+        <label class="col-md-2" jhiTranslate="userManagement.institution"
+            >Institusi</label
+          >
+          <div class="col-md-10">
+            <select
+              class="form-control"
+              multiple
+              name="institutions"
+              formControlName="institutions"
+            >
+              <option *ngFor="let i of institutions" [value]="i.id">
+                {{ i.name }}
+              </option>
+            </select>
+          </div>
+      </div>
       <div class="row border-top pt-2">
         <div class="d-flex justify-content-between px-2">
           <button type="button" class="btn btn-danger mr-2" (click)="onDelete()" *ngIf="form.get('id')?.value != null">

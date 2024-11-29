@@ -8,6 +8,7 @@ import { UserService } from '../../../../core/user/user.service';
 import { ITab } from '../../../../domain/model/tab.model';
 import { EmployeeService } from '../../../../domain/service/employee.service';
 import Swal from 'sweetalert2';
+import { InstitutionService } from '../../../../domain/service/institution.service';
 
 @Component({
   selector: 'app-user-management-edit',
@@ -25,11 +26,13 @@ export class UserManagementEditComponent {
   isSubmitting = false;
   employees: any[] = []
   authorities: any[] = [];
+  institutions: any[] = [];
 
   constructor(
     private fb: FormBuilder,
     private service: UserService,
     private employeeService: EmployeeService,
+    private institutionService: InstitutionService,
     private toast: ToastrService
   ) {
     this.form = fb.group({
@@ -43,6 +46,7 @@ export class UserManagementEditComponent {
       activated: [true, [Validators.required]],
       langKey: ['en', [Validators.required]],
       authorities: [[], [Validators.required]],
+      institutions: [[], [Validators.required]],
     });
   }
 
@@ -58,6 +62,9 @@ export class UserManagementEditComponent {
     }
     this.service.authorities().subscribe((authorities) => {
       this.authorities = authorities;
+    });
+    this.institutionService.findAll('').subscribe((res) => {
+      this.institutions = res.body;
     });
   }
   onParentKeyUp(e: any) {
