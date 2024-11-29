@@ -2,87 +2,94 @@
   <div class="card">
     <div class="card-body">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-10">
+          <div class="row">
+            <div class="col-md-6">
+              <app-base-input
+                [formGroup]="form"
+                controlName="employeeNo"
+                label="NIY"
+                labelWidth="col-sm-3 col-md-4"
+                inputWidth="col-sm-4 col-md-8"
+                layout="horizontal"
+              ></app-base-input>
+            </div>
+            <div class="col-md-6">
+              <app-base-input
+                type="ng-select"
+                [formGroup]="form"
+                label="Kategori"
+                controlName="categoryId"
+                labelWidth="col-sm-3 col-md-4"
+                inputWidth="col-sm-9 col-md-6"
+                layout="horizontal"
+                [items]="categories"
+              ></app-base-input>
+            </div>
+          </div>
           <app-base-input
             [formGroup]="form"
-            controlName="employeeNo"
-            label="NIY"
-            labelWidth="col-sm-3 col-md-4"
-            inputWidth="col-sm-4 col-md-8"
+            controlName="name"
+            label="Nama Pegawai"
+            labelWidth="col-sm-4 col-md-2"
+            inputWidth="col-sm-8 col-md-10"
             layout="horizontal"
           ></app-base-input>
+          <div class="row">
+            <div class="col-md-6 col-12">
+              <app-base-input
+                type="ng-select"
+                [formGroup]="form"
+                label="Jenis Kelamin"
+                controlName="sex"
+                labelWidth="col-sm-3 col-md-4"
+                inputWidth="col-sm-9 col-md-8"
+                layout="horizontal"
+                [items]="sexs"
+              ></app-base-input>
+            </div>
+            <div class="col-md-6 col-12">
+              <app-base-input
+                type="text"
+                [formGroup]="form"
+                label="N.I.K"
+                controlName="nik"
+                labelWidth="col-sm-3 col-md-4"
+                inputWidth="col-sm-9 col-md-8"
+                layout="horizontal"
+              ></app-base-input>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-12">
+              <app-base-input
+                type="ng-select"
+                [formGroup]="form"
+                label="Tmp. Lahir"
+                [labelFormat]="'${name} - ${provinceName}'"
+                controlName="pobId"
+                labelWidth="col-sm-3 col-md-4"
+                inputWidth="col-sm-9 col-md-8"
+                layout="horizontal"
+                [items]="cities"
+              ></app-base-input>
+            </div>
+            <div class="col-md-6 col-12">
+              <app-base-input
+                type="bs-datepicker"
+                [formGroup]="form"
+                label="Tgl. Lahir"
+                controlName="dob"
+                labelWidth="col-sm-3 col-md-4"
+                inputWidth="col-sm-9 col-md-6"
+                layout="horizontal"
+                [items]="jobPositions"
+              ></app-base-input>
+            </div>
+          </div>
         </div>
-        <div class="col-md-6">
-          <app-base-input
-            type="ng-select"
-            [formGroup]="form"
-            label="Kategori"
-            controlName="categoryId"
-            labelWidth="col-sm-3 col-md-4"
-            inputWidth="col-sm-9 col-md-6"
-            layout="horizontal"
-            [items]="categories"
-          ></app-base-input>
-        </div>
-      </div>
-      <app-base-input
-        [formGroup]="form"
-        controlName="name"
-        label="Nama Pegawai"
-        labelWidth="col-sm-4 col-md-2"
-        inputWidth="col-sm-8 col-md-10"
-        layout="horizontal"
-      ></app-base-input>
-      <div class="row">
-        <div class="col-md-6 col-12">
-          <app-base-input
-            type="ng-select"
-            [formGroup]="form"
-            label="Jenis Kelamin"
-            controlName="sex"
-            labelWidth="col-sm-3 col-md-4"
-            inputWidth="col-sm-9 col-md-8"
-            layout="horizontal"
-            [items]="sexs"
-          ></app-base-input>
-        </div>
-        <div class="col-md-6 col-12">
-          <app-base-input
-            type="text"
-            [formGroup]="form"
-            label="N.I.K"
-            controlName="nik"
-            labelWidth="col-sm-3 col-md-4"
-            inputWidth="col-sm-9 col-md-8"
-            layout="horizontal"
-          ></app-base-input>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6 col-12">
-          <app-base-input
-            type="ng-select"
-            [formGroup]="form"
-            label="Tmp. Lahir"
-            [labelFormat]="'${name} - ${provinceName}'"
-            controlName="pobId"
-            labelWidth="col-sm-3 col-md-4"
-            inputWidth="col-sm-9 col-md-8"
-            layout="horizontal"
-            [items]="cities"
-          ></app-base-input>
-        </div>
-        <div class="col-md-6 col-12">
-          <app-base-input
-            type="bs-datepicker"
-            [formGroup]="form"
-            label="Tgl. Lahir"
-            controlName="dob"
-            labelWidth="col-sm-3 col-md-4"
-            inputWidth="col-sm-9 col-md-6"
-            layout="horizontal"
-            [items]="jobPositions"
-          ></app-base-input>
+        <div class="col-md-2">
+          <app-personal-photo [form]="form"></app-personal-photo>
         </div>
       </div>
       <div class="row">
@@ -99,6 +106,7 @@
             <tab heading="Informasi Pribadi" id="tabPersonal">
               <app-employee-edit-personal
                 [form]="form"
+                [religions]="religions"
               ></app-employee-edit-personal>
             </tab>
             <tab heading="Riwayat Jam Kerja" id="tabWorkingHour">

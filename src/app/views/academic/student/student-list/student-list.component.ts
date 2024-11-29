@@ -1,5 +1,5 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Component, EventEmitter, inject, Output, signal } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, signal } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { ITEMS_PER_PAGE } from '../../../../shared/constant/pagination.constants';
 import { SortByDirective, SortDirective, SortService, SortState, sortStateSignal } from '../../../../shared/directive/sort';
@@ -7,9 +7,12 @@ import { StudentService } from '../../../../domain/service/student.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageChangedEvent, PaginationModule } from 'ngx-bootstrap/pagination';
 import { SORT } from '../../../../shared/constant/navigation.constants';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
+import { InstitutionService } from '../../../../domain/service/institution.service';
+import { AcademicYearService } from '../../../../domain/service/academic-year.service';
+import { NgSelectComponent } from '@ng-select/ng-select';
 
 
 @Component({
@@ -17,11 +20,13 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [
     FormsModule,
+    ReactiveFormsModule,
     CommonModule,
     PaginationModule,
     SortDirective,
     SortByDirective,
     FontAwesomeModule,
+    NgSelectComponent,
   ],
   templateUrl: './student-list.component.html',
   styleUrl: './student-list.component.scss'
@@ -29,24 +34,33 @@ import { CommonModule } from '@angular/common';
 export class StudentListComponent {
   @Output() onAdd = new EventEmitter<any>();
   @Output() onEdit = new EventEmitter<any>();
-  public q = '';
+  @Input() categories: any[] = [];
+  @Input() institutions: any[] =[];
+  @Input() academicYears: any[] =[];
   public totalItems: number = 0;
   public page: any;
   public previousPage: any;
   public itemsPerPage = ITEMS_PER_PAGE;
   public predicate: any;
   public data: any[] = [];
-  public categories: any[] = [];
+  filterForm: any;
 
   isLoading = signal(false);
   sortState = sortStateSignal({});
 
+  private fb = inject(FormBuilder);
   private service = inject(StudentService);
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
   private sortService = inject(SortService);
 
   ngOnInit(): void {
+    this.filterForm = this.fb.group({
+      q: [null],
+      academicYearId: [null],
+      institutionId: [null],
+      categoryId: [null],
+    })
     this.handleNavigation();
   }
 
@@ -56,7 +70,10 @@ export class StudentListComponent {
         page: this.page - 1,
         size: this.itemsPerPage,
         sort: this.sortService.buildSortParam(this.sortState(), 'name'),
-        q: this.q,
+        q: this.filterForm.value.q?? '',
+        iid: this.filterForm.value.institutionId?? '',
+        y: this.filterForm.value.academicYearId?? '',
+        c: this.filterForm.value.categoryId?? '',
       })
       .subscribe({
         next: (res: any) => {
@@ -90,6 +107,10 @@ export class StudentListComponent {
       relativeTo: this.activatedRoute.parent,
       queryParams: {
         page: this.page,
+        iid: this.filterForm.value.institutionId??'',
+        q: this.filterForm.value.q,
+        y: this.filterForm.value.academicYearId??'',
+        c: this.filterForm.value.categoryId??'',
         sort: this.sortService.buildSortParam(sortState ?? this.sortState()),
       },
     });

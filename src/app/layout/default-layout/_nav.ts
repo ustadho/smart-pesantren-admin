@@ -21,6 +21,11 @@ export const navItems: INavData[] = [
         icon: 'nav-icon-bullet'
       },
       {
+        name: 'Kelola Kelas-Santri',
+        url: '/academic/class-room-student',
+        icon: 'nav-icon-bullet'
+      },
+      {
         name: 'Ruang Kelas',
         url: '/academic/class-room',
         icon: 'nav-icon-bullet'

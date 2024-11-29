@@ -1,0 +1,185 @@
+<div class="animated fadeIn">
+  <form [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-edit"></i>
+            <span class="h5"> Lookup Santri</span>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-row">
+                  <label for="institutionId" class="col-md-2"
+                    >Th. Masuk
+                    <ng-select
+                      placeholder="Tahun Masuk"
+                      id="academicYearId"
+                      name="academicYearId"
+                      [items]="academicYears"
+                      bindLabel="name"
+                      bindValue="id"
+                      formControlName="academicYearId"
+                      (change)="page = 1; loadAll()"
+                    >
+                    </ng-select>
+                  </label>
+                  <label for="institutionId" class="col-md-2"
+                    >Kategori
+                    <ng-select
+                      placeholder="Kategori"
+                      id="categoryId"
+                      name="categoryId"
+                      [items]="categories"
+                      bindLabel="name"
+                      bindValue="id"
+                      formControlName="categoryId"
+                      (change)="page = 1; loadAll()"
+                    >
+                    </ng-select>
+                  </label>
+                  <label for="q" class="col-md-3"
+                    >Pencarian
+                    <input
+                      id="q"
+                      autocomplete="off"
+                      formControlName="q"
+                      (keyup.enter)="page = 1; loadAll()"
+                      name="q"
+                      type="text"
+                      class="form-control"
+                    />
+                  </label>
+                  <label class="col-md-2 px-lg-2">
+                    &nbsp;
+                    <div class="">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        (click)="loadAll()"
+                        [disabled]="isLoading()"
+                      >
+                        <!-- <i class="fa fa-refresh fa-fw"></i> -->
+                        <fa-icon
+                          [icon]="['fas', 'sync']"
+                          [animation]="isLoading() ? 'spin' : undefined"
+                        ></fa-icon>
+                      </button>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-12">
+                <div class="table-responsive">
+                  <table class="table table-sm table-hover">
+                    <thead>
+                      <tr
+                        jhiSort
+                        [sortState]="sortState"
+                        (sortChange)="loadAll()"
+                        style="cursor: pointer"
+                      >
+                        <th class="p-2" class="text-center" width="5%">
+                          <input
+                            type="checkbox"
+                            formControlName="selectAll"
+                            (change)="onSelectAll()"
+                          />
+                        </th>
+                        <th jhiSortBy="institution.name">
+                          <span> Institusi </span
+                          ><fa-icon icon="sort"></fa-icon>
+                        </th>
+                        <th jhiSortBy="nis">
+                          <span> NIS </span><fa-icon icon="sort"></fa-icon>
+                        </th>
+                        <th jhiSortBy="name">
+                          <span> Nama Santri</span
+                          ><fa-icon icon="sort"></fa-icon>
+                        </th>
+                        <th jhiSortBy="sex">
+                          <span> Putra/Putri</span
+                          ><fa-icon icon="sort"></fa-icon>
+                        </th>
+                        <th jhiSortBy="dob">
+                          <span> Tgl. Lahir </span
+                          ><fa-icon icon="sort"></fa-icon>
+                        </th>
+                        <th jhiSortBy="category.name">
+                          <span> Kategori </span><fa-icon icon="sort"></fa-icon>
+                        </th>
+                        <th jhiSortBy="status">
+                          <span> Status </span><fa-icon icon="sort"></fa-icon>
+                        </th>
+                        <th jhiSortBy="joinYear.code">
+                          <span> Th. Masuk </span
+                          ><fa-icon icon="sort"></fa-icon>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container
+                        formArrayName="items"
+                        *ngFor="
+                          let detail of getFormDetailControls.controls;
+                          let i = index;
+                          let first = first;
+                          let last = last
+                        "
+                      >
+                        <tr [formGroupName]="i" >
+                          <td class="text-center align-middle">
+                            <input type="checkbox" formControlName="selected" (change)="onSelected()"/>
+                          </td>
+                          <td>{{ detail.value.institution }}</td>
+                          <td>{{ detail.value.nis }}</td>
+                          <td>{{ detail.value.name }}</td>
+                          <td>{{ detail.value.sex }}</td>
+                          <td>{{ detail.value.dob | date : "dd/MM/yyyy" }}</td>
+                          <td>{{ detail.value.category }}</td>
+                          <td>{{ detail.value.status }}</td>
+                          <td>{{ detail.value.joinYear }}</td>
+                        </tr>
+                      </ng-container>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div
+              class="d-flex justify-content-center"
+              *ngIf="totalItems > itemsPerPage"
+            >
+              <pagination
+                [totalItems]="totalItems"
+                [(ngModel)]="page"
+                [boundaryLinks]="true"
+                (pageChanged)="loadPage($event)"
+                [itemsPerPage]="itemsPerPage"
+                previousText="&lsaquo;"
+                nextText="&rsaquo;"
+                firstText="&laquo;"
+                lastText="&raquo;"
+              >
+              </pagination>
+            </div>
+
+            <div class="row border-top pt-2">
+              <div class="d-flex justify-content-end px-2">
+                <app-submit-button
+                  [isSubmitting]="isSubmitting()"
+                  (click)="onNext()"
+                  buttonText="Lanjut"
+                >
+                </app-submit-button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

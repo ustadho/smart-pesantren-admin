@@ -49,15 +49,27 @@
             layout="horizontal"
           ></app-base-input>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
           <app-base-input
             [formGroup]="form"
             type="number"
             controlName="capacity"
             label="Kapasitas"
-            labelWidth="col-sm-3 col-md-4"
-            inputWidth="col-sm-4 col-md-4"
+            labelWidth="col-sm-3 col-md-6"
+            inputWidth="col-sm-4 col-md-6"
             layout="horizontal"
+          ></app-base-input>
+        </div>
+        <div class="col-md-3">
+          <app-base-input
+            type="ng-select"
+            [formGroup]="form"
+            controlName="sex"
+            label="Putra/i"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-4 col-md-8"
+            layout="horizontal"
+            [items]="sexs"
           ></app-base-input>
         </div>
       </div>

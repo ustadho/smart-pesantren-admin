@@ -7,7 +7,7 @@
           <tabset #tabset>
             <tab (selectTab)="refreshList($event)">
               <ng-template tabHeading><i class="fa fa-list"></i></ng-template>
-              <app-student-list (onAdd)="onAdd()" (onEdit)="onEdit($event)">
+              <app-student-list (onAdd)="onAdd()" (onEdit)="onEdit($event)" [institutions]="institutions" [academicYears]="academicYears" [categories]="categories">
               </app-student-list>
             </tab>
             <tab

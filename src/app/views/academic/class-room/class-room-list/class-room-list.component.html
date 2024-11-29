@@ -16,6 +16,7 @@
                     bindLabel="name"
                     bindValue="id"
                     formControlName="institutionId"
+                    (change)="page = 1; loadAll()"
                   >
                   </ng-select>
                 </label>
@@ -29,6 +30,7 @@
                     bindLabel="name"
                     bindValue="id"
                     formControlName="academicYearId"
+                    (change)="page = 1; loadAll()"
                   >
                   </ng-select>
                 </label>
@@ -100,6 +102,9 @@
                       <th jhiSortBy="level">
                         <span> Lembaga </span><fa-icon icon="sort"></fa-icon>
                       </th>
+                      <th jhiSortBy="academicYear.code">
+                        <span> Th. Ajaran </span><fa-icon icon="sort"></fa-icon>
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -117,6 +122,7 @@
                       <td>{{ d.location }}</td>
                       <td>{{ d.educationLevel }}</td>
                       <td>{{ d.institusi }}</td>
+                      <td>{{ d.academicYearCode }}</td>
                     </tr>
                   </tbody>
                 </table>

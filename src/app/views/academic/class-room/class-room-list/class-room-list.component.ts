@@ -35,7 +35,6 @@ export class ClassRoomListComponent {
   @Output() onAdd = new EventEmitter<any>();
   @Output() onEdit = new EventEmitter<any>();
   public institutionId: string | null = null
-  public q = '';
   public totalItems: number = 0;
   public page: any;
   public previousPage: any;
@@ -69,11 +68,12 @@ export class ClassRoomListComponent {
   public loadAll() {
     this.service
       .query({
-        year: '',
         page: this.page - 1,
         size: this.itemsPerPage,
         sort: this.sortService.buildSortParam(this.sortState(), 'name'),
-        q: this.q,
+        y: this.filterForm.value.academicYearId ?? '',
+        i: this.filterForm.value.institutionId ?? '',
+        q: this.filterForm.value.q ?? '',
       })
       .subscribe({
         next: (res: any) => {
@@ -106,9 +106,11 @@ export class ClassRoomListComponent {
     this.router.navigate(['/academic/class-room'], {
       relativeTo: this.activatedRoute.parent,
       queryParams: {
-        year: '',
         page: this.page,
         sort: this.sortService.buildSortParam(sortState ?? this.sortState()),
+        y: this.filterForm.value.academicYearId ?? '',
+        i: this.filterForm.value.institutionId ?? '',
+        q: this.filterForm.value.q ?? '',
       },
     });
     this.loadAll();

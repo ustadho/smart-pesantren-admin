@@ -23,6 +23,7 @@ import { MaritalStatusService } from '../../../../domain/service/marital-status.
 export class EmployeeEditAddressComponent implements OnInit {
   @Input() activeTab?: ITab;
   @Input() form!: FormGroup;
+  @Input() religions: any[] = [];
   @Output() onRemove = new EventEmitter<any>();
   maritalStatuses: any[] =[];
   isLoaded = false;

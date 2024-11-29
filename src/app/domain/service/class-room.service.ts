@@ -31,6 +31,12 @@ export class ClassRoomService {
     });
   }
 
+  findByAcademicYear(institutionId: string, academicYearId: string): Observable<any> {
+    return this.http.get(`${this.resourceUrl}/by-academic-year/${institutionId}/${academicYearId}`, {
+      observe: 'response',
+    });
+  }
+
   update(data: any): Observable<any> {
     return this.http.put(`${this.resourceUrl}/${data.id}`, data);
   }
