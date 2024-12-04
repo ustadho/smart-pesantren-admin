@@ -36,6 +36,11 @@ export const navItems: INavData[] = [
         icon: 'nav-icon-bullet'
       },
       {
+        name: 'Jam Aktivitas',
+        url: '/academic/activity-time',
+        icon: 'nav-icon-bullet'
+      },
+      {
         name: 'Wali Santri',
         url: '/academic/guardian',
         icon: 'nav-icon-bullet'

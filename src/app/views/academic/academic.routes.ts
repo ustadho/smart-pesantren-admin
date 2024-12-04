@@ -34,6 +34,14 @@ export const routes: Routes = [
     }
   },
   {
+    path: 'activity-time',
+    loadComponent: () => import('./activity-time/activity-time.component').then(m => m.ActivityTimeComponent),
+    data: {
+      title: 'Jam Aktivitas',
+      defaultSort: 'seq,asc',
+    }
+  },
+  {
     path: 'guardian',
     loadComponent: () => import('./guardian/guardian.component').then(m => m.GuardianComponent),
     data: {

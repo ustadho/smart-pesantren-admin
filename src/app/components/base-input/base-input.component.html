@@ -38,6 +38,22 @@
       }"
     />
     <input
+      *ngIf="type =='time'"
+      [type]="type"
+      [autofocus]="autofocus"
+      [autocomplete]="autocomplete"
+      class="form-control"
+      [id]="controlName"
+      [formControlName]="controlName"
+      min="06:00" max="18:00"
+      [placeholder]="placeholder"
+      [ngClass]="{
+        'is-invalid':
+          formGroup.get(controlName)?.invalid &&
+          formGroup.get(controlName)?.touched
+      }"
+    />
+    <input
       *ngIf="type == 'bs-datepicker'"
       type="text"
       placeholder="Datepicker"
