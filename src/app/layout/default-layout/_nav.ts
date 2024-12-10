@@ -21,6 +21,11 @@ export const navItems: INavData[] = [
         icon: 'nav-icon-bullet'
       },
       {
+        name: 'Jadwal Pelajaran',
+        url: '/academic/subject-schedule',
+        icon: 'nav-icon-bullet'
+      },
+      {
         name: 'Kelola Kelas-Santri',
         url: '/academic/class-room-student',
         icon: 'nav-icon-bullet'

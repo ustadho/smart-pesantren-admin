@@ -3,12 +3,12 @@ import { Component, EventEmitter, inject, Input, OnInit, Output, signal } from '
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ToastrService } from 'ngx-toastr';
-import { BaseInputComponent } from 'src/app/components/base-input/base-input.component';
-import { SubmitButtonComponent } from 'src/app/components/submit-button/submit-button.component';
-import { ITab } from 'src/app/domain/model/tab.model';
-import { EmployeeTransferService } from 'src/app/domain/service/employee-transfer.service';
-import { EmployeeService } from 'src/app/domain/service/employee.service';
-import { HRTransferTypeService } from 'src/app/domain/service/hr-transfer-type.service';
+import { BaseInputComponent } from '../../../../components/base-input/base-input.component';
+import { SubmitButtonComponent } from '../../../../components/submit-button/submit-button.component';
+import { ITab } from '../../../../domain/model/tab.model';
+import { EmployeeTransferService } from '../../../../domain/service/employee-transfer.service';
+import { EmployeeService } from '../../../../domain/service/employee.service';
+import { HRTransferTypeService } from '../../../../domain/service/hr-transfer-type.service';
 import Swal from 'sweetalert2';
 
 @Component({

@@ -138,9 +138,16 @@ export class ActivityTimeEditComponent {
   }
 
   onReset() {
+    const previousValue = this.form.getRawValue();
     this.form.reset();
     this.form.markAsPristine();
     this.form.markAsUntouched();
     this.form.updateValueAndValidity();
+    this.form.patchValue({
+      institutionId: previousValue.institutionId,
+      seq: ++previousValue.seq,
+      startTime: previousValue.startTime,
+      endTime: previousValue.endTime,
+    })
   }
 }
