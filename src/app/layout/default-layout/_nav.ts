@@ -11,6 +11,18 @@ export const navItems: INavData[] = [
     // }
   },
   {
+    name: 'KBM',
+    url: '/kbm',
+    iconComponent: { name: 'cil-calendar' },
+    children: [
+      {
+        name: 'Absensi KBM',
+        url: '/kbm/presence',
+        icon: 'nav-icon-bullet'
+      },
+    ]
+  },
+  {
     name: 'Pendidikan',
     url: '/academic',
     iconComponent: { name: 'cil-calendar' },
