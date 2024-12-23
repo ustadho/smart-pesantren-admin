@@ -8,17 +8,14 @@ import { CommonModule } from '@angular/common';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-personal-photo',
+  selector: 'app-file-attachment',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   providers: [BsModalService],
-  templateUrl: './personal-photo.component.html',
-  styleUrl: './personal-photo.component.scss',
+  templateUrl: './file-attachment.component.html',
 })
-export class PersonalPhotoComponent {
+export class FileAttachment {
   @Input() form!: FormGroup;
-  @Input() personId: string = '';
-  @Input() photoUrl: string = '';
   @ViewChild('fileInput') fileInput!: ElementRef;
   documentName = '';
   files: any[] = [];
@@ -36,8 +33,8 @@ export class PersonalPhotoComponent {
   }
 
   ngOnInit(): void {
-    if (this.form.get('photo')?.value != null) {
-      this.fileService.downloadImage(this.form.get('photo')?.value).subscribe(
+    if (this.form.get('attachment')?.value != null) {
+      this.fileService.downloadImage(this.form.get('attachment')?.value).subscribe(
         (value) => {
           const mediaType = 'application/image';
           const blob = new Blob([value], { type: mediaType });
@@ -65,7 +62,7 @@ export class PersonalPhotoComponent {
             if (res && res.fileName != null) {
               this.files.push(res);
               this.documentName = '';
-              this.form.get('photo')?.setValue(res.fileName);
+              this.form.get('attachment')?.setValue(res.fileName);
               this.fileService.downloadImage(res.fileName).subscribe(
                 (value) => {
                   const mediaType = 'application/image';
@@ -99,10 +96,10 @@ export class PersonalPhotoComponent {
   }
 
   preview() {
-    if(this.form.get('photo')?.value == null) {
+    if(this.form.get('attachment')?.value == null) {
       return;
     }
-    const imgFileName = this.form.get('photo')?.value
+    const imgFileName = this.form.get('attachment')?.value
     this.fileService.downloadImage(imgFileName).subscribe(
       (value) => {
         const mediaType = 'application/image';

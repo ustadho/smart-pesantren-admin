@@ -1,0 +1,176 @@
+<div class="animated fadeIn">
+  <form [formGroup]="form">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-edit"></i>
+            <span class="h5"> Absensi KBM</span>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-8">
+                <app-base-input
+                  type="ng-select"
+                  [formGroup]="form"
+                  label="Guru"
+                  controlName="teacherId"
+                  labelWidth="col-sm-3 col-md-3"
+                  inputWidth="col-sm-9 col-md-9"
+                  layout="horizontal"
+                  [items]="teachers"
+                  (onSelectChange)="onLoadSubjectScheduleClassRoom()"
+                ></app-base-input>
+              </div>
+              <div class="col-md-4">
+                <app-base-input
+                  type="ng-select"
+                  [formGroup]="form"
+                  label="Tahun Ajaran"
+                  controlName="academicYearId"
+                  labelWidth="col-sm-3 col-md-4"
+                  inputWidth="col-sm-9 col-md-8"
+                  layout="horizontal"
+                  [items]="academicYears"
+                  (onSelectChange)="onLoadTeachers()"
+                ></app-base-input>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-8">
+                <app-base-input
+                  type="ng-select"
+                  [formGroup]="form"
+                  label="Jadwal Kelas"
+                  controlName="subjectScheduleId"
+                  labelWidth="col-sm-3 col-md-3"
+                  inputWidth="col-sm-9 col-md-9"
+                  layout="horizontal"
+                  [labelFormat]="
+                    '${subjectName} - ${classRoom} [${startTime} - ${endTime}]'
+                  "
+                  [items]="subjectSchedules"
+                  (onSelectChange)="loadStudent()"
+                ></app-base-input>
+              </div>
+              <div class="col-md-4">
+                <!-- <div class="row">
+                  <label class="col-md-4 col-form-label">&nbsp;</label>
+                  <div class="col-md-8">
+                    <div class="input-group">
+                      <input type="text" class="form-control" placeholder="filter..." aria-label="Filter" formControlName="filterText">
+                      <span class="input-group-text">
+                        <i class="fas fa-filter"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-12">
+                <tabset #tabset>
+                  <tab heading="Daftar Siswa">
+                    <div class="card" style="border-top-right-radius: 0%;border-top-left-radius: 0%;">
+                      <div class="card-body">
+                        <div class="table-responsive">
+                          <table class="table table-sm table-hover">
+                            <thead class="table-light">
+                              <tr>
+                                <th>
+                                  <span> No </span>
+                                </th>
+                                <th>
+                                  <span> NIS </span>
+                                </th>
+                                <th>
+                                  <span> NISN </span>
+                                </th>
+                                <th>
+                                  <span> Nama Santri </span>
+                                </th>
+                                <th class="p-2" class="text-right">
+                                  <div class="d-flex align-items-center">
+                                    <label
+                                      class="form-check-label"
+                                      for="isDefault"
+                                    >
+                                      Hadir
+                                    </label>
+                                    &nbsp;
+                                    <input
+                                      class="form-check-input"
+                                      type="checkbox"
+                                      formControlName="selectAll"
+                                      name="selectAll"
+                                      id="selectAll"
+                                      (ngModelChange)="onSelectAll()"
+                                    />
+                                  </div>
+                                </th>
+                                <th>
+                                  <span> Izin/Sakit/Lainnya </span>
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <ng-container
+                                formArrayName="students"
+                                *ngFor="
+                                  let d of getFormDetailControls.controls;
+                                  let i = index;
+                                  let first = first;
+                                  let last = last
+                                "
+                              >
+                                <tr [formGroupName]="i">
+                                  <td>{{ i + 1 | number }}</td>
+                                  <td>{{ d.value.nis }}</td>
+                                  <td>{{ d.value.nisn }}</td>
+                                  <td>{{ d.value.studentName }}</td>
+                                  <td class="text-center align-middle">
+                                    <input
+                                      type="checkbox"
+                                      formControlName="selected"
+                                      (change)="onSelected()"
+                                    />
+                                  </td>
+                                  <td>
+                                    <button
+                                      *ngIf="d.value.selected == false"
+                                      type="button"
+                                      class="btn btn-sm btn-outline-danger"
+                                      (click)="onIzin(i)"
+                                    >
+                                      {{ d.value.presenceStatusName ?? "IZIN" }}
+                                    </button>
+                                  </td>
+                                </tr>
+                              </ng-container>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </tab>
+                </tabset>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="border-top pt-2 d-flex justify-content-end px-2">
+                  <app-submit-button
+                    [isSubmitting]="isSubmitting()"
+                    (click)="onSave()"
+                    buttonText="Simpan"
+                  >
+                  </app-submit-button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

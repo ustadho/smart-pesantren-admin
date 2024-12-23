@@ -1,0 +1,54 @@
+<form role="form" novalidate>
+  <div class="modal-header">
+    <strong> Tambah/ Edit Jadwal </strong>
+    <small> &nbsp; {{ className }} </small>
+    <button
+      type="button"
+      class="btn-close close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-base-input
+      type="ng-select"
+      [formGroup]="form"
+      label="Pelajaran"
+      controlName="subjectId"
+      labelWidth="col-sm-3 col-md-3"
+      inputWidth="col-sm-9 col-md-9"
+      layout="horizontal"
+      [items]="subjects"
+    ></app-base-input>
+    <app-base-input
+      type="ng-select"
+      [formGroup]="form"
+      label="Pengampu"
+      controlName="teacherId"
+      labelWidth="col-sm-3 col-md-3"
+      inputWidth="col-sm-9 col-md-9"
+      layout="horizontal"
+      [items]="teachers"
+    ></app-base-input>
+
+    <div class="row mt-4">
+      <div class="d-flex justify-content-between">
+        <button
+          [hidden]="data.id == null"
+          type="button"
+          class="btn btn-danger mr-2"
+          (click)="onDelete()"
+          [hidden]="isSubmiting()"
+        >
+          <i class="fa fa-ban"></i> Hapus
+        </button>
+        <div [hidden]="rowIndex >= 0">&nbsp;</div>
+        <button type="button" class="btn btn-primary" [hidden]="isSubmiting()" (click)="onSave()">
+          Simpan
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,10 @@
+.table-freeze {
+  position: sticky;
+  left: 0;
+  background-color: #fff; /* Warna background untuk kolom freeze */
+  z-index: 2; /* Pastikan kolom tetap di atas */
+}
+.table-container {
+  overflow-x: auto; /* Aktifkan scroll horizontal */
+  white-space: nowrap; /* Hindari pembungkusan teks */
+}

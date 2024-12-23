@@ -10,7 +10,7 @@
             >
               <div class="col-md-12">
                 <div class="form-row">
-                  <label for="institutionId" class="col-md-2"
+                  <label for="institutionId" class="col-md-4"
                     >Instansi
                     <ng-select
                       placeholder="Pilih Instansi"
@@ -24,49 +24,13 @@
                     >
                     </ng-select>
                   </label>
-                  <label for="institutionId" class="col-md-2"
-                    >Th. Masuk
-                    <ng-select
-                      placeholder="Tahun Masuk"
-                      id="academicYearId"
-                      name="academicYearId"
-                      [items]="academicYears"
-                      bindLabel="name"
-                      bindValue="id"
-                      formControlName="academicYearId"
-                      (change)="page = 1; loadAll()"
-                    >
-                    </ng-select>
-                  </label>
-                  <label for="institutionId" class="col-md-2"
-                    >Kategori
-                    <ng-select
-                      placeholder="Kategori"
-                      id="categoryId"
-                      name="categoryId"
-                      [items]="categories"
-                      bindLabel="name"
-                      bindValue="id"
-                      formControlName="categoryId"
-                      (change)="page = 1; loadAll()"
-                    >
-                    </ng-select>
-                  </label>
-                  <label for="q" class="col-md-3"
-                    >Pencarian
-                    <input
-                      id="q"
-                      autocomplete="off"
-                      formControlName="q"
-                      (keyup.enter)="page = 1; loadAll()"
-                      name="q"
-                      type="text"
-                      class="form-control"
-                    />
-                  </label>
                   <label class="col-md-2 px-lg-2">
                     &nbsp;
-                    <div class="">
+                    <div
+                      class="btn-group"
+                      role="group"
+                      aria-label="Refresh and Add button"
+                    >
                       <button
                         type="button"
                         class="btn btn-secondary"
@@ -101,31 +65,22 @@
                       jhiSort
                       [sortState]="sortState"
                       (sortChange)="transition($event)"
-                      style="cursor: pointer;"
+                      style="cursor: pointer"
                     >
                       <th jhiSortBy="institution.name">
                         <span> Institusi </span><fa-icon icon="sort"></fa-icon>
                       </th>
-                      <th jhiSortBy="nis">
-                        <span> NIS </span><fa-icon icon="sort"></fa-icon>
+                      <th jhiSortBy="seq">
+                        <span> Jam Ke </span><fa-icon icon="sort"></fa-icon>
                       </th>
-                      <th jhiSortBy="name">
-                        <span> Nama Santri</span><fa-icon icon="sort"></fa-icon>
+                      <th jhiSortBy="startTime">
+                        <span> Jam Mulai</span><fa-icon icon="sort"></fa-icon>
                       </th>
-                      <th jhiSortBy="sex">
-                        <span> Putra/Putri</span><fa-icon icon="sort"></fa-icon>
+                      <th jhiSortBy="endTime">
+                        <span> Jam Selesai</span><fa-icon icon="sort"></fa-icon>
                       </th>
-                      <th jhiSortBy="dob">
-                        <span> Tgl. Lahir </span><fa-icon icon="sort"></fa-icon>
-                      </th>
-                      <th jhiSortBy="category.name">
-                        <span> Kategori </span><fa-icon icon="sort"></fa-icon>
-                      </th>
-                      <th jhiSortBy="status">
-                        <span> Status </span><fa-icon icon="sort"></fa-icon>
-                      </th>
-                      <th jhiSortBy="joinYear.code">
-                        <span> Th. Masuk </span><fa-icon icon="sort"></fa-icon>
+                      <th jhiSortBy="description">
+                        <span> Keterangan </span><fa-icon icon="sort"></fa-icon>
                       </th>
                     </tr>
                   </thead>
@@ -139,14 +94,11 @@
                       [ngStyle]="{ cursor: 'pointer' }"
                       (click)="onSelectRow(d)"
                     >
-                      <td>{{ d.institution }}</td>
-                      <td>{{ d.nis }}</td>
-                      <td>{{ d.name }}</td>
-                      <td>{{ d.sex }}</td>
-                      <td>{{ d.dob | date : "dd/MM/yyyy" }}</td>
-                      <td>{{ d.category }}</td>
-                      <td>{{ d.status }}</td>
-                      <td>{{ d.joinYear }}</td>
+                      <td>{{ d.institutionName }}</td>
+                      <td>{{ d.seq }}</td>
+                      <td>{{ d.startTime }}</td>
+                      <td>{{ d.endTime }}</td>
+                      <td>{{ d.description }}</td>
                     </tr>
                   </tbody>
                 </table>

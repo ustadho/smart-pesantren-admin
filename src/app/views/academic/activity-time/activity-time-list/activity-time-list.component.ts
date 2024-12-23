@@ -1,43 +1,37 @@
 import { CommonModule } from '@angular/common';
-import { HttpHeaders } from '@angular/common/http';
-import { Component, EventEmitter, inject, Input, OnInit, Output, signal } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, signal } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PageChangedEvent, PaginationModule } from 'ngx-bootstrap/pagination';
-import { combineLatest } from 'rxjs';
-import { JobPositionService } from '../../../../domain/service/job-position.service';
-import { EmployeeService } from '../../../../domain/service/employee.service';
-import { SORT } from '../../../../shared/constant/navigation.constants';
-import { ITEMS_PER_PAGE } from '../../../../shared/constant/pagination.constants';
 import { SortByDirective, SortDirective, SortService, SortState, sortStateSignal } from '../../../../shared/directive/sort';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgSelectComponent } from '@ng-select/ng-select';
+import { combineLatest } from 'rxjs';
+import { ITEMS_PER_PAGE } from '../../../../shared/constant/pagination.constants';
+import { AcademicActivityTimeService } from '../../../../domain/service/academic-activity-time.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpHeaders } from '@angular/common/http';
+import { SORT } from '../../../../shared/constant/navigation.constants';
 
 @Component({
-  selector: 'app-employee-list',
+  selector: 'app-activity-time-list',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    CommonModule,
     PaginationModule,
-    FontAwesomeModule,
     SortDirective,
     SortByDirective,
+    FontAwesomeModule,
     NgSelectComponent,
   ],
-  templateUrl: './employee-list.component.html',
-  styleUrl: './employee-list.component.scss'
+  templateUrl: './activity-time-list.component.html',
+  styleUrl: './activity-time-list.component.scss'
 })
-export class EmployeeListComponent implements OnInit{
+export class ActivityTimeListComponent {
   @Output() onAdd = new EventEmitter<any>();
   @Output() onEdit = new EventEmitter<any>();
-  @Input() organizations: any[] = []
-  @Input() jobPositions: any[] = []
-  @Input() categories: any[] = []
-
-  public q = '';
-  public unorId = '';
+  @Input() institutions: any[] =[];
   public totalItems: number = 0;
   public page: any;
   public previousPage: any;
@@ -50,32 +44,25 @@ export class EmployeeListComponent implements OnInit{
   sortState = sortStateSignal({});
 
   private fb = inject(FormBuilder);
-  private employeeService = inject(EmployeeService);
+  private service = inject(AcademicActivityTimeService);
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
   private sortService = inject(SortService);
 
   ngOnInit(): void {
     this.filterForm = this.fb.group({
-      q: [null],
-      unorId: [null],
-      jobPositionId: [null],
-      categoryId: [null],
+      institutionId: [null],
     })
-    console.log('this.activatedRoute.data', this.activatedRoute.data)
     this.handleNavigation();
   }
 
   public loadAll() {
-    this.employeeService
+    this.service
       .query({
         page: this.page - 1,
         size: this.itemsPerPage,
-        sort: this.sortService.buildSortParam(this.sortState(), 'name'),
-        q: this.filterForm.getRawValue().q??'',
-        unor: this.filterForm.getRawValue().unorId??'',
-        jp: this.filterForm.getRawValue().jobPositionId??'',
-        category: this.filterForm.getRawValue().categoryId??'',
+        sort: this.sortService.buildSortParam(this.sortState(), 'seq'),
+        iid: this.filterForm.value.institutionId?? '',
       })
       .subscribe({
         next: (res: any) => {
@@ -105,13 +92,11 @@ export class EmployeeListComponent implements OnInit{
   }
 
   transition(sortState?: SortState): void {
-    this.router.navigate(['/hr/employee'], {
+    this.router.navigate(['/academic/activity-time'], {
       relativeTo: this.activatedRoute.parent,
       queryParams: {
-        category: this.filterForm.getRawValue().categoryId??'',
-        unor: this.filterForm.getRawValue().unorId??'',
-        jp: this.filterForm.getRawValue().jobPositionId??'',
         page: this.page,
+        iid: this.filterForm.value.institutionId??'',
         sort: this.sortService.buildSortParam(sortState ?? this.sortState()),
       },
     });
@@ -128,7 +113,7 @@ export class EmployeeListComponent implements OnInit{
   }
 
   onSelectRow(d: any) {
-    this.employeeService.findOne(d.id).subscribe((res: any) => {
+    this.service.findOne(d.id).subscribe((res: any) => {
       this.onEdit.emit(res.body);
     });
   }

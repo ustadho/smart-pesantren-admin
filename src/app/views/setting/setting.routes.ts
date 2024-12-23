@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { ROLE_SUPERADMIN } from '../../shared/constant/role.constant';
+import { UserRouteAccessService } from '../../core/auth/user-route-access-service';
 
 export const routes: Routes = [
   {
@@ -7,7 +9,9 @@ export const routes: Routes = [
     data: {
       title: 'Kelola Pengguna',
       defaultSort: 'login,asc',
-    }
+      authorities: [ROLE_SUPERADMIN],
+    },
+    canActivate: [UserRouteAccessService],
   },
   {
     path: 'academic-year',
@@ -15,7 +19,9 @@ export const routes: Routes = [
     data: {
       title: 'Tahun Akademik',
       defaultSort: 'code,desc',
-    }
+      authorities: [ROLE_SUPERADMIN],
+    },
+    canActivate: [UserRouteAccessService],
   },
   {
     path: 'student-category',
@@ -23,7 +29,9 @@ export const routes: Routes = [
     data: {
       title: 'Kategori Santri',
       defaultSort: 'name,asc',
-    }
+      authorities: [ROLE_SUPERADMIN],
+    },
+    canActivate: [UserRouteAccessService],
   },
   {
     path: 'class-level',
@@ -31,7 +39,9 @@ export const routes: Routes = [
     data: {
       title: 'Level Kelas',
       defaultSort: 'level,asc',
-    }
+      authorities: [ROLE_SUPERADMIN],
+    },
+    canActivate: [UserRouteAccessService],
   },
   {
     path: 'curriculum',
@@ -39,7 +49,9 @@ export const routes: Routes = [
     data: {
       title: 'Kurikulum',
       defaultSort: 'startYear,desc',
-    }
+      authorities: [ROLE_SUPERADMIN],
+    },
+    canActivate: [UserRouteAccessService],
   },
   {
     path: 'institution',
@@ -47,7 +59,9 @@ export const routes: Routes = [
     data: {
       title: 'Lembaga Pendidikan',
       defaultSort: 'name,asc',
-    }
+      authorities: [ROLE_SUPERADMIN],
+    },
+    canActivate: [UserRouteAccessService],
   },
   {
     path: 'location',
@@ -55,13 +69,17 @@ export const routes: Routes = [
     data: {
       title: 'Location',
       defaultSort: 'name,asc',
-    }
+      authorities: [ROLE_SUPERADMIN],
+    },
+    canActivate: [UserRouteAccessService],
   },
   {
     path: 'foundation',
     loadComponent: () => import('./foundation/foundation.component').then(m => m.FoundationComponent),
     data: {
-      title: 'Foundation'
-    }
+      title: 'Foundation',
+      authorities: [ROLE_SUPERADMIN],
+    },
+    canActivate: [UserRouteAccessService],
   },
 ];

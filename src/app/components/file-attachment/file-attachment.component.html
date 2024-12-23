@@ -1,0 +1,34 @@
+<form role="form" novalidate [formGroup]="form">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="d-grid">
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-primary"
+          (click)="triggerFileInput()"
+        >
+          Lampiran
+        </button>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="d-grid">
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-success"
+          (click)="preview()"
+          [hidden]="!form.get('attachment')?.value"
+        >
+          Tampilkan
+        </button>
+      </div>
+    </div>
+  </div>
+  <input
+    type="file"
+    #fileInput
+    (change)="onFileChange($event)"
+    style="display: none"
+  />
+  <input type="hidden" formControlName="attachment" />
+</form>

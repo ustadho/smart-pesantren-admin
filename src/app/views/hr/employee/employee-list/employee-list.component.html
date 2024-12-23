@@ -10,6 +10,20 @@
             >
               <div class="col-md-12">
                 <div class="form-row">
+                  <label for="unorId" class="col-md-2"
+                    >Kategori
+                    <ng-select
+                      placeholder="Pilih Kategori"
+                      id="categoryId"
+                      name="categoryId"
+                      [items]="categories"
+                      bindLabel="name"
+                      bindValue="id"
+                      formControlName="categoryId"
+                      (change)="page = 1; transition()"
+                    >
+                    </ng-select>
+                  </label>
                   <label for="unorId" class="col-md-3"
                     >Unit Organisasi
                     <ng-select
@@ -20,17 +34,31 @@
                       bindLabel="name"
                       bindValue="id"
                       formControlName="unorId"
-                      (change)="page = 1; loadAll()"
+                      (change)="page = 1; transition()"
                     >
                     </ng-select>
                   </label>
-                  <label for="q" class="col-md-3"
+                  <label for="jobPositionId" class="col-md-3"
+                    >Jabatan
+                    <ng-select
+                      placeholder="Pilih Jabatan"
+                      id="jobPositionId"
+                      name="jobPositionId"
+                      [items]="jobPositions"
+                      bindLabel="name"
+                      bindValue="id"
+                      formControlName="jobPositionId"
+                      (change)="page = 1; transition()"
+                    >
+                    </ng-select>
+                  </label>
+                  <label for="q" class="col-md-2"
                     >Pencarian {{ q }}
                     <input
                       id="q"
                       autocomplete="off"
                       formControlName="q"
-                      (keyup.enter)="page = 1; loadAll()"
+                      (keyup.enter)="page = 1; transition()"
                       name="q"
                       type="text"
                       class="form-control"

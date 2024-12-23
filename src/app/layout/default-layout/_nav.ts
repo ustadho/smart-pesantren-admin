@@ -11,6 +11,18 @@ export const navItems: INavData[] = [
     // }
   },
   {
+    name: 'KBM',
+    url: '/kbm',
+    iconComponent: { name: 'cil-calendar' },
+    children: [
+      {
+        name: 'Absensi KBM',
+        url: '/kbm/presence',
+        icon: 'nav-icon-bullet'
+      },
+    ]
+  },
+  {
     name: 'Pendidikan',
     url: '/academic',
     iconComponent: { name: 'cil-calendar' },
@@ -18,6 +30,11 @@ export const navItems: INavData[] = [
       {
         name: 'Data Santri',
         url: '/academic/student',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Jadwal Pelajaran',
+        url: '/academic/subject-schedule',
         icon: 'nav-icon-bullet'
       },
       {
@@ -33,6 +50,11 @@ export const navItems: INavData[] = [
       {
         name: 'Mata Pelajaran',
         url: '/academic/subject',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Jam Aktivitas',
+        url: '/academic/activity-time',
         icon: 'nav-icon-bullet'
       },
       {

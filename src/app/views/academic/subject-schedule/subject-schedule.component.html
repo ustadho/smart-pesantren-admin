@@ -1,0 +1,104 @@
+<div class="animated fadeIn">
+  <form [formGroup]="form">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-edit"></i>
+            <span class="h5"> Jadwal Pelajaran</span>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <app-base-input
+                  type="ng-select"
+                  [formGroup]="form"
+                  label="Tahun Ajaran"
+                  controlName="academicYearId"
+                  labelWidth="col-sm-3 col-md-4"
+                  inputWidth="col-sm-9 col-md-8"
+                  layout="horizontal"
+                  [items]="academicYears"
+
+                ></app-base-input>
+              </div>
+              <div class="col-md-6">
+                <app-base-input
+                  type="ng-select"
+                  [formGroup]="form"
+                  label="Institusi/ Lembaga"
+                  controlName="institutionId"
+                  labelWidth="col-sm-3 col-md-4"
+                  inputWidth="col-sm-9 col-md-8"
+                  layout="horizontal"
+                  [items]="institutions"
+                  (onSelectChange)="loadClassRoom()"
+                ></app-base-input>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <app-base-input
+                  type="ng-select"
+                  [formGroup]="form"
+                  label="Ruang Kelas"
+                  controlName="classRoomId"
+                  labelWidth="col-sm-3 col-md-4"
+                  inputWidth="col-sm-9 col-md-8"
+                  layout="horizontal"
+                  [labelFormat]="'${name} - ${sexLabel}'"
+                  [items]="classRooms"
+                  (onSelectChange)="onLoadAllSchedules()"
+                ></app-base-input>
+              </div>
+              <div class="col-md-6">
+                <button type="button" class="btn btn-primary mx-1" [disabled]="form.get('classRoomId')?.value == null || isLoading()" (click)="onLoadAllSchedules()"><i class="fa fa-refresh"></i> Refresh</button>
+                <button type="button" class="btn btn-secodary mx-1" [disabled]="form.get('classRoomId')?.value == null || isLoading()" (click)="onPreviewReport()"><i class="fa fa-print"></i> Cetak</button>
+              </div>
+            </div>
+            <div class="row mt-2" *ngIf="data != null && data.length > 0">
+              <div class="col-md-12">
+                <div class="table-container border">
+                  <table class="table table-bordered text-center">
+                    <thead>
+                      <tr>
+                        <th class="table-freeze">Jam Ke</th>
+                        <th *ngFor="let d of data[0].days; let i = index">
+                          {{d.dayName}}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let h of data; let i = index">
+                        <td class="table-freeze p-0">
+                          <div class="list-group h-100">
+                            <div class="list-group-item list-group-item-action flex-column text-center">
+                              <div class="d-flex justify-content-center">
+                                <h6 class="m-0">{{h.seq}}</h6>
+                              </div>
+                              <p class="m-0">{{h.startTime}} - {{h.endTime}}</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="p-0" *ngFor="let d of data[i].days; let i = index">
+                          <div class="list-group h-100" style="cursor: pointer; height: 100%;" (click)="onSelectSchedule(h.activityId, d)" >
+                            <div class="list-group-item h-100 list-group-item-action flex-column text-center h-100">
+                              <div class="d-flex justify-content-center">
+                                <h6 class="m-0">{{ d.subjectName ?? '&nbsp;' }}</h6>
+                              </div>
+                              <p class="m-0 text-primary">{{ d.teacherName ?? '&nbsp;' }}</p>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

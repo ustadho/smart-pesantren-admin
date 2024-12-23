@@ -89,6 +89,7 @@ export class LoginComponent implements OnInit{
         // since login is successful, go to stored previousState and clear previousState
         const redirect = this.stateStorageService.getUrl();
         this.store.select('auth').subscribe(data => {
+          console.log('auth', data)
           if(redirect) {
             this.stateStorageService.storeUrl('');
             this.router.navigate([redirect]);
