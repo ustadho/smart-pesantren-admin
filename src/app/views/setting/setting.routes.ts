@@ -64,6 +64,16 @@ export const routes: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
+    path: 'building',
+    loadComponent: () => import('./building/building.component').then(m => m.BuildingComponent),
+    data: {
+      title: 'Gedung',
+      defaultSort: 'name,asc',
+      authorities: [ROLE_SUPERADMIN],
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
     path: 'location',
     loadComponent: () => import('./location/location.component').then(m => m.LocationComponent),
     data: {
