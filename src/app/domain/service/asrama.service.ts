@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { createRequestOption } from '../../shared/util/request-util';
 
 @Injectable({ providedIn: 'root' })
-export class BuildingService {
-  private resourceUrl = '/api/setting/building';
+export class AsramaService {
+  private resourceUrl = '/api/setting/asrama';
 
   constructor(private http: HttpClient) { }
 

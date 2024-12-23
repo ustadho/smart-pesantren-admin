@@ -174,6 +174,11 @@ export const navItems: INavData[] = [
         icon: 'nav-icon-bullet'
       },
       {
+        name: 'Asrama',
+        url: '/setting/asrama',
+        icon: 'nav-icon-bullet'
+      },
+      {
         name: 'Gedung',
         url: '/setting/building',
         icon: 'nav-icon-bullet'
