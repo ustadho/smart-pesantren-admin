@@ -4,6 +4,7 @@ import { BuildingListComponent } from './building-list/building-list.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { CommonModule } from '@angular/common';
 import { BuildingEditComponent } from './building-edit/building-edit.component';
+import { LocationService } from '../../../domain/service/location.service';
 
 @Component({
   selector: 'app-building',
@@ -14,14 +15,20 @@ import { BuildingEditComponent } from './building-edit/building-edit.component';
 })
 export class BuildingComponent implements OnInit {
   tabs: ITab[] = [];
+  locations: any[] =[]
 
   @ViewChild(BuildingListComponent)
   private listComponent?: BuildingListComponent;
 
-  constructor() {}
+  constructor(
+    private locationService: LocationService,
+    ) {}
 
   ngOnInit(): void {
     this.onAdd();
+    this.locationService.findAll('').subscribe(res => {
+      this.locations = res.body
+    })
   }
 
   onAdd() {

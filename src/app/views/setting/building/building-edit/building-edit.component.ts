@@ -8,6 +8,7 @@ import { ITab } from '../../../../domain/model/tab.model';
 import { BuildingService } from '../../../../domain/service/building.service';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
+import { LocationService } from '../../../../domain/service/location.service';
 
 @Component({
   selector: 'app-building-edit',
@@ -18,9 +19,11 @@ import Swal from 'sweetalert2';
 })
 export class BuildingEditComponent {
   @Input() activeTab?: ITab;
+  @Input() locations: any[] =[]
   @Output() onRemove = new EventEmitter<any>();
   form: FormGroup;
   isSubmitting = false;
+
 
   constructor(
     private fb: FormBuilder,
@@ -29,6 +32,7 @@ export class BuildingEditComponent {
   ) {
     this.form = fb.group({
       id: [null],
+      locationId: [null, [Validators.required]],
       code: [null, [Validators.required]],
       name: [null, [Validators.required]],
       description: [null],

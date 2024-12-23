@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, OnInit, Output, signal } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output, signal } from '@angular/core';
 import { ITEMS_PER_PAGE } from '../../../../shared/constant/pagination.constants';
 import { SortByDirective, SortDirective, SortService, SortState, sortStateSignal } from '../../../../shared/directive/sort';
 import { BuildingService } from '../../../../domain/service/building.service';
@@ -10,6 +10,7 @@ import { SORT } from '../../../../shared/constant/navigation.constants';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-building-list',
@@ -21,14 +22,17 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     SortDirective,
     SortByDirective,
     FontAwesomeModule,
+    NgSelectModule,
   ],
   templateUrl: './building-list.component.html',
   styleUrl: './building-list.component.scss'
 })
 export class BuildingListComponent implements OnInit {
+  @Input() locations: any[] =[]
   @Output() onAdd = new EventEmitter<any>();
   @Output() onEdit = new EventEmitter<any>();
   public q = '';
+  public locationId = null;
   public totalItems: number = 0;
   public page: any;
   public previousPage: any;
@@ -55,6 +59,7 @@ export class BuildingListComponent implements OnInit {
         size: this.itemsPerPage,
         sort: this.sortService.buildSortParam(this.sortState(), 'name'),
         q: this.q,
+        locationId: this.locationId??'',
       })
       .subscribe({
         next: (res: any) => {
@@ -88,6 +93,8 @@ export class BuildingListComponent implements OnInit {
       relativeTo: this.activatedRoute.parent,
       queryParams: {
         page: this.page,
+        q: this.q,
+        locatonId: this.locationId?? '',
         sort: this.sortService.buildSortParam(sortState ?? this.sortState()),
       },
     });
