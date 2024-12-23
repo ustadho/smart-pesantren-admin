@@ -11,7 +11,7 @@ import { StudentCategoryService } from '../../../domain/service/student-category
 import { ClassRoomStudentService } from '../../../domain/service/class-room-student.service';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
-import { SubjectScheduleService } from '../../../domain/service/subject-schedule-student.service';
+import { SubjectScheduleService } from '../../../domain/service/subject-schedule.service';
 import { SubjectScheduleEditDialogComponent } from './subject-schedule-edit-dialog/subject-schedule-edit-dialog.component';
 
 @Component({

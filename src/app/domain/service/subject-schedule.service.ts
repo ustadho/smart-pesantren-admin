@@ -36,4 +36,12 @@ export class SubjectScheduleService {
     this.reportService.getReport(`${this.resourceUrl}/report/by-classroom`, 'Jadwal Kelas', params, format)
   }
 
+  findAllTeacherByAcademicYearId(id: string) {
+    return this.http.get(`${this.resourceUrl}/teachers/${id}`, {observe: 'response'})
+  }
+
+  findSubjectScheduleClassroomByTeacher(id: string) {
+    return this.http.get(`${this.resourceUrl}/by-teacher/${id}`, {observe: 'response'})
+  }
+
 }

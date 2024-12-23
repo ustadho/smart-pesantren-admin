@@ -33,6 +33,8 @@ export class EmployeeListComponent implements OnInit{
   @Output() onAdd = new EventEmitter<any>();
   @Output() onEdit = new EventEmitter<any>();
   @Input() organizations: any[] = []
+  @Input() jobPositions: any[] = []
+  @Input() categories: any[] = []
 
   public q = '';
   public unorId = '';
@@ -57,7 +59,10 @@ export class EmployeeListComponent implements OnInit{
     this.filterForm = this.fb.group({
       q: [null],
       unorId: [null],
+      jobPositionId: [null],
+      categoryId: [null],
     })
+    console.log('this.activatedRoute.data', this.activatedRoute.data)
     this.handleNavigation();
   }
 
@@ -69,6 +74,8 @@ export class EmployeeListComponent implements OnInit{
         sort: this.sortService.buildSortParam(this.sortState(), 'name'),
         q: this.filterForm.getRawValue().q??'',
         unor: this.filterForm.getRawValue().unorId??'',
+        jp: this.filterForm.getRawValue().jobPositionId??'',
+        category: this.filterForm.getRawValue().categoryId??'',
       })
       .subscribe({
         next: (res: any) => {
@@ -101,6 +108,9 @@ export class EmployeeListComponent implements OnInit{
     this.router.navigate(['/hr/employee'], {
       relativeTo: this.activatedRoute.parent,
       queryParams: {
+        category: this.filterForm.getRawValue().categoryId??'',
+        unor: this.filterForm.getRawValue().unorId??'',
+        jp: this.filterForm.getRawValue().jobPositionId??'',
         page: this.page,
         sort: this.sortService.buildSortParam(sortState ?? this.sortState()),
       },

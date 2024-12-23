@@ -1,17 +1,16 @@
 import { Component, inject, signal } from '@angular/core';
 import { AcademicYearService } from '../../../domain/service/academic-year.service';
-import { ClassRoomService } from '../../../domain/service/class-room.service';
-import { ClassRoomStudentService } from '../../../domain/service/class-room-student.service';
-import { InstitutionService } from '../../../domain/service/institution.service';
-import { StudentCategoryService } from '../../../domain/service/student-category.service';
 import { CommonModule } from '@angular/common';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { SubmitButtonComponent } from '../../../components/submit-button/submit-button.component';
-import Swal from 'sweetalert2';
+import { PRESENCE_STATUS } from '../../../shared/constant/presence.constants';
 import { ToastrService } from 'ngx-toastr';
 import { BaseInputComponent } from '../../../components/base-input/base-input.component';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PresenceKBMService } from '../../../domain/service/presence-kbm.service';
+import { SubjectScheduleService } from '../../../domain/service/subject-schedule.service';
+import { PresenceKbmIzinComponent } from './presence-kbm-izin/presence-kbm-izin.component';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 @Component({
   selector: 'app-presence-kbm',
@@ -21,34 +20,34 @@ import { PresenceKBMService } from '../../../domain/service/presence-kbm.service
     ReactiveFormsModule,
     CommonModule,
     SubmitButtonComponent,
+    TabsModule,
   ],
-  providers: [],
+  providers: [BsModalService],
   templateUrl: './presence-kbm.component.html',
   styleUrl: './presence-kbm.component.scss'
 })
 export class PresenceKbmComponent {
   form!: FormGroup;
   academicYears: any[] = [];
-  classRooms: any[] = [];
-  institutions: any[] = [];
+  subjectSchedules: any[] = [];
+  teachers: any[] = [];
   categories: any[] = [];
   selectedClassRoom: any = null;
   isSubmitting = signal(false);
 
   private fb = inject(FormBuilder);
   private academicYearService = inject(AcademicYearService);
-  private classRoomService = inject(ClassRoomService);
-  private institutionService = inject(InstitutionService);
-  private categoryService = inject(StudentCategoryService);
   private presenceKBMService = inject(PresenceKBMService);
+  private subjectScheduleService = inject(SubjectScheduleService);
   private toast = inject(ToastrService);
+  private bsModalService = inject(BsModalService);
   modalRef?: BsModalRef;
 
   ngOnInit(): void {
     this.form = this.fb.group({
       academicYearId: [null],
-      institutionId: [null],
-      classRoomId: [null],
+      teacherId: [null],
+      subjectScheduleId: [null],
       filterText: [null],
       selectAll: [true, [Validators.required]],
       students: this.fb.array([]),
@@ -59,20 +58,25 @@ export class PresenceKbmComponent {
       this.academicYears.map((item: any) => {
         if (item.isDefault == true) {
           this.form.get('academicYearId')?.setValue(item.id);
+          this.onLoadTeachers();
         }
       });
     });
-    this.institutionService.findAll('').subscribe((data) => {
-      this.institutions = data.body;
-    });
-    this.categoryService.findAll('').subscribe((data) => {
-      this.categories = data.body;
-    });
   }
 
-  onSelectClassRoom(e: any) {
-    this.selectedClassRoom = e;
-    this.loadStudent();
+  onLoadTeachers() {
+    this.teachers = []
+    this.subjectScheduleService.findAllTeacherByAcademicYearId(this.form.get('academicYearId')?.value).subscribe((data: any) => {
+      this.teachers = data.body
+    })
+  }
+
+  onLoadSubjectScheduleClassRoom() {
+    this.subjectSchedules = []
+    this.form.get('subjectScheduleId')?.setValue(null)
+    this.subjectScheduleService.findSubjectScheduleClassroomByTeacher(this.form.get('teacherId')?.value).subscribe((data: any) => {
+      this.subjectSchedules = data.body
+    })
   }
 
   onSave() {
@@ -96,53 +100,66 @@ export class PresenceKbmComponent {
     });
   }
 
-  loadClassRoom() {
-    this.classRooms = [];
-    if (
-      this.form.value.academicYearId == null ||
-      this.form.value.institutionId == null
-    ) {
-      return;
-    }
-    this.form.get('classRoomId')?.setValue(null);
-    this.classRoomService
-      .findByAcademicYear(
-        this.form.value.institutionId,
-        this.form.value.academicYearId
-      )
-      .subscribe((data) => {
-        this.classRooms = data.body;
-      });
-  }
-
   loadStudent() {
     const students = this.form.get('students') as FormArray;
     students?.clear();
-    if(this.form.value.classRoomId == null) {
+    if(this.form.value.subjectScheduleId == null) {
       return;
     }
 
-    const params = {
-      date: new Date(),
-      schid: this.form.value.classRoomId
-    }
-
     this.presenceKBMService
-      .findByPresenceDateAndSchedule(params)
+      .findDetailStudents(this.form.value.subjectScheduleId)
       .subscribe((data) => {
-        this.form.patchValue(data.body);
+        console.log('data', data)
         const students = this.form.get('students') as FormArray;
         students.clear();
-        students.clear();
-        data.body.students.forEach((s: any) => {
+        data.body.forEach((s: any) => {
           students.push(this.fb.group({
             ...s,
-            selected: true,
+            selected: s.presenceStatusId == PRESENCE_STATUS.HADIR,
           }));
         });
       });
   }
 
+  onIzin(index: number) {
+    const d = this.form.get('students')?.value[index];
+    const initialState: ModalOptions = {
+      initialState: {
+        data: d,
+        name: this.form.getRawValue().name,
+        title: `Izin/Sakit/Lainnya`,
+      },
+    };
+
+    this.modalRef = this.bsModalService.show(
+      PresenceKbmIzinComponent,
+      initialState
+    );
+    this.modalRef.setClass('modal-md');
+    this.modalRef.content.closeBtnName = 'Close';
+
+    this.modalRef.content.onClose.subscribe((data: any) => {
+      const students = this.form.get('students') as FormArray;
+      console.log('modal closed', data)
+      if(data == 'deleteIzin') {
+        students.at(index).patchValue({
+          presenceStatusId: PRESENCE_STATUS.HADIR,
+          presenceStatusName: 'HADIR',
+          note: null,
+          attachment: null
+        })
+      } else {
+        students.at(index).patchValue({
+          presenceStatusId: data.presenceStatusId,
+          presenceStatusName: data.presenceStatusName,
+          note: data.note,
+          attachment: data.attachment
+        })
+      }
+
+    });
+  }
   onSelected() {
     const lineItems = <FormArray>this.form.get('students');
     lineItems.markAsDirty();

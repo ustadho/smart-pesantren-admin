@@ -10,10 +10,6 @@ export class PresenceKBMService {
 
   constructor(private http: HttpClient) { }
 
-  findByPresenceDateAndSchedule(params: any): Observable<any> {
-    return this.http.get(`${this.resourceUrl}`, {params: params, observe: 'response'})
-  }
-
   save(data: any): Observable<any> {
     return this.http.put(`${this.resourceUrl}`, data);
   }
@@ -22,6 +18,10 @@ export class PresenceKBMService {
     return this.http.delete(`${this.resourceUrl}/${id}`, {
       observe: 'response',
     });
+  }
+
+  findDetailStudents(id: string): Observable<any> {
+    return this.http.get(`${this.resourceUrl}/detail-students/${id}`, {observe: 'response'})
   }
 
 }

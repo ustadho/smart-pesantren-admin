@@ -4,7 +4,7 @@ import { SubjectService } from '../../../../domain/service/subject.service';
 import { EmployeeService } from '../../../../domain/service/employee.service';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { BaseInputComponent } from '../../../../components/base-input/base-input.component';
-import { SubjectScheduleService } from '../../../../domain/service/subject-schedule-student.service';
+import { SubjectScheduleService } from '../../../../domain/service/subject-schedule.service';
 import { Subject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
