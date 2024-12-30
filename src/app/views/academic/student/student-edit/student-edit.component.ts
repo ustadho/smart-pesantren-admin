@@ -113,6 +113,7 @@ export class StudentEditComponent {
       sex: [null, [Validators.required]],
       pobId: [null, [Validators.required]],
       dob: [today.setFullYear(today.getFullYear() - 12), [Validators.required]],
+      kkNo: [null],
       birthCertificateNo: [null],
       bloodType: [null],
       childNo: [1],

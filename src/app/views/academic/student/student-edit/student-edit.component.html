@@ -3,17 +3,19 @@
     <div class="card-body">
       <div class="row">
         <div class="col-md-10">
-          <app-base-input
-            type="ng-select"
-            [formGroup]="form"
-            label="Institusi"
-            controlName="institutionId"
-            labelWidth="col-sm-3 col-md-2"
-            inputWidth="col-sm-9 col-md-6"
-            layout="horizontal"
-            [items]="institutions"
-          ></app-base-input>
           <div class="row">
+            <div class="col-md-6">
+              <app-base-input
+                type="ng-select"
+                [formGroup]="form"
+                label="Institusi"
+                controlName="institutionId"
+                labelWidth="col-sm-3 col-md-4"
+                inputWidth="col-sm-9 col-md-8"
+                layout="horizontal"
+                [items]="institutions"
+              ></app-base-input>
+            </div>
             <div class="col-md-6">
               <app-base-input
                 type="ng-select"
@@ -26,16 +28,28 @@
                 [items]="academicYears"
               ></app-base-input>
             </div>
-            <div class="col-md-6">
+          </div>
+          <div class="row">
+            <div class="col-md-8">
+              <app-base-input
+                [formGroup]="form"
+                controlName="name"
+                label="Nama Santri"
+                labelWidth="col-sm-4 col-md-3"
+                inputWidth="col-sm-8 col-md-9"
+                layout="horizontal"
+              ></app-base-input>
+            </div>
+            <div class="col-md-4">
               <app-base-input
                 type="ng-select"
                 [formGroup]="form"
-                label="Kategori"
-                controlName="categoryId"
-                labelWidth="col-sm-3 col-md-4"
-                inputWidth="col-sm-9 col-md-8"
+                label="Jenis Kelamin"
+                controlName="sex"
+                labelWidth="col-sm-3 col-md-6"
+                inputWidth="col-sm-9 col-md-6"
                 layout="horizontal"
-                [items]="categories"
+                [items]="sexs"
               ></app-base-input>
             </div>
           </div>
@@ -74,25 +88,16 @@
               ></app-base-input>
             </div>
           </div>
-          <app-base-input
-            [formGroup]="form"
-            controlName="name"
-            label="Nama Santri"
-            labelWidth="col-sm-4 col-md-2"
-            inputWidth="col-sm-8 col-md-10"
-            layout="horizontal"
-          ></app-base-input>
           <div class="row">
             <div class="col-md-6 col-12">
               <app-base-input
-                type="ng-select"
+                type="text"
                 [formGroup]="form"
-                label="Jenis Kelamin"
-                controlName="sex"
+                label="No. KK"
+                controlName="kkNo"
                 labelWidth="col-sm-3 col-md-4"
                 inputWidth="col-sm-9 col-md-8"
                 layout="horizontal"
-                [items]="sexs"
               ></app-base-input>
             </div>
             <div class="col-md-6 col-12">
@@ -130,6 +135,20 @@
                 labelWidth="col-sm-3 col-md-5"
                 inputWidth="col-sm-9 col-md-7"
                 layout="horizontal"
+              ></app-base-input>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <app-base-input
+                type="ng-select"
+                [formGroup]="form"
+                label="Kategori"
+                controlName="categoryId"
+                labelWidth="col-sm-3 col-md-4"
+                inputWidth="col-sm-9 col-md-8"
+                layout="horizontal"
+                [items]="categories"
               ></app-base-input>
             </div>
           </div>

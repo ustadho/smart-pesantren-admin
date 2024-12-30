@@ -7,6 +7,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
 import { ITab } from '../../../../domain/model/tab.model';
 import { AsramaService } from '../../../../domain/service/asrama.service';
 import { BuildingService } from '../../../../domain/service/building.service';
+import { EmployeeService } from '../../../../domain/service/employee.service';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 
@@ -20,6 +21,7 @@ import Swal from 'sweetalert2';
 export class AsramaEditComponent {
   @Input() activeTab?: ITab;
   buildings: any[] =[]
+  teachers: any[] = []
   @Output() onRemove = new EventEmitter<any>();
   form: FormGroup;
   isSubmitting = false;
@@ -29,6 +31,7 @@ export class AsramaEditComponent {
     private fb: FormBuilder,
     private service: AsramaService,
     private buildingService: BuildingService,
+    private employeeService: EmployeeService,
     private toast: ToastrService
   ) {
     this.form = fb.group({
@@ -48,8 +51,10 @@ export class AsramaEditComponent {
       this.buildings = res.body
     })
   }
-  onParentKeyUp(e: any) {
-
+  onMusyrifKeyUp(e: any) {
+    this.employeeService.findAll(e).subscribe((res: any) => {
+      this.teachers = res.body;
+    });
   }
 
   onSelectChange() {

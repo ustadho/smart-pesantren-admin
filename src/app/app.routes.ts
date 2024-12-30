@@ -29,6 +29,10 @@ export const routes: Routes = [
         loadChildren: () => import('./views/kbm/kbm.routes').then((m) => m.routes)
       },
       {
+        path: 'pengasuhan',
+        loadChildren: () => import('./views/pengasuhan/pengasuhan.routes').then((m) => m.routes)
+      },
+      {
         path: 'academic',
         loadChildren: () => import('./views/academic/academic.routes').then((m) => m.routes)
       },

@@ -1,22 +1,28 @@
 <form role="form" novalidate (ngSubmit)="onSubmit()" [formGroup]="form">
   <div class="card">
     <div class="card-body">
-      <app-base-input
-        [formGroup]="form"
-        controlName="code"
-        label="Kode"
-        labelWidth="col-sm-3 col-md-2"
-        inputWidth="col-sm-4 col-md-3"
-        layout="horizontal"
-      ></app-base-input>
-      <app-base-input
-        [formGroup]="form"
-        label="Nama Asrama"
-        controlName="name"
-        labelWidth="col-sm-3 col-md-2"
-        inputWidth="col-sm-9 col-md-8"
-        layout="horizontal"
-      ></app-base-input>
+      <div class="row">
+        <div class="col-md-6">
+          <app-base-input
+            [formGroup]="form"
+            controlName="code"
+            label="Kode"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-4 col-md-8"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+        <div class="col-md-6">
+          <app-base-input
+            [formGroup]="form"
+            label="Nama Asrama"
+            controlName="name"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-9 col-md-8"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+      </div>
       <app-base-input
         type="ng-select"
         [formGroup]="form"
@@ -27,6 +33,17 @@
         inputWidth="col-sm-4 col-md-6"
         layout="horizontal"
         [labelFormat]="'${name} - ${locationName}'"
+      ></app-base-input>
+      <app-base-input
+        type="ng-select"
+        [formGroup]="form"
+        controlName="musyrifId"
+        label="Musrif"
+        [items]="teachers"
+        labelWidth="col-sm-3 col-md-2"
+        inputWidth="col-sm-4 col-md-6"
+        layout="horizontal"
+        (onKeyUp)="onMusyrifKeyUp($event)"
       ></app-base-input>
       <app-base-input
         type="textarea"

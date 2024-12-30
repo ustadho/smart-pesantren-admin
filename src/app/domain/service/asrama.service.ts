@@ -41,4 +41,18 @@ export class AsramaService {
       observe: 'response',
     });
   }
+
+  createOrUpdateSantri(vm: any) {
+    return this.http.post(`${this.resourceUrl}/santri`, vm);
+  }
+
+  deleteSantri(id: number): Observable<HttpResponse<any>> {
+    return this.http.delete(`${this.resourceUrl}/santri/${id}`, {
+      observe: 'response',
+    });
+  }
+
+  findAllSantri(asramaId: string): Observable<any> {
+    return this.http.get(`${this.resourceUrl}/santri/${asramaId}`, {observe: 'response'})
+  }
 }
