@@ -1,40 +1,27 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ITab } from '../../../domain/model/tab.model';
-import { AsramaListComponent } from './asrama-list/asrama-list.component';
+import { PesantrenEditComponent } from './pesantren-edit/pesantren-edit.component';
+import { PesantrenListComponent } from './pesantren-list/pesantren-list.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { CommonModule } from '@angular/common';
-import { AsramaEditComponent } from './asrama-edit/asrama-edit.component';
-import { LocationService } from '../../../domain/service/location.service';
-import { PesantrenService } from '../../../domain/service/pesantren.service';
 
 @Component({
-  selector: 'app-asrama',
+  selector: 'app-pesantren',
   standalone: true,
-  imports: [CommonModule, TabsModule, AsramaListComponent, AsramaEditComponent],
-  templateUrl: './asrama.component.html',
-  styleUrl: './asrama.component.scss'
+  imports: [CommonModule, TabsModule, PesantrenEditComponent, PesantrenListComponent],
+  templateUrl: './pesantren.component.html',
+  styleUrl: './pesantren.component.scss'
 })
-export class AsramaComponent implements OnInit {
+export class PesantrenComponent {
   tabs: ITab[] = [];
-  locations: any[] =[]
-  pesantrens: any[] =[]
 
-  @ViewChild(AsramaListComponent)
-  private listComponent?: AsramaListComponent;
+  @ViewChild(PesantrenListComponent)
+  private listComponent?: PesantrenListComponent;
 
-  constructor(
-    private locationService: LocationService,
-    private pesantrenService: PesantrenService,
-    ) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.onAdd();
-    this.locationService.findAll('').subscribe(res => {
-      this.locations = res.body
-    })
-    this.pesantrenService.findAll('').subscribe(res => {
-      this.pesantrens = res.body
-    })
   }
 
   onAdd() {

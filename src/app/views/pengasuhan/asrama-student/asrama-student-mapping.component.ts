@@ -34,6 +34,7 @@ export class AsramaStudentMappingComponent {
   asramas: any[] = [];
   locations: any[] = [];
   musyrifs: any[] = [];
+  academicYears: any[] = [];
   selectedClassRoom: any = null;
   isSubmitting = signal(false);
 

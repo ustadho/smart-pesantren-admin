@@ -181,11 +181,6 @@ export const navItems: INavData[] = [
         icon: 'nav-icon-bullet'
       },
       {
-        name: 'Lembaga Pendidikan',
-        url: '/setting/institution',
-        icon: 'nav-icon-bullet'
-      },
-      {
         name: 'Asrama',
         url: '/setting/asrama',
         icon: 'nav-icon-bullet'
@@ -193,6 +188,16 @@ export const navItems: INavData[] = [
       {
         name: 'Gedung',
         url: '/setting/building',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Lembaga Pendidikan',
+        url: '/setting/institution',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Pesantren',
+        url: '/setting/pesantren',
         icon: 'nav-icon-bullet'
       },
       {

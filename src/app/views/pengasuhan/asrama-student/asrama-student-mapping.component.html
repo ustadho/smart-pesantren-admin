@@ -22,6 +22,18 @@
                   (onSelectChange)="loadAsrama()"
                 ></app-base-input>
               </div>
+              <div class="col-md-6">
+                <app-base-input
+                  type="ng-select"
+                  [formGroup]="form"
+                  label="Th. Ajaran"
+                  controlName="academicYearId"
+                  labelWidth="col-sm-3 col-md-4"
+                  inputWidth="col-sm-9 col-md-8"
+                  layout="horizontal"
+                  [items]="academicYears"
+                ></app-base-input>
+              </div>
             </div>
             <div class="row">
               <div class="col-md-6">

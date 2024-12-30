@@ -64,6 +64,16 @@ export const routes: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
+    path: 'pesantren',
+    loadComponent: () => import('./pesantren/pesantren.component').then(m => m.PesantrenComponent),
+    data: {
+      title: 'Pesantren',
+      defaultSort: 'name,asc',
+      authorities: [ROLE_SUPERADMIN],
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
     path: 'asrama',
     loadComponent: () => import('./asrama/asrama.component').then(m => m.AsramaComponent),
     data: {

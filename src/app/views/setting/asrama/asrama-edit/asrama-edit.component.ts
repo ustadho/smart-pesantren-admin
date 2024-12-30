@@ -7,6 +7,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
 import { ITab } from '../../../../domain/model/tab.model';
 import { AsramaService } from '../../../../domain/service/asrama.service';
 import { BuildingService } from '../../../../domain/service/building.service';
+import { PesantrenService } from '../../../../domain/service/pesantren.service';
 import { EmployeeService } from '../../../../domain/service/employee.service';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
@@ -21,6 +22,7 @@ import Swal from 'sweetalert2';
 export class AsramaEditComponent {
   @Input() activeTab?: ITab;
   buildings: any[] =[]
+  pesantrens: any[] =[]
   teachers: any[] = []
   @Output() onRemove = new EventEmitter<any>();
   form: FormGroup;
@@ -31,12 +33,14 @@ export class AsramaEditComponent {
     private fb: FormBuilder,
     private service: AsramaService,
     private buildingService: BuildingService,
+    private pesantrenService: PesantrenService,
     private employeeService: EmployeeService,
     private toast: ToastrService
   ) {
     this.form = fb.group({
       id: [null],
       buildingId: [null, [Validators.required]],
+      pesantrenId: [null, [Validators.required]],
       code: [null, [Validators.required]],
       name: [null, [Validators.required]],
       description: [null],
@@ -49,6 +53,9 @@ export class AsramaEditComponent {
     }
     this.buildingService.findAll({q: '', locationId: ''}).subscribe(res => {
       this.buildings = res.body
+    })
+    this.pesantrenService.findAll('').subscribe(res => {
+      this.pesantrens = res.body
     })
   }
   onMusyrifKeyUp(e: any) {
