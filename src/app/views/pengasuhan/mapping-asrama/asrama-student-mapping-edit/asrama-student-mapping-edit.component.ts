@@ -1,23 +1,25 @@
-import { Component, inject, signal } from '@angular/core';
-import { BaseInputComponent } from '../../../components/base-input/base-input.component';
+import { Component, inject, Input, signal } from '@angular/core';
+import { BaseInputComponent } from '../../../../components/base-input/base-input.component';
 import {
   FormArray,
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { LocationService } from '../../../domain/service/location.service';
-import { ClassRoomStudentService } from '../../../domain/service/class-room-student.service';
-import { AsramaService } from '../../../domain/service/asrama.service';
+import { AcademicYearService } from '../../../../domain/service/academic-year.service';
+import { AsramaService } from '../../../../domain/service/asrama.service';
+import { AsramaMappingService } from '../../../../domain/service/asrama-mapping.service';
 import { CommonModule } from '@angular/common';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
-import { StudentLookupComponent } from '../../academic/student/student-lookup/student-lookup.component';
-import { SubmitButtonComponent } from '../../../components/submit-button/submit-button.component';
+import { StudentLookupComponent } from '../../../academic/student/student-lookup/student-lookup.component';
+import { SubmitButtonComponent } from '../../../../components/submit-button/submit-button.component';
 import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
+import { EmployeeService } from '../../../../domain/service/employee.service';
+import { ITab } from 'src/app/domain/model/tab.model';
 
 @Component({
-  selector: 'app-asrama-student-mapping',
+  selector: 'app-asrama-student-mapping-edit',
   standalone: true,
   imports: [
     BaseInputComponent,
@@ -26,21 +28,25 @@ import { ToastrService } from 'ngx-toastr';
     SubmitButtonComponent,
   ],
   providers: [BsModalService],
-  templateUrl: './asrama-student-mapping.component.html',
-  styleUrl: './asrama-student-mapping.component.scss',
+  templateUrl: './asrama-student-mapping-edit.component.html',
+  styleUrl: './asrama-student-mapping-edit.component.scss',
 })
-export class AsramaStudentMappingComponent {
+export class AsramaStudentMappingEditComponent {
+  @Input() activeTab?: ITab;
+  @Input() academicYears: any[] = [];
+  @Input() pesantrens: any[] = [];
   form!: FormGroup;
   asramas: any[] = [];
-  locations: any[] = [];
+  employees: any[] = [];
   musyrifs: any[] = [];
-  academicYears: any[] = [];
-  selectedClassRoom: any = null;
+
+  selectedAsrama: any = null;
   isSubmitting = signal(false);
 
   private fb = inject(FormBuilder);
   private asramaService = inject(AsramaService);
-  private locationService = inject(LocationService);
+  private employeeService = inject(EmployeeService);
+  private asramaMappingService = inject(AsramaMappingService);
   private bsModalService = inject(BsModalService);
   private toast = inject(ToastrService);
   modalRef?: BsModalRef;
@@ -48,49 +54,69 @@ export class AsramaStudentMappingComponent {
   ngOnInit(): void {
     this.form = this.fb.group({
       locationId: [null],
+      academicYearId: [null],
       asramaId: [null],
+      musyrifId: [null],
       students: this.fb.array([]),
     });
 
-    this.locationService.findAll('').subscribe((data) => {
-      this.locations = data.body;
-    });
-
-  }
-
-  loadAsrama() {
     this.asramaService.findAll({
-      locationId: this.form.value.locationId,
+      locationId: '',
       q: '',
     }).subscribe((data) => {
       this.asramas = data.body;
     })
+    this.academicYears.map((item: any) => {
+      if (item.isDefault == true) {
+        this.form.get('academicYearId')?.setValue(item.id);
+      }
+    });
+    this.employeeService.findAll('').subscribe((data) => {
+      this.employees = data.body;
+    });
+    setTimeout(async ()=> {
+      if(this.activeTab?.data != null) {
+        console.log('this.activeTab.data', this.activeTab.data)
+        this.form.patchValue(this.activeTab.data)
+        const students = this.form.get('students') as FormArray;
+        students.clear();
+        this.activeTab.data.students.forEach((s: any) => {
+          students.push(this.fb.group(s));
+        });
+        this.selectedAsrama = await this.asramas.find((x: any) => x.id == this.form.get('asramaId')?.value);
+        // console.log('selectedAsrama', this.selectedAsrama)
+        this.onSelectAsrama(this.selectedAsrama);
+      }
+    }, 500)
   }
 
-  onSelectClassRoom(e: any) {
-    this.selectedClassRoom = e;
-    this.loadStudent();
+  onSelectAsrama(e: any) {
+    this.selectedAsrama = e;
+    this.musyrifs = this.employees.filter((x: any) => x.sex == e.sex);
+    // if(this.form.get('id')?.value == null) {
+    //   this.loadStudent();
+    // }
   }
 
   onSave() {
     this.isSubmitting.set(true);
-    // this.classRoomStudentService
-    //   .save(this.form.getRawValue())
-    //   .subscribe((data: any) => {
-    //     console.log('success');
-    //   });
+    this.asramaMappingService
+      .save(this.form.getRawValue())
+      .subscribe((data: any) => {
+        console.log('success');
+      });
     this.isSubmitting.set(false);
   }
 
   onStudentLookup() {
-    if (this.selectedClassRoom == null) {
+    if (this.selectedAsrama == null) {
       return;
     }
     const initialState: ModalOptions = {
       initialState: {
         param: {
-          sex: this.selectedClassRoom?.sex,
-          institutionId: this.form.value.institutionId,
+          sex: this.selectedAsrama?.sex,
+          pesantrenId: '',
         },
         title: 'Lookup Santri',
       },
@@ -159,7 +185,13 @@ export class AsramaStudentMappingComponent {
     //   });
   }
 
-  onDelete(a: any) {
+  onDelete() {
+    if(this.activeTab == null || this.activeTab.data == null) {
+      return
+    }
+  }
+
+  onDeleteStudent(a: any) {
     Swal.fire({
       title: 'Hapus data',
       text: `Anda yakin untuk menghapus ' ${a.name} - ${a.nis}'?`,

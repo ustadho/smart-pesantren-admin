@@ -43,6 +43,7 @@ export class AsramaEditComponent {
       pesantrenId: [null, [Validators.required]],
       code: [null, [Validators.required]],
       name: [null, [Validators.required]],
+      capacity: [null, [Validators.required]],
       description: [null],
     });
   }

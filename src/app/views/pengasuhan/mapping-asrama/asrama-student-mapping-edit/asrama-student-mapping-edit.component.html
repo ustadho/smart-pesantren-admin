@@ -13,23 +13,24 @@
                 <app-base-input
                   type="ng-select"
                   [formGroup]="form"
-                  label="Lokasi"
-                  controlName="locationId"
-                  labelWidth="col-sm-3 col-md-4"
-                  inputWidth="col-sm-9 col-md-8"
+                  label="Asrama"
+                  controlName="asramaId"
+                  labelWidth="col-sm-3 col-md-3"
+                  inputWidth="col-sm-9 col-md-9"
                   layout="horizontal"
-                  [items]="locations"
-                  (onSelectChange)="loadAsrama()"
+                  [labelFormat]="'${name} - ${buildingName}'"
+                  [items]="asramas"
+                  (onSelectChange)="onSelectAsrama($event)"
                 ></app-base-input>
               </div>
               <div class="col-md-6">
                 <app-base-input
                   type="ng-select"
                   [formGroup]="form"
-                  label="Th. Ajaran"
+                  label="Tahun Ajaran"
                   controlName="academicYearId"
-                  labelWidth="col-sm-3 col-md-4"
-                  inputWidth="col-sm-9 col-md-8"
+                  labelWidth="col-sm-3 col-md-3"
+                  inputWidth="col-sm-9 col-md-6"
                   layout="horizontal"
                   [items]="academicYears"
                 ></app-base-input>
@@ -40,39 +41,19 @@
                 <app-base-input
                   type="ng-select"
                   [formGroup]="form"
-                  label="Asrama"
-                  controlName="asramaId"
-                  labelWidth="col-sm-3 col-md-4"
-                  inputWidth="col-sm-9 col-md-8"
-                  layout="horizontal"
-                  [labelFormat]="'${name} - ${buildingName}'"
-                  [items]="asramas"
-                  (onSelectChange)="onSelectClassRoom($event)"
-                ></app-base-input>
-              </div>
-              <div class="col-md-6">
-                &nbsp;
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <app-base-input
-                  type="ng-select"
-                  [formGroup]="form"
-                  label="Musyrif"
+                  [label]="selectedAsrama && selectedAsrama.sex == 'F' ?'Musyrifah': 'Musyrif'"
                   controlName="musyrifId"
-                  labelWidth="col-sm-3 col-md-4"
-                  inputWidth="col-sm-9 col-md-8"
+                  labelWidth="col-sm-3 col-md-3"
+                  inputWidth="col-sm-9 col-md-9"
                   layout="horizontal"
                   [items]="musyrifs"
-                  (onSelectChange)="onSelectClassRoom($event)"
                 ></app-base-input>
               </div>
               <div class="col-md-6">
                 <button
                   class="btn btn-sm btn-primary"
                   (click)="onStudentLookup()"
-                  [disabled]="selectedClassRoom == null"
+                  [disabled]="selectedAsrama == null"
                 >
                   Tambah Santri
                 </button>
@@ -116,14 +97,14 @@
                       >
                         <tr [formGroupName]="i">
                           <td>{{ i + 1 | number }}</td>
-                          <td>{{ d.value.nis }}</td>
-                          <td>{{ d.value.nisn }}</td>
-                          <td>{{ d.value.name }}</td>
+                          <td>{{ d.value.studentNis }}</td>
+                          <td>{{ d.value.studentNisn }}</td>
+                          <td>{{ d.value.studentName }}</td>
                           <td>{{ d.value.joinYear }}</td>
                           <td>
                             <button
                               class="btn btn-sm btn-outline-danger"
-                              (click)="onDelete(d.value)"
+                              (click)="onDeleteStudent(d.value)"
                             >
                               <i class="fa fa-trash text-danger"></i>
                             </button>
@@ -138,6 +119,15 @@
             <div class="row ">
               <div class="col">
                 <div class="border-top pt-2 d-flex justify-content-end px-2">
+                  <!-- <button
+                    type="button"
+                    class="btn btn-danger mr-2"
+                    (click)="onDelete()"
+                    *ngIf="form.get('id')?.value != null"
+                  >
+                    <i class="fa fa-ban"></i> Hapus
+                  </button> -->
+                  &nbsp;
                   <app-submit-button
                     [isSubmitting]="isSubmitting()"
                     (click)="onSave()"
@@ -152,4 +142,6 @@
       </div>
     </div>
   </form>
+
+  {{form.getRawValue() | json}}
 </div>

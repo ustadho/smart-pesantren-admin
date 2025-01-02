@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AsramaStudentMappingComponent } from './asrama-student-mapping.component';
+import { AsramaStudentMappingEditComponent } from './asrama-student-mapping-edit.component';
 
 describe('ClassRoomStudentComponent', () => {
-  let component: AsramaStudentMappingComponent;
-  let fixture: ComponentFixture<AsramaStudentMappingComponent>;
+  let component: AsramaStudentMappingEditComponent;
+  let fixture: ComponentFixture<AsramaStudentMappingEditComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AsramaStudentMappingComponent]
+      imports: [AsramaStudentMappingEditComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AsramaStudentMappingComponent);
+    fixture = TestBed.createComponent(AsramaStudentMappingEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
