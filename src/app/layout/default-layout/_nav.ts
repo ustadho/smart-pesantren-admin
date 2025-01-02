@@ -74,6 +74,11 @@ export const navItems: INavData[] = [
         url: '/pengasuhan/student-mapping',
         icon: 'nav-icon-bullet'
       },
+      {
+        name: 'Jenis Kegiatan',
+        url: '/pengasuhan/jenis-kegiatan',
+        icon: 'nav-icon-bullet'
+      },
     ]
   },
   {
