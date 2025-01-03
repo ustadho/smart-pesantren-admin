@@ -80,6 +80,11 @@ export const navItems: INavData[] = [
         icon: 'nav-icon-bullet'
       },
       {
+        name: 'Jenis Prestasi',
+        url: '/pengasuhan/jenis-prestasi',
+        icon: 'nav-icon-bullet'
+      },
+      {
         name: 'Jenis Pelanggaran',
         url: '/pengasuhan/jenis-pelanggaran',
         icon: 'nav-icon-bullet'

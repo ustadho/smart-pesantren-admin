@@ -16,6 +16,13 @@ export const routes: Routes = [
     }
   },
   {
+    path: 'jenis-prestasi',
+    loadComponent: () => import('./jenis-prestasi/jenis-prestasi.component').then(m => m.JenisPrestasiComponent),
+    data: {
+      title: 'Jenis Prestasi',
+    }
+  },
+  {
     path: 'jenis-pelanggaran',
     loadComponent: () => import('./jenis-pelanggaran/jenis-pelanggaran.component').then(m => m.JenisPelanggaranComponent),
     data: {
