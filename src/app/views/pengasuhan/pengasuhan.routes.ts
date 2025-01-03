@@ -23,6 +23,13 @@ export const routes: Routes = [
     }
   },
   {
+    path: 'jenis-izin-santri',
+    loadComponent: () => import('./jenis-izin/jenis-izin.component').then(m => m.JenisIzinComponent),
+    data: {
+      title: 'Jenis Izin',
+    }
+  },
+  {
     path: 'jenis-pelanggaran',
     loadComponent: () => import('./jenis-pelanggaran/jenis-pelanggaran.component').then(m => m.JenisPelanggaranComponent),
     data: {
