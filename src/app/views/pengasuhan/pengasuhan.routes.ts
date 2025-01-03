@@ -15,4 +15,11 @@ export const routes: Routes = [
       title: 'Absensi KBM',
     }
   },
+  {
+    path: 'jenis-pelanggaran',
+    loadComponent: () => import('./jenis-pelanggaran/jenis-pelanggaran.component').then(m => m.JenisPelanggaranComponent),
+    data: {
+      title: 'Absensi KBM',
+    }
+  },
 ];

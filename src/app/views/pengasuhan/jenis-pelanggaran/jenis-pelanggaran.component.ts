@@ -2,21 +2,22 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, ViewChild } from '@angular/core';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ITab } from '../../../domain/model/tab.model';
-import { JenisKegiatanListComponent } from './jenis-kegiatan-list/jenis-kegiatan-list.component';
-import { JenisKegiatanEditComponent } from './jenis-kegiatan-edit/jenis-kegiatan-edit.component';
+import { JenisPelanggaranListComponent } from './jenis-pelanggaran-list/jenis-pelanggaran-list.component';
+import { JenisPelanggaranEditComponent } from './jenis-pelanggaran-edit/jenis-pelanggaran-edit.component';
+import { SubjectCategoryService } from '../../../domain/service/subject-category.service';
 
 @Component({
-  selector: 'app-jenis-kegiatan',
+  selector: 'app-jenis-pelanggaran',
   standalone: true,
-  imports: [CommonModule, TabsModule, JenisKegiatanListComponent, JenisKegiatanEditComponent],
-  templateUrl: './jenis-kegiatan.component.html',
-  styleUrl: './jenis-kegiatan.component.scss'
+  imports: [CommonModule, TabsModule, JenisPelanggaranListComponent, JenisPelanggaranEditComponent],
+  templateUrl: './jenis-pelanggaran.component.html',
+  styleUrl: './jenis-pelanggaran.component.scss'
 })
-export class JenisKegiatanComponent {
+export class JenisPelanggaranComponent {
   tabs: ITab[] = [];
 
-  @ViewChild(JenisKegiatanListComponent)
-  private listComponent?: JenisKegiatanListComponent;
+  @ViewChild(JenisPelanggaranListComponent)
+  private listComponent?: JenisPelanggaranListComponent;
 
   constructor() {}
 

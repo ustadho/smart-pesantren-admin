@@ -55,7 +55,6 @@ export class AsramaStudentMappingComponent {
   }
 
   onEdit(data: any) {
-    console.log('onEdit', data)
     let rowIndex = -1;
     this.tabs.forEach((t, i) => {
       if (t.data !== null && t.data.id == data.id) {

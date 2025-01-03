@@ -79,6 +79,11 @@ export const navItems: INavData[] = [
         url: '/pengasuhan/jenis-kegiatan',
         icon: 'nav-icon-bullet'
       },
+      {
+        name: 'Jenis Pelanggaran',
+        url: '/pengasuhan/jenis-pelanggaran',
+        icon: 'nav-icon-bullet'
+      },
     ]
   },
   {

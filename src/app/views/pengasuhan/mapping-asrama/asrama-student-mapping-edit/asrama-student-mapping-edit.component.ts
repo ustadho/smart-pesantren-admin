@@ -76,7 +76,6 @@ export class AsramaStudentMappingEditComponent {
     });
     setTimeout(async ()=> {
       if(this.activeTab?.data != null) {
-        console.log('this.activeTab.data', this.activeTab.data)
         this.form.patchValue(this.activeTab.data)
         const students = this.form.get('students') as FormArray;
         students.clear();
@@ -84,7 +83,6 @@ export class AsramaStudentMappingEditComponent {
           students.push(this.fb.group(s));
         });
         this.selectedAsrama = await this.asramas.find((x: any) => x.id == this.form.get('asramaId')?.value);
-        // console.log('selectedAsrama', this.selectedAsrama)
         this.onSelectAsrama(this.selectedAsrama);
       }
     }, 500)
