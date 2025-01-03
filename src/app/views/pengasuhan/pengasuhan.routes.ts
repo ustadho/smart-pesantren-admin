@@ -12,14 +12,21 @@ export const routes: Routes = [
     path: 'jenis-kegiatan',
     loadComponent: () => import('./jenis-kegiatan/jenis-kegiatan.component').then(m => m.JenisKegiatanComponent),
     data: {
-      title: 'Absensi KBM',
+      title: 'Jenis Kegiatan',
     }
   },
   {
     path: 'jenis-pelanggaran',
     loadComponent: () => import('./jenis-pelanggaran/jenis-pelanggaran.component').then(m => m.JenisPelanggaranComponent),
     data: {
-      title: 'Absensi KBM',
+      title: 'Jenis Pelanggaran',
+    }
+  },
+  {
+    path: 'tugas-kepengasuhan',
+    loadComponent: () => import('./tugas-kepengasuhan/tugas-kepengasuhan.component').then(m => m.TugasKepengasuhanComponent),
+    data: {
+      title: 'Tugas Kepengasuhan',
     }
   },
 ];
