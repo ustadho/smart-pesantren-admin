@@ -1,0 +1,111 @@
+<form role="form" novalidate (ngSubmit)="onSubmit()" [formGroup]="form">
+  <div class="card">
+    <div class="card-header">
+      <i class="fa fa-edit"></i> <span class="h5"> Salin Jam Aktivitas ke [{{param.institutionName}} - {{param.sex == 'M'? 'Putra': 'Putri'}}] </span>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <app-base-input
+            [formGroup]="form"
+            type="ng-select"
+            [items]="institutions"
+            controlName="institutionId"
+            label="Dari Institusi"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-4 col-md-8"
+            layout="horizontal"
+            (onSelectChange)="loadAll(); onSelectInstitution($event)"
+          ></app-base-input>
+        </div>
+        <div class="col-md-4">
+          <app-base-input
+            [formGroup]="form"
+            type="ng-select"
+            [items]="sexs"
+            controlName="sex"
+            label="Putra/i"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-4 col-md-8"
+            layout="horizontal"
+            (onSelectChange)="loadAll()"
+          ></app-base-input>
+        </div>
+        <div class="col-md-2">
+          <div
+              class="btn-group"
+              role="group"
+              aria-label="Refresh and Add button"
+            >
+              <button
+                type="button"
+                class="btn btn-secondary"
+                (click)="loadAll()"
+                [disabled]="isLoading()"
+              >
+                <fa-icon
+                  [icon]="['fas', 'sync']"
+                  [animation]="isLoading() ? 'spin' : undefined"
+                ></fa-icon>
+              </button>
+            </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="table table-sm table-hover">
+              <thead>
+                <tr
+                  style="cursor: pointer"
+                >
+                  <th>
+                    <span> Jam Ke </span>
+                  </th>
+                  <th jhiSortBy="startTime">
+                    <span> Jam Mulai</span>
+                  </th>
+                  <th jhiSortBy="endTime">
+                    <span> Jam Selesai</span>
+                  </th>
+                  <th jhiSortBy="description">
+                    <span> Keterangan </span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="
+                    let d of data;
+                    let idx = index;
+                    trackBy: trackIdentity
+                  "
+                  [ngStyle]="{ cursor: 'pointer' }"
+                >
+                  <td>{{ d.seq }}</td>
+                  <td>{{ d.startTime }}</td>
+                  <td>{{ d.endTime }}</td>
+                  <td>{{ d.description }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row pt-2">
+        <div class="col-md-12">
+          <div class="row pt-2">
+            <div class="d-flex justify-content-end px-2">
+              <app-submit-button
+                *ngIf="data != null && data.length > 0"
+                [isSubmitting]="isSubmitting()"
+                buttonText="Salin Jam Aktivitas"
+              >
+              </app-submit-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

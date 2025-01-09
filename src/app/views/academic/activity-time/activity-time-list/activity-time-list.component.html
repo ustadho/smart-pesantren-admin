@@ -20,7 +20,7 @@
                       bindLabel="name"
                       bindValue="id"
                       formControlName="institutionId"
-                      (change)="page = 1; loadAll()"
+                      (change)="page = 1; loadAll(); onSelectInstitution($event)"
                     >
                     </ng-select>
                   </label>
@@ -63,6 +63,14 @@
                         (click)="onAdd.emit()"
                       >
                         <i class="fa fa-plus fa-fw"></i>
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-default btn-outline-success"
+                        (click)="onCopy()"
+                        *ngIf="(data == null || data.length == 0) && filterForm.get('sex')?.value != null"
+                      >
+                        <i class="fa fa-copy fa-fw"></i>
                       </button>
                     </div>
                   </label>
