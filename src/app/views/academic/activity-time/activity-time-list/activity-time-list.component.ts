@@ -39,7 +39,10 @@ export class ActivityTimeListComponent {
   public predicate: any;
   public data: any[] = [];
   filterForm: any;
-
+  sexs = [
+    {id: "M", name: "Putra"},
+    {id: "F", name: "Putri"},
+  ]
   isLoading = signal(false);
   sortState = sortStateSignal({});
 
@@ -52,6 +55,7 @@ export class ActivityTimeListComponent {
   ngOnInit(): void {
     this.filterForm = this.fb.group({
       institutionId: [null],
+      sex: [null],
     })
     this.handleNavigation();
   }
@@ -63,6 +67,7 @@ export class ActivityTimeListComponent {
         size: this.itemsPerPage,
         sort: this.sortService.buildSortParam(this.sortState(), 'seq'),
         iid: this.filterForm.value.institutionId?? '',
+        sex: this.filterForm.value.sex??'',
       })
       .subscribe({
         next: (res: any) => {
@@ -97,6 +102,7 @@ export class ActivityTimeListComponent {
       queryParams: {
         page: this.page,
         iid: this.filterForm.value.institutionId??'',
+        sex: this.filterForm.value.sex??'',
         sort: this.sortService.buildSortParam(sortState ?? this.sortState()),
       },
     });

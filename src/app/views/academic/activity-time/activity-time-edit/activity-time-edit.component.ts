@@ -32,11 +32,16 @@ export class ActivityTimeEditComponent {
   fb = inject(FormBuilder)
   private toast= inject(ToastrService);
   private service = inject(AcademicActivityTimeService)
+  sexs = [
+    {id: "M", name: "Putra"},
+    {id: "F", name: "Putri"},
+  ]
 
   constructor() {
     this.form = this.fb.group({
       id: [null],
       institutionId: [null, [Validators.required]],
+      sex: [null, [Validators.required]],
       seq: [1, [Validators.required]],
       startTime: ['07:00', [Validators.required]],
       endTime: ['16:00', [Validators.required]],

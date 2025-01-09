@@ -24,6 +24,20 @@
                     >
                     </ng-select>
                   </label>
+                  <label for="sex" class="col-md-2"
+                    >Putra/Putri
+                    <ng-select
+                      placeholder="Putra/Putri"
+                      id="sex"
+                      name="sex"
+                      [items]="sexs"
+                      bindLabel="name"
+                      bindValue="id"
+                      formControlName="sex"
+                      (change)="page = 1; loadAll()"
+                    >
+                    </ng-select>
+                  </label>
                   <label class="col-md-2 px-lg-2">
                     &nbsp;
                     <div
@@ -70,6 +84,9 @@
                       <th jhiSortBy="institution.name">
                         <span> Institusi </span><fa-icon icon="sort"></fa-icon>
                       </th>
+                      <th jhiSortBy="sex">
+                        <span> Putra/i </span><fa-icon icon="sort"></fa-icon>
+                      </th>
                       <th jhiSortBy="seq">
                         <span> Jam Ke </span><fa-icon icon="sort"></fa-icon>
                       </th>
@@ -95,6 +112,7 @@
                       (click)="onSelectRow(d)"
                     >
                       <td>{{ d.institutionName }}</td>
+                      <td>{{ d.sex == 'M' ? 'Putra' : 'Putri' }}</td>
                       <td>{{ d.seq }}</td>
                       <td>{{ d.startTime }}</td>
                       <td>{{ d.endTime }}</td>
