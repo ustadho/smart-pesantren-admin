@@ -70,8 +70,6 @@ export class ActivityTimeEditComponent {
     if (this.form.valid) {
       this.isSubmitting.set(true);
       let data = this.form.getRawValue()
-      data.startTime = new Date(`1970-01-01 ${data.startTime}`)
-      data.endTime = new Date(`1970-01-01 ${data.endTime}`)
 
       if (data.id == null) {
         this.service.create(data).subscribe({
