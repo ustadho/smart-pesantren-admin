@@ -101,8 +101,8 @@ export class ActivityTimeCopyComponent {
             element.id = null
             element.institutionId = this.param.institutionId
             element.sex = this.param.sex
-            element.startTime = new Date(`1970-01-01 ${element.startTime}`)
-            element.endTime = new Date(`1970-01-01 ${element.endTime}`)
+            // element.startTime = new Date(`1970-01-01 ${element.startTime}`)
+            // element.endTime = new Date(`1970-01-01 ${element.endTime}`)
             vms.push(element)
           }
           this.service.copy(vms).subscribe({
