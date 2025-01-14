@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Output, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, EventEmitter, inject, Input, Output, signal } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PageChangedEvent, PaginationModule } from 'ngx-bootstrap/pagination';
 import { SortByDirective, SortDirective, SortService, SortState, sortStateSignal } from '../../../../shared/directive/sort';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -10,17 +10,20 @@ import { GuardianService } from '../../../../domain/service/guardian.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
 import { SORT } from '../../../../shared/constant/navigation.constants';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-guardian-list',
   standalone: true,
   imports: [
     FormsModule,
+    ReactiveFormsModule,
     CommonModule,
     PaginationModule,
     SortDirective,
     SortByDirective,
     FontAwesomeModule,
+    NgSelectModule,
   ],
   templateUrl: './guardian-list.component.html',
   styleUrl: './guardian-list.component.scss'
@@ -28,8 +31,9 @@ import { SORT } from '../../../../shared/constant/navigation.constants';
 export class GuardianListComponent {
   @Output() onAdd = new EventEmitter<any>();
   @Output() onEdit = new EventEmitter<any>();
+  @Input() personTitles: any[] = []
   public q = '';
-  public sex = '';
+  public personTitleId = null;
   public totalItems: number = 0;
   public page: any;
   public previousPage: any;
@@ -50,6 +54,10 @@ export class GuardianListComponent {
     this.handleNavigation();
   }
 
+  onPersonTitleChange(e: any) {
+    this.loadAll()
+  }
+
   public loadAll() {
     this.service
       .query({
@@ -57,7 +65,7 @@ export class GuardianListComponent {
         size: this.itemsPerPage,
         sort: this.sortService.buildSortParam(this.sortState(), 'name'),
         q: this.q,
-        sex: this.sex,
+        title: this.personTitleId??'',
       })
       .subscribe({
         next: (res: any) => {
@@ -87,7 +95,7 @@ export class GuardianListComponent {
   }
 
   transition(sortState?: SortState): void {
-    this.router.navigate(['/academic/guardian'], {
+    this.router.navigate(['/guardian/guardian'], {
       relativeTo: this.activatedRoute.parent,
       queryParams: {
         page: this.page,

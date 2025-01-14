@@ -159,6 +159,7 @@
           >
             <pagination
               [totalItems]="totalItems"
+              [maxSize]="10"
               [(ngModel)]="page"
               [boundaryLinks]="true"
               (pageChanged)="loadPage($event)"

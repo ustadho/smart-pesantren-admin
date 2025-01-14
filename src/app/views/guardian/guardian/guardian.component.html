@@ -7,7 +7,7 @@
           <tabset #tabset>
             <tab (selectTab)="refreshList($event)">
               <ng-template tabHeading><i class="fa fa-list"></i></ng-template>
-              <app-guardian-list (onAdd)="onAdd()" (onEdit)="onEdit($event)">
+              <app-guardian-list [personTitles]="personTitles" (onAdd)="onAdd()" (onEdit)="onEdit($event)">
               </app-guardian-list>
             </tab>
             <tab

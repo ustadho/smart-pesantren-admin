@@ -57,11 +57,6 @@ export const navItems: INavData[] = [
         url: '/academic/activity-time',
         icon: 'nav-icon-bullet'
       },
-      {
-        name: 'Wali Santri',
-        url: '/academic/guardian',
-        icon: 'nav-icon-bullet'
-      },
     ]
   },
   {
@@ -97,6 +92,18 @@ export const navItems: INavData[] = [
       {
         name: 'Tugas Kepengasuhan',
         url: '/pengasuhan/tugas-kepengasuhan',
+        icon: 'nav-icon-bullet'
+      },
+    ]
+  },
+  {
+    name: 'Walisantri',
+    url: '/guardian',
+    iconComponent: { name: 'cil-bell' },
+    children: [
+      {
+        name: 'Wali Santri',
+        url: '/guardian/guardian',
         icon: 'nav-icon-bullet'
       },
     ]
