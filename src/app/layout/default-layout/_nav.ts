@@ -97,7 +97,7 @@ export const navItems: INavData[] = [
     ]
   },
   {
-    name: 'Walisantri',
+    name: 'Orang Tua',
     url: '/guardian',
     iconComponent: { name: 'cil-bell' },
     children: [
