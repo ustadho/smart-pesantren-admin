@@ -49,6 +49,12 @@ export const appConfig: ApplicationConfig = {
       withFetch(),
       withInterceptors([progressInterceptor])
     ),
+    provideNgProgressOptions({
+      // color: '#3f51b5',
+      // thick: true,
+      spinner: true,
+      // fixed: true,
+    }),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

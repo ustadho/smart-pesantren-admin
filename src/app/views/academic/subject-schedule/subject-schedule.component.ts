@@ -171,4 +171,8 @@ export class SubjectScheduleComponent {
   trackIdentity(index: number, d: any) {
     return d.id;
   }
+
+  formatTime(time: string): Date {
+    return new Date(`1970-01-01T${time}`);
+  }
 }

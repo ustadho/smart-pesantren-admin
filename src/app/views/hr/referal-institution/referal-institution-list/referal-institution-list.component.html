@@ -49,6 +49,7 @@
                   <thead>
                     <tr jhiSort [sortState]="sortState" (sortChange)="transition($event)">
                       <th jhiSortBy="name"><span> Nama Institusi </span><fa-icon icon="sort"></fa-icon></th>
+                      <th jhiSortBy="address"><span> Alamat </span><fa-icon icon="sort"></fa-icon></th>
                       <th jhiSortBy="city.name"><span> Kota </span><fa-icon icon="sort"></fa-icon></th>
                       <th jhiSortBy="description"><span> Keterangan </span><fa-icon icon="sort"></fa-icon></th>
                     </tr>
@@ -65,6 +66,7 @@
 
                     >
                       <td>{{ d.name }}</td>
+                      <td>{{ d.address }}</td>
                       <td>{{ d.city?.name }} - {{ d.city?.province.name }}</td>
                       <td>{{ d.description }}</td>
                     </tr>
@@ -76,6 +78,7 @@
           <div class="d-flex justify-content-center" *ngIf="totalItems > itemsPerPage">
             <pagination
               [totalItems]="totalItems"
+              [maxSize]="10"
               [(ngModel)]="page"
               [boundaryLinks]="true"
               (pageChanged)="loadPage($event)"
