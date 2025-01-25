@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { SubjectScheduleService } from '../../../domain/service/subject-schedule.service';
 import { SubjectScheduleEditDialogComponent } from './subject-schedule-edit-dialog/subject-schedule-edit-dialog.component';
+import { SubjectScheduleHistoryComponent } from './subject-schedule-edit-history/subject-schedule-history.component';
 
 @Component({
   selector: 'app-subject-schedule',
@@ -78,6 +79,7 @@ export class SubjectScheduleComponent {
 
   loadClassRoom() {
     this.classRooms = [];
+    this.data = [];
     if (
       this.form.value.academicYearId == null ||
       this.form.value.institutionId == null
@@ -113,6 +115,26 @@ export class SubjectScheduleComponent {
 
   onPreviewReport() {
     this.subjectScheduleService.previewByClassRoom(this.form.get('classRoomId')?.value, 'pdf')
+  }
+
+  onPreviewAuditLog() {
+    this.subjectScheduleService.findAllHistoryByClassRoomId(this.form.get('classRoomId')?.value)
+    .subscribe((res: any) => {
+      const logs = res.body
+      const initialState: ModalOptions = {
+        initialState: {
+          data: logs,
+          className: this.classRooms.find(e=>e.id == this.form.getRawValue().classRoomId)?.name
+        },
+      };
+
+      this.modalRef = this.bsModalService.show(
+        SubjectScheduleHistoryComponent,
+        initialState
+      );
+      this.modalRef.setClass('modal-lg');
+      this.modalRef.content.closeBtnName = 'Close';
+    })
   }
 
   onSelectSchedule(activityId: string, d: any) {

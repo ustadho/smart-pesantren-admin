@@ -69,9 +69,12 @@ export class ActivityTimeEditComponent {
 
     if (this.form.valid) {
       this.isSubmitting.set(true);
-      let data = this.form.getRawValue()
+      let data = { ...this.form.getRawValue()}
 
       if (data.id == null) {
+        data.startTime = `${data.startTime}:00`;
+        data.endTime = `${data.endTime}:00`;
+
         this.service.create(data).subscribe({
           next: (res: any) => {
             this.onSuccess(false)

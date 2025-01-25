@@ -41,4 +41,10 @@ export class SubjectScheduleService {
     return this.http.get(`${this.resourceUrl}/by-teacher/${id}`, {observe: 'response'})
   }
 
+  findAllHistoryByClassRoomId(id: string): Observable<any> {
+    return this.http.get(`${this.resourceUrl}/history/${id}`, {
+      observe: 'response'
+    })
+  }
+
 }

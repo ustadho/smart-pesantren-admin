@@ -1,0 +1,48 @@
+<form role="form" novalidate>
+  <div class="modal-header">
+    <strong> Riwayat kelola data jadwal {{className}}</strong>
+    <button
+      type="button"
+      class="btn-close close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-container border">
+          <table class="table table-bordered text-center">
+            <thead>
+              <tr>
+                <th class="table-freeze">Hari</th>
+                <th class="table-freeze">Pelajaran</th>
+                <th class="table-freeze">Guru Pengampu</th>
+                <th class="table-freeze">Jam Ke</th>
+                <!-- <th class="table-freeze">Jam Pelajaran</th> -->
+                <th class="table-freeze">Aktifitas</th>
+                <th class="table-freeze">User</th>
+                <th class="table-freeze">Jam Kelola</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let d of data; let i = index">
+                <td class="p-0">{{ d.dayName }}</td>
+                <td class="p-0">{{ d.subjectName }}</td>
+                <td class="p-0">{{ d.teacherName }}</td>
+                <td class="p-0">{{ d.seq | number }}</td>
+                <!-- <td class="table-freeze p-0">{{ d.startTime }} - {{ d.endTime }} </td> -->
+                <td class="p-0">{{ d.activity }}</td>
+                <td class="p-0">{{ d.createdBy }}</td>
+                <td class="p-0">{{ d.createdDate | date: 'dd-MM-yyyy HH:mm' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

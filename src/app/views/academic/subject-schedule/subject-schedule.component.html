@@ -53,7 +53,8 @@
               </div>
               <div class="col-md-6">
                 <button type="button" class="btn btn-primary mx-1" [disabled]="form.get('classRoomId')?.value == null || isLoading()" (click)="onLoadAllSchedules()"><i class="fa fa-refresh"></i> Refresh</button>
-                <button type="button" class="btn btn-secodary mx-1" [disabled]="form.get('classRoomId')?.value == null || isLoading()" (click)="onPreviewReport()"><i class="fa fa-print"></i> Cetak</button>
+                <button type="button" class="btn btn-secodary btn-outline-success mx-1" [disabled]="form.get('classRoomId')?.value == null || isLoading()" (click)="onPreviewReport()"><i class="fa fa-print"></i> Cetak</button>
+                <button type="button" class="btn btn-outline-primary mx-1" [disabled]="form.get('classRoomId')?.value == null || isLoading()" (click)="onPreviewAuditLog()"><i class="fa fa-list"></i> Riwayat </button>
               </div>
             </div>
             <div class="row mt-2" *ngIf="data != null && data.length > 0">

@@ -86,7 +86,11 @@ export class WorkingTimeEditComponent implements OnInit {
   onSubmit() {
     this.isSubmitting.set(true);
     if (this.form.getRawValue().id == null) {
-      this.service.create(this.form.getRawValue()).subscribe({
+      let data = { ...this.form.getRawValue()}
+      // data.checkInTime = new Date(`'1970-01-01 ${data.checkInTime}`),
+      // data.checkOutTime = new Date(`'1970-01-01 ${data.checkOutTime}`),
+
+      this.service.create(data).subscribe({
         next: (res: any) => {
           this.onSuccess(false)
         },
