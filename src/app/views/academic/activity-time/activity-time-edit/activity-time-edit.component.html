@@ -1,16 +1,32 @@
 <form role="form" novalidate (ngSubmit)="onSubmit()" [formGroup]="form">
   <div class="card">
     <div class="card-body">
-      <app-base-input
-        [formGroup]="form"
-        type="ng-select"
-        [items]="institutions"
-        controlName="institutionId"
-        label="Jam Ke"
-        labelWidth="col-sm-3 col-md-2"
-        inputWidth="col-sm-4 col-md-6"
-        layout="horizontal"
-      ></app-base-input>
+      <div class="row">
+        <div class="col-md-6">
+          <app-base-input
+            [formGroup]="form"
+            type="ng-select"
+            [items]="institutions"
+            controlName="institutionId"
+            label="Institusi"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-4 col-md-8"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+        <div class="col-md-6">
+          <app-base-input
+            [formGroup]="form"
+            type="ng-select"
+            [items]="sexs"
+            controlName="sex"
+            label="Putra/i"
+            labelWidth="col-sm-3 col-md-2"
+            inputWidth="col-sm-4 col-md-4"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+      </div>
       <app-base-input
         [formGroup]="form"
         type="number"

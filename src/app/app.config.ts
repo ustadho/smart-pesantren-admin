@@ -25,6 +25,7 @@ import { Observable } from 'rxjs';
 import { provideToastr } from 'ngx-toastr';
 import { provideNgProgressOptions } from 'ngx-progressbar';
 import { progressInterceptor } from 'ngx-progressbar/http';
+import { TimeZoneInterceptor } from './core/interceptor/timezone.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -48,6 +49,12 @@ export const appConfig: ApplicationConfig = {
       withFetch(),
       withInterceptors([progressInterceptor])
     ),
+    provideNgProgressOptions({
+      // color: '#3f51b5',
+      // thick: true,
+      spinner: true,
+      // fixed: true,
+    }),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
@@ -66,6 +73,11 @@ export const appConfig: ApplicationConfig = {
     {
       provide: HTTP_INTERCEPTORS,
       useClass: NotificationInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TimeZoneInterceptor,
       multi: true,
     },
     provideNgxWebstorage(

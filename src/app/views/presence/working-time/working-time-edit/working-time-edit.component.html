@@ -18,13 +18,27 @@
         layout="horizontal"
       ></app-base-input>
       <div class="row">
-        <label class="col-md-2 col-form-label d-flex align-items-center" for="checkInTime">Jam Masuk</label>
-        <div class="col-md-2">
-          <timepicker [showMeridian]="isMeridian" id="checkInTime" formControlName="checkInTime"></timepicker>
+        <div class="col-md-4">
+          <app-base-input
+            [formGroup]="form"
+            type="time"
+            controlName="checkInTime"
+            label="Jam Masuk"
+            labelWidth="col-sm-3 col-md-6"
+            inputWidth="col-sm-4 col-md-6"
+            layout="horizontal"
+          ></app-base-input>
         </div>
-        <label class="col-md-2 col-form-label d-flex align-items-center" for="checkOutTime">Jam Pulang</label>
-        <div class="col-md-2">
-          <timepicker [showMeridian]="isMeridian" id="checkOutTime" formControlName="checkOutTime"></timepicker>
+        <div class="col-md-4">
+          <app-base-input
+            [formGroup]="form"
+            type="time"
+            controlName="checkOutTime"
+            label="Jam Pulang"
+            labelWidth="col-sm-3 col-md-6"
+            inputWidth="col-sm-4 col-md-6"
+            layout="horizontal"
+          ></app-base-input>
         </div>
       </div>
       <div class="row">
@@ -44,23 +58,51 @@
         </div>
       </div>
       <div class="row">
-        <label class="col-md-2 col-form-label d-flex align-items-center" for="scanStartCheckInTime">Awal Scan Masuk</label>
-        <div class="col-md-2">
-          <timepicker [showMeridian]="isMeridian" id="scanStartCheckInTime" formControlName="scanStartCheckInTime"></timepicker>
+        <div class="col-md-4">
+          <app-base-input
+            [formGroup]="form"
+            type="time"
+            controlName="scanStartCheckInTime"
+            label="Awal Scan Masuk"
+            labelWidth="col-sm-3 col-md-6"
+            inputWidth="col-sm-4 col-md-6"
+            layout="horizontal"
+          ></app-base-input>
         </div>
-        <label class="col-md-2 col-form-label d-flex align-items-center" for="scanEndCheckInTime">Akhir Scan Masuk</label>
-        <div class="col-md-2">
-          <timepicker [showMeridian]="isMeridian" id="scanEndCheckInTime" formControlName="scanEndCheckInTime"></timepicker>
+        <div class="col-md-4">
+          <app-base-input
+            [formGroup]="form"
+            type="time"
+            controlName="scanEndCheckInTime"
+            label="Akhir Scan Masuk"
+            labelWidth="col-sm-3 col-md-6"
+            inputWidth="col-sm-4 col-md-6"
+            layout="horizontal"
+          ></app-base-input>
         </div>
       </div>
       <div class="row">
-        <label class="col-md-2 col-form-label d-flex align-items-center" for="scanStartCheckOutTime">Awal Scan Pulang</label>
-        <div class="col-md-2">
-          <timepicker [showMeridian]="isMeridian" id="scanStartCheckOutTime" formControlName="scanStartCheckOutTime"></timepicker>
+        <div class="col-md-4">
+          <app-base-input
+            [formGroup]="form"
+            type="time"
+            controlName="scanStartCheckOutTime"
+            label="Awal Scan Pulang"
+            labelWidth="col-sm-3 col-md-6"
+            inputWidth="col-sm-4 col-md-6"
+            layout="horizontal"
+          ></app-base-input>
         </div>
-        <label class="col-md-2 col-form-label d-flex align-items-center" for="scanEndCheckOutTime">Akhir Scan Pulang</label>
-        <div class="col-md-2">
-          <timepicker [showMeridian]="isMeridian" id="scanEndCheckOutTime" formControlName="scanEndCheckOutTime"></timepicker>
+        <div class="col-md-4">
+          <app-base-input
+            [formGroup]="form"
+            type="time"
+            controlName="scanEndCheckOutTime"
+            label="Akhir Scan Pulang"
+            labelWidth="col-sm-3 col-md-6"
+            inputWidth="col-sm-4 col-md-6"
+            layout="horizontal"
+          ></app-base-input>
         </div>
       </div>
       <app-base-input

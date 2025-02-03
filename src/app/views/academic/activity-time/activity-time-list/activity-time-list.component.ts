@@ -11,6 +11,8 @@ import { AcademicActivityTimeService } from '../../../../domain/service/academic
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
 import { SORT } from '../../../../shared/constant/navigation.constants';
+import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
+import { ActivityTimeCopyComponent } from '../activity-time-copy/activity-time-copy.component';
 
 @Component({
   selector: 'app-activity-time-list',
@@ -25,6 +27,7 @@ import { SORT } from '../../../../shared/constant/navigation.constants';
     FontAwesomeModule,
     NgSelectComponent,
   ],
+  providers: [BsModalService],
   templateUrl: './activity-time-list.component.html',
   styleUrl: './activity-time-list.component.scss'
 })
@@ -39,19 +42,26 @@ export class ActivityTimeListComponent {
   public predicate: any;
   public data: any[] = [];
   filterForm: any;
-
+  sexs = [
+    {id: "M", name: "Putra"},
+    {id: "F", name: "Putri"},
+  ]
   isLoading = signal(false);
   sortState = sortStateSignal({});
+  selectedInstitution: any;
 
   private fb = inject(FormBuilder);
   private service = inject(AcademicActivityTimeService);
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
   private sortService = inject(SortService);
+  private modalRef?: BsModalRef;
+  private bsModalService = inject(BsModalService);
 
   ngOnInit(): void {
     this.filterForm = this.fb.group({
       institutionId: [null],
+      sex: [null],
     })
     this.handleNavigation();
   }
@@ -63,6 +73,7 @@ export class ActivityTimeListComponent {
         size: this.itemsPerPage,
         sort: this.sortService.buildSortParam(this.sortState(), 'seq'),
         iid: this.filterForm.value.institutionId?? '',
+        sex: this.filterForm.value.sex??'',
       })
       .subscribe({
         next: (res: any) => {
@@ -71,6 +82,11 @@ export class ActivityTimeListComponent {
         },
         error: () => this.isLoading.set(false),
       });
+  }
+
+  onSelectInstitution(e: any) {
+    console.log('onSelectInstitution', e)
+    this.selectedInstitution = e
   }
 
   onSuccess(body: any, headers: HttpHeaders) {
@@ -97,6 +113,7 @@ export class ActivityTimeListComponent {
       queryParams: {
         page: this.page,
         iid: this.filterForm.value.institutionId??'',
+        sex: this.filterForm.value.sex??'',
         sort: this.sortService.buildSortParam(sortState ?? this.sortState()),
       },
     });
@@ -116,6 +133,31 @@ export class ActivityTimeListComponent {
     this.service.findOne(d.id).subscribe((res: any) => {
       this.onEdit.emit(res.body);
     });
+  }
+
+  onCopy() {
+    const initialState: ModalOptions = {
+      initialState: {
+        param: {
+          sex: this.filterForm.value?.sex,
+          institutionId: this.filterForm.value?.institutionId,
+          institutionName: this.selectedInstitution?.name,
+        },
+        institutions: this.institutions,
+        title: 'Lookup Santri',
+      },
+    };
+
+    this.modalRef = this.bsModalService.show(
+      ActivityTimeCopyComponent,
+      initialState
+    );
+    this.modalRef.setClass('modal-lg');
+    this.modalRef.content.closeBtnName = 'Close';
+
+    this.modalRef.content.onClose.subscribe((arr: any) => {
+      this.loadAll()
+    })
   }
 
   trackIdentity(index: number, d: any) {

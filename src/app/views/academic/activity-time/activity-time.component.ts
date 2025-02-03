@@ -63,7 +63,7 @@ export class ActivityTimeComponent {
     if (rowIndex == -1) {
       const newTabIndex = this.tabs.length;
       this.tabs.push({
-        title: `Edit - ${data.description}`,
+        title: `Edit - Jam ke-${data.seq}`,
         content: ``,
         disabled: false,
         removable: true,

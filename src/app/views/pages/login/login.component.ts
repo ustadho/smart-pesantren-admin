@@ -26,6 +26,8 @@ import { Router } from '@angular/router';
 import { AlertComponent } from '@coreui/angular';
 import { Account } from '../../../core/user/account.model';
 import { map, Observable } from 'rxjs';
+import { AcademicYearService } from '../../../domain/service/academic-year.service';
+import { AccountService } from '../../../core/auth/account.service';
 
 
 @Component({
@@ -41,7 +43,6 @@ import { map, Observable } from 'rxjs';
     TextColorDirective,
     CardComponent,
     CardBodyComponent,
-    FormDirective,
     InputGroupComponent,
     InputGroupTextDirective,
     IconDirective,
@@ -62,6 +63,7 @@ export class LoginComponent implements OnInit{
   constructor(
     private fb: FormBuilder,
     private loginService: LoginService,
+    private accountService: AccountService,
     private router: Router,
     private stateStorageService: StateStorageService,
     private store: Store<fromApp.AppState>
@@ -89,7 +91,6 @@ export class LoginComponent implements OnInit{
         // since login is successful, go to stored previousState and clear previousState
         const redirect = this.stateStorageService.getUrl();
         this.store.select('auth').subscribe(data => {
-          console.log('auth', data)
           if(redirect) {
             this.stateStorageService.storeUrl('');
             this.router.navigate([redirect]);
@@ -108,6 +109,10 @@ export class LoginComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.store.dispatch(AuthActions.logout());
+    this.accountService.identity().then(() => {
+      if (this.accountService.isAuthenticated()) {
+        this.router.navigate(['']);
+      }
+    });
    }
 }

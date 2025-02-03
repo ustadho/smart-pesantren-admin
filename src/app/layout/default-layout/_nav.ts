@@ -57,9 +57,53 @@ export const navItems: INavData[] = [
         url: '/academic/activity-time',
         icon: 'nav-icon-bullet'
       },
+    ]
+  },
+  {
+    name: 'Pengasuhan',
+    url: '/pengasuhan',
+    iconComponent: { name: 'cil-calendar' },
+    children: [
+      {
+        name: 'Mapping Santri',
+        url: '/pengasuhan/student-mapping',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Jenis Kegiatan',
+        url: '/pengasuhan/jenis-kegiatan',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Jenis Prestasi',
+        url: '/pengasuhan/jenis-prestasi',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Jenis Pelanggaran',
+        url: '/pengasuhan/jenis-pelanggaran',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Jenis Izin',
+        url: '/pengasuhan/jenis-izin-santri',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Tugas Kepengasuhan',
+        url: '/pengasuhan/tugas-kepengasuhan',
+        icon: 'nav-icon-bullet'
+      },
+    ]
+  },
+  {
+    name: 'Orang Tua',
+    url: '/guardian',
+    iconComponent: { name: 'cil-bell' },
+    children: [
       {
         name: 'Wali Santri',
-        url: '/academic/guardian',
+        url: '/guardian/guardian',
         icon: 'nav-icon-bullet'
       },
     ]
@@ -169,8 +213,23 @@ export const navItems: INavData[] = [
         icon: 'nav-icon-bullet'
       },
       {
+        name: 'Asrama',
+        url: '/setting/asrama',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Gedung',
+        url: '/setting/building',
+        icon: 'nav-icon-bullet'
+      },
+      {
         name: 'Lembaga Pendidikan',
         url: '/setting/institution',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Pesantren',
+        url: '/setting/pesantren',
         icon: 'nav-icon-bullet'
       },
       {

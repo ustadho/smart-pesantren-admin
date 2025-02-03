@@ -5,7 +5,6 @@ import { ReportService } from './report.service';
 
 @Injectable({ providedIn: 'root' })
 export class SubjectScheduleService {
-  timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   private resourceUrl = '/api/academic/subject-schedule';
 
   constructor(private http: HttpClient, private reportService: ReportService) { }
@@ -13,7 +12,6 @@ export class SubjectScheduleService {
   findAllByClassRoomId(id: string): Observable<any> {
 
     return this.http.get(`${this.resourceUrl}/${id}`, {
-      params: { timeZone: this.timeZone },
       observe: 'response'
     })
   }
@@ -31,7 +29,6 @@ export class SubjectScheduleService {
   previewByClassRoom(id: string, format: string) {
     const params = {
       crid: id,
-      tz: this.timeZone
     }
     this.reportService.getReport(`${this.resourceUrl}/report/by-classroom`, 'Jadwal Kelas', params, format)
   }
@@ -42,6 +39,12 @@ export class SubjectScheduleService {
 
   findSubjectScheduleClassroomByTeacher(id: string) {
     return this.http.get(`${this.resourceUrl}/by-teacher/${id}`, {observe: 'response'})
+  }
+
+  findAllHistoryByClassRoomId(id: string): Observable<any> {
+    return this.http.get(`${this.resourceUrl}/history/${id}`, {
+      observe: 'response'
+    })
   }
 
 }

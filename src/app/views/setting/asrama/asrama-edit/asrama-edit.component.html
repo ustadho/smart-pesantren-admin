@@ -1,0 +1,89 @@
+<form role="form" novalidate (ngSubmit)="onSubmit()" [formGroup]="form">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <app-base-input
+            [formGroup]="form"
+            label="Nama Asrama"
+            controlName="name"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-9 col-md-8"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+        <div class="col-md-6">
+          <app-base-input
+            [formGroup]="form"
+            controlName="code"
+            label="Kode"
+            labelWidth="col-sm-3 col-md-3"
+            inputWidth="col-sm-4 col-md-4"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <app-base-input
+            type="ng-select"
+            [formGroup]="form"
+            controlName="buildingId"
+            label="Gedung"
+            [items]="buildings"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-4 col-md-8"
+            layout="horizontal"
+            [labelFormat]="'${name} - ${locationName}'"
+          ></app-base-input>
+        </div>
+        <div class="col-md-6">
+          <app-base-input
+            [formGroup]="form"
+            controlName="capacity"
+            type="number"
+            label="Kapasitas"
+            labelWidth="col-sm-3 col-md-3"
+            inputWidth="col-sm-4 col-md-4"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+      </div>
+      <app-base-input
+        type="ng-select"
+        [formGroup]="form"
+        controlName="pesantrenId"
+        label="Pesantren"
+        [items]="pesantrens"
+        labelWidth="col-sm-3 col-md-2"
+        inputWidth="col-sm-4 col-md-6"
+        layout="horizontal"
+      ></app-base-input>
+      <app-base-input
+        type="textarea"
+        [formGroup]="form"
+        label="Keterangan"
+        controlName="description"
+        labelWidth="col-sm-3 col-md-2"
+        inputWidth="col-sm-9 col-md-8"
+        layout="horizontal"
+      ></app-base-input>
+
+      <div class="row border-top pt-2">
+        <div class="d-flex justify-content-between px-2">
+          <button
+            type="button"
+            class="btn btn-danger mr-2"
+            (click)="onDelete()"
+            *ngIf="form.get('id')?.value != null"
+          >
+            <i class="fa fa-ban"></i> Hapus
+          </button>
+          &nbsp;
+          <app-submit-button [isSubmitting]="isSubmitting" buttonText="Simpan">
+          </app-submit-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

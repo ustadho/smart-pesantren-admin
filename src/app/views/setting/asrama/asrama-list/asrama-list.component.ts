@@ -1,18 +1,20 @@
-import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Output, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { PageChangedEvent, PaginationModule } from 'ngx-bootstrap/pagination';
-import { SortByDirective, SortDirective, SortService, SortState, sortStateSignal } from '../../../../shared/directive/sort';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { combineLatest } from 'rxjs';
+import { Component, EventEmitter, inject, Input, OnInit, Output, signal } from '@angular/core';
 import { ITEMS_PER_PAGE } from '../../../../shared/constant/pagination.constants';
-import { GuardianService } from '../../../../domain/service/guardian.service';
+import { SortByDirective, SortDirective, SortService, SortState, sortStateSignal } from '../../../../shared/directive/sort';
+import { AsramaService } from '../../../../domain/service/asrama.service';
+import { BuildingService } from '../../../../domain/service/building.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
+import { PageChangedEvent, PaginationModule } from 'ngx-bootstrap/pagination';
+import { combineLatest } from 'rxjs';
 import { SORT } from '../../../../shared/constant/navigation.constants';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
-  selector: 'app-guardian-list',
+  selector: 'app-asrama-list',
   standalone: true,
   imports: [
     FormsModule,
@@ -21,27 +23,31 @@ import { SORT } from '../../../../shared/constant/navigation.constants';
     SortDirective,
     SortByDirective,
     FontAwesomeModule,
+    NgSelectModule,
   ],
-  templateUrl: './guardian-list.component.html',
-  styleUrl: './guardian-list.component.scss'
+  templateUrl: './asrama-list.component.html',
+  styleUrl: './asrama-list.component.scss'
 })
-export class GuardianListComponent {
+export class AsramaListComponent implements OnInit {
+  @Input() locations: any[] =[]
   @Output() onAdd = new EventEmitter<any>();
   @Output() onEdit = new EventEmitter<any>();
+  buildings: any[] =[]
   public q = '';
-  public sex = '';
+  public locationId = null;
+  public buildingId = null;
   public totalItems: number = 0;
   public page: any;
   public previousPage: any;
   public itemsPerPage = ITEMS_PER_PAGE;
   public predicate: any;
   public data: any[] = [];
-  public categories: any[] = [];
 
   isLoading = signal(false);
   sortState = sortStateSignal({});
 
-  private service = inject(GuardianService);
+  private service = inject(AsramaService);
+  private buildingService = inject(BuildingService);
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
   private sortService = inject(SortService);
@@ -57,7 +63,8 @@ export class GuardianListComponent {
         size: this.itemsPerPage,
         sort: this.sortService.buildSortParam(this.sortState(), 'name'),
         q: this.q,
-        sex: this.sex,
+        locationId: this.locationId??'',
+        buildingId: this.buildingId??'',
       })
       .subscribe({
         next: (res: any) => {
@@ -66,6 +73,18 @@ export class GuardianListComponent {
         },
         error: () => this.isLoading.set(false),
       });
+  }
+
+  onFilterBuilding() {
+    this.buildings = []
+    const p = {
+      locationId: this.locationId,
+      q: this.q,
+    }
+    this.buildingService.findAll(p).subscribe(res => {
+      this.buildings = res.body
+      this.transition()
+    })
   }
 
   onSuccess(body: any, headers: HttpHeaders) {
@@ -87,10 +106,13 @@ export class GuardianListComponent {
   }
 
   transition(sortState?: SortState): void {
-    this.router.navigate(['/academic/guardian'], {
+    this.router.navigate(['/setting/asrama'], {
       relativeTo: this.activatedRoute.parent,
       queryParams: {
         page: this.page,
+        q: this.q,
+        locatonId: this.locationId?? '',
+        buildingId: this.buildingId??'',
         sort: this.sortService.buildSortParam(sortState ?? this.sortState()),
       },
     });

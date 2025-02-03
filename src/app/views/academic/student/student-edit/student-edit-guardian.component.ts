@@ -15,7 +15,7 @@ import {
 } from '@angular/forms';
 import { ITab } from '../../../../domain/model/tab.model';
 import { SubDistrictService } from '../../../../domain/service/subdistricts.service';
-import { GuardianPanelComponent } from '../../guardian/guardian-panel/guardian-panel.component';
+import { GuardianPanelComponent } from '../../../guardian/guardian/guardian-panel/guardian-panel.component';
 import { KasEventManager } from '../../../../core/service/event-manager.service';
 
 @Component({

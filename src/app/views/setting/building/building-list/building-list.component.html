@@ -6,13 +6,27 @@
           <div class="row">
             <div class="col-md-12">
               <div class="form-row">
+                <label for="locationId" class="col-md-3"
+                    >Lokasi
+                    <ng-select
+                      placeholder="Pilih Lokasi"
+                      id="locationId"
+                      name="locationId"
+                      [items]="locations"
+                      bindLabel="name"
+                      bindValue="id"
+                      [(ngModel)]="locationId"
+                      (change)="page = 1; transition()"
+                    >
+                    </ng-select>
+                  </label>
                 <label for="q" class="col-md-3"
                   >Pencarian
                   <input
                     id="q"
                     autocomplete="off"
                     [(ngModel)]="q"
-                    (keyup.enter)="page = 1; loadAll()"
+                    (keyup.enter)="page = 1; transition()"
                     name="q"
                     type="text"
                     class="form-control"
@@ -48,13 +62,10 @@
                 <table class="table table-sm table-hover">
                   <thead>
                     <tr jhiSort [sortState]="sortState" (sortChange)="transition($event)">
-                      <th jhiSortBy="title"><span> Title</span><fa-icon icon="sort"></fa-icon></th>
-                      <th jhiSortBy="name"><span> Nama</span><fa-icon icon="sort"></fa-icon></th>
-                      <th jhiSortBy="sex"><span> Jenis Kelamin</span><fa-icon icon="sort"></fa-icon></th>
-                      <th jhiSortBy="dob"><span> Tgl. Lahir </span><fa-icon icon="sort"></fa-icon></th>
-                      <th jhiSortBy="phone"><span> No. HP </span><fa-icon icon="sort"></fa-icon></th>
-                      <th jhiSortBy="email"><span> Email </span><fa-icon icon="sort"></fa-icon></th>
-                      <th jhiSortBy="address"><span> Alamat </span><fa-icon icon="sort"></fa-icon></th>
+                      <th jhiSortBy="code"><span> Kode </span><fa-icon icon="sort"></fa-icon></th>
+                      <th jhiSortBy="name"><span> Nama Gedung </span><fa-icon icon="sort"></fa-icon></th>
+                      <th jhiSortBy="l.name"><span> Lokasi </span><fa-icon icon="sort"></fa-icon></th>
+                      <th><span> Warna </span></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -68,13 +79,10 @@
                       (click)="onSelectRow(d)"
 
                     >
-                      <td>{{ d.title }}</td>
+                      <td>{{ d.code }}</td>
                       <td>{{ d.name }}</td>
-                      <td>{{ d.sex }}</td>
-                      <td>{{ d.dob | date: 'dd/MM/yyyy' }}</td>
-                      <td>{{ d.phone }}</td>
-                      <td>{{ d.email }}</td>
-                      <td>{{ d.address }}</td>
+                      <td>{{ d.locationName }}</td>
+                      <td [ngStyle]="{'background-color': d.color}">&nbsp;</td>
                     </tr>
                   </tbody>
                 </table>

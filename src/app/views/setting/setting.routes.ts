@@ -64,6 +64,36 @@ export const routes: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
+    path: 'pesantren',
+    loadComponent: () => import('./pesantren/pesantren.component').then(m => m.PesantrenComponent),
+    data: {
+      title: 'Pesantren',
+      defaultSort: 'name,asc',
+      authorities: [ROLE_SUPERADMIN],
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'asrama',
+    loadComponent: () => import('./asrama/asrama.component').then(m => m.AsramaComponent),
+    data: {
+      title: 'Asrama',
+      defaultSort: 'name,asc',
+      authorities: [ROLE_SUPERADMIN],
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'building',
+    loadComponent: () => import('./building/building.component').then(m => m.BuildingComponent),
+    data: {
+      title: 'Gedung',
+      defaultSort: 'name,asc',
+      authorities: [ROLE_SUPERADMIN],
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
     path: 'location',
     loadComponent: () => import('./location/location.component').then(m => m.LocationComponent),
     data: {

@@ -34,6 +34,8 @@ export class WorkingTimeEditComponent implements OnInit {
   @Input() activeTab?: ITab;
   @Output() onRemove = new EventEmitter<any>();
   form: FormGroup;
+  tStart = '07:00:00';
+  tEnd = '16:00:00';
 
   isSubmitting = signal(false);
   isMeridian = false;
@@ -43,21 +45,19 @@ export class WorkingTimeEditComponent implements OnInit {
     private service: WorkingTimeService,
     private toast: ToastrService
   ) {
-    const tStart = new Date('1970-01-01 07:00:00')
-    const tEnd = new Date('1970-01-01 16:00:00')
     this.form = fb.group({
       id: [null],
       code: [null, [Validators.required]],
       name: [null, [Validators.required]],
       description: [null, [Validators.required]],
-      checkInTime: [tStart, [Validators.required]],
-      checkOutTime: [tEnd, [Validators.required]],
+      checkInTime: [this.tStart, [Validators.required]],
+      checkOutTime: [this.tEnd, [Validators.required]],
       lateTolerance: [10, [Validators.required]],
       earlyLeaveTolerance: [10, [Validators.required]],
-      scanStartCheckInTime: [tStart, [Validators.required]],
-      scanEndCheckInTime: [tStart, [Validators.required]],
-      scanStartCheckOutTime: [tEnd, [Validators.required]],
-      scanEndCheckOutTime: [tEnd, [Validators.required]],
+      scanStartCheckInTime: [this.tStart, [Validators.required]],
+      scanEndCheckInTime: [this.tStart, [Validators.required]],
+      scanStartCheckOutTime: [this.tEnd, [Validators.required]],
+      scanEndCheckOutTime: [this.tEnd, [Validators.required]],
       color: ['']
     });
   }
@@ -70,14 +70,14 @@ export class WorkingTimeEditComponent implements OnInit {
         code: d.code,
         name: d.name,
         description: d.description,
-        checkInTime: new Date(`'1970-01-01 ${d.checkInTime}`),
-        checkOutTime: new Date(`'1970-01-01 ${d.checkOutTime}`),
+        checkInTime: d.checkInTime,
+        checkOutTime: d.checkOutTime,
         lateTolerance: d.lateTolerance,
         earlyLeaveTolerance: d.earlyLeaveTolerance,
-        scanStartCheckInTime: new Date(`'1970-01-01 ${d.scanStartCheckInTime}`),
-        scanEndCheckInTime: new Date(`'1970-01-01 ${d.scanEndCheckInTime}`),
-        scanStartCheckOutTime: new Date(`'1970-01-01 ${d.scanStartCheckOutTime}`),
-        scanEndCheckOutTime: new Date(`'1970-01-01 ${d.scanEndCheckOutTime}`),
+        scanStartCheckInTime: d.scanStartCheckInTime,
+        scanEndCheckInTime: d.scanEndCheckInTime,
+        scanStartCheckOutTime: d.scanStartCheckOutTime,
+        scanEndCheckOutTime: d.scanEndCheckOutTime,
         color: d.color,
       });
     }
@@ -86,7 +86,11 @@ export class WorkingTimeEditComponent implements OnInit {
   onSubmit() {
     this.isSubmitting.set(true);
     if (this.form.getRawValue().id == null) {
-      this.service.create(this.form.getRawValue()).subscribe({
+      let data = { ...this.form.getRawValue()}
+      // data.checkInTime = new Date(`'1970-01-01 ${data.checkInTime}`),
+      // data.checkOutTime = new Date(`'1970-01-01 ${data.checkOutTime}`),
+
+      this.service.create(data).subscribe({
         next: (res: any) => {
           this.onSuccess(false)
         },
@@ -154,21 +158,19 @@ export class WorkingTimeEditComponent implements OnInit {
   }
 
   onReset() {
-    const tStart = new Date('1970-01-01 07:00:00')
-    const tEnd = new Date('1970-01-01 16:00:00')
     this.form.patchValue({
       id: null,
       code: null,
       name: null,
       description: null,
-      checkInTime: tStart,
-      checkOutTime: tEnd,
+      checkInTime: this.tStart,
+      checkOutTime: this.tEnd,
       lateTolerance: 10,
       earlyLeaveTolerance: 10,
-      scanStartCheckInTime: tStart,
-      scanEndCheckInTime: tStart,
-      scanStartCheckOutTime: tEnd,
-      scanEndCheckOutTime: tEnd,
+      scanStartCheckInTime: this.tStart,
+      scanEndCheckInTime: this.tStart,
+      scanStartCheckOutTime: this.tEnd,
+      scanEndCheckOutTime: this.tEnd,
       color: null,
     });
   }

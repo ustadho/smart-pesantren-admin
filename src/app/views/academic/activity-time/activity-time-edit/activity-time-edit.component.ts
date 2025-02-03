@@ -32,11 +32,16 @@ export class ActivityTimeEditComponent {
   fb = inject(FormBuilder)
   private toast= inject(ToastrService);
   private service = inject(AcademicActivityTimeService)
+  sexs = [
+    {id: "M", name: "Putra"},
+    {id: "F", name: "Putri"},
+  ]
 
   constructor() {
     this.form = this.fb.group({
       id: [null],
       institutionId: [null, [Validators.required]],
+      sex: [null, [Validators.required]],
       seq: [1, [Validators.required]],
       startTime: ['07:00', [Validators.required]],
       endTime: ['16:00', [Validators.required]],
@@ -64,11 +69,12 @@ export class ActivityTimeEditComponent {
 
     if (this.form.valid) {
       this.isSubmitting.set(true);
-      let data = this.form.getRawValue()
-      data.startTime = new Date(`1970-01-01 ${data.startTime}`)
-      data.endTime = new Date(`1970-01-01 ${data.endTime}`)
+      let data = { ...this.form.getRawValue()}
 
       if (data.id == null) {
+        data.startTime = `${data.startTime}:00`;
+        data.endTime = `${data.endTime}:00`;
+
         this.service.create(data).subscribe({
           next: (res: any) => {
             this.onSuccess(false)
