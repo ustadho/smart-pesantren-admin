@@ -43,8 +43,8 @@ export class ActivityTimeEditComponent {
       institutionId: [null, [Validators.required]],
       sex: [null, [Validators.required]],
       seq: [1, [Validators.required]],
-      startTime: ['07:00', [Validators.required]],
-      endTime: ['16:00', [Validators.required]],
+      startTime: ['07:00:00', [Validators.required]],
+      endTime: ['16:00:00', [Validators.required]],
       description: [null]
     })
   }
@@ -72,8 +72,8 @@ export class ActivityTimeEditComponent {
       let data = { ...this.form.getRawValue()}
 
       if (data.id == null) {
-        data.startTime = `${data.startTime}:00`;
-        data.endTime = `${data.endTime}:00`;
+        data.startTime = data.startTime;
+        data.endTime = data.endTime;
 
         this.service.create(data).subscribe({
           next: (res: any) => {
