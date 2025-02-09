@@ -20,13 +20,11 @@ import { LoginService } from '../../../core/login/login.service';
 import { StateStorageService } from '../../../core/auth/state-storage.service';
 import { Store, select } from '@ngrx/store';
 import * as fromApp from '../../../store/app.reducer';
-import * as AuthActions from '../../../core/login/store/auth.action'
 import * as AuthSelector from '../../../core/login/store/auth.selector';
 import { Router } from '@angular/router';
 import { AlertComponent } from '@coreui/angular';
 import { Account } from '../../../core/user/account.model';
 import { map, Observable } from 'rxjs';
-import { AcademicYearService } from '../../../domain/service/academic-year.service';
 import { AccountService } from '../../../core/auth/account.service';
 
 

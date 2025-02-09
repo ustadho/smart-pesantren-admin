@@ -7,7 +7,7 @@
             <tabset #tabset>
               <tab (selectTab)="refreshList($event)">
                 <ng-template tabHeading><i class="fa fa-list"></i></ng-template>
-                <app-user-management-list (onAdd)="onAdd()" (onEdit)="onEdit($event)">
+                <app-user-management-list (onAdd)="onAdd()" (onEdit)="onEdit($event)" [profiles]="profiles">
                 </app-user-management-list>
               </tab>
               <tab
@@ -36,6 +36,7 @@
     <ng-template let-tab="tab" #formEdit>
       <app-user-management-edit
         [activeTab]="tab"
+        [profiles]="profiles"
         (onAdd)="onAdd()"
         (onRemove)="onRemoveTab(tab)"
       ></app-user-management-edit>

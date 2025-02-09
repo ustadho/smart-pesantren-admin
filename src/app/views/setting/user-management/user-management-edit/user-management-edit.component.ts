@@ -6,9 +6,10 @@ import { BaseInputComponent } from '../../../../components/base-input/base-input
 import { SubmitButtonComponent } from '../../../../components/submit-button/submit-button.component';
 import { UserService } from '../../../../core/user/user.service';
 import { ITab } from '../../../../domain/model/tab.model';
-import { EmployeeService } from '../../../../domain/service/employee.service';
+import { PersonDataService } from '../../../../domain/service/person-data.service';
 import Swal from 'sweetalert2';
 import { InstitutionService } from '../../../../domain/service/institution.service';
+import { USER_PROFILE } from '../../../../shared/constant/user-profile.constant';
 
 @Component({
   selector: 'app-user-management-edit',
@@ -21,32 +22,36 @@ import { InstitutionService } from '../../../../domain/service/institution.servi
 })
 export class UserManagementEditComponent {
   @Input() activeTab?: ITab;
+  @Input() profiles: any[] = []
   @Output() onRemove = new EventEmitter<any>();
   form: FormGroup;
   isSubmitting = false;
   employees: any[] = []
   authorities: any[] = [];
   institutions: any[] = [];
+  userProfile =  USER_PROFILE
 
   constructor(
     private fb: FormBuilder,
     private service: UserService,
-    private employeeService: EmployeeService,
+    private personDataService: PersonDataService,
     private institutionService: InstitutionService,
     private toast: ToastrService
   ) {
     this.form = fb.group({
       id: [null],
+      profile: [null, [Validators.required]],
       login: [null, [Validators.required]],
       personId: [null],
       firstName: [null, [Validators.required]],
       lastName: [null],
-      email: [null, [Validators.required]],
+      email: [null, [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
+      phone: [{value: null, disabled: true}, [Validators.required]],
       imageUrl: [null],
       activated: [true, [Validators.required]],
       langKey: ['en', [Validators.required]],
       authorities: [[], [Validators.required]],
-      institutions: [[], [Validators.required]],
+      institutions: [[]],
     });
   }
 
@@ -55,8 +60,11 @@ export class UserManagementEditComponent {
       this.form.patchValue(this.activeTab.data)
       if(this.form.getRawValue().personId != null) {
         console.log('this.form.getRawValue().personId',this.form.getRawValue().personId)
-        this.employeeService.findOne(this.form.getRawValue().personId).subscribe((res: any) => {
+        this.personDataService.findOne(this.form.getRawValue().personId).subscribe((res: any) => {
           this.employees = [res.body]
+          this.form.patchValue({
+            phone: res.body?.phone ?? ''
+          })
         })
       }
     }
@@ -66,6 +74,14 @@ export class UserManagementEditComponent {
     this.institutionService.findAll('').subscribe((res) => {
       this.institutions = res.body;
     });
+
+    this.form.get('profile')?.valueChanges.subscribe((e: any) => {
+      if (e == USER_PROFILE.GUARDIAN) {
+        this.form.patchValue({
+          authorities: ["ROLE_WALISANTRI"]
+        })
+      }
+    })
   }
   onParentKeyUp(e: any) {
 
@@ -95,6 +111,7 @@ export class UserManagementEditComponent {
       ) {
         this.toast.error(`${el} harus diisi!`)
         console.log(el);
+        return
       }
     }
 
@@ -157,18 +174,24 @@ export class UserManagementEditComponent {
       });
   }
 
-  onEmployeeKeyup(e: any) {
-    this.employeeService.findAll(e).subscribe((res: any) => {
+  onPersonDataKeyup(e: any) {
+    this.personDataService.findAll({
+      type: this.form.getRawValue().profile == USER_PROFILE.EMPLOYEE? 'EMPLOYEE': 'GUARDIAN',
+      q: e,
+    }).subscribe((res: any) => {
       this.employees = res.body;
     });
   }
 
-  onSelectEmployeeChange(e: any) {
+  onSelectPersonDataChange(e: any) {
     if(this.form != null && this.form.get('firstName')?.value == null) {
       this.form.get('firstName')?.setValue(e.name)
     }
     if(this.form != null && this.form.get('email')?.value == null) {
       this.form.get('email')?.setValue(e.email)
+    }
+    if(this.form != null && this.form.get('phone')?.value == null) {
+      this.form.get('phone')?.setValue(e.phone)
     }
   }
 
