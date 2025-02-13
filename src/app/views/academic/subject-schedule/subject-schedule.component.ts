@@ -8,12 +8,13 @@ import { AcademicYearService } from '../../../domain/service/academic-year.servi
 import { ClassRoomService } from '../../../domain/service/class-room.service';
 import { InstitutionService } from '../../../domain/service/institution.service';
 import { StudentCategoryService } from '../../../domain/service/student-category.service';
-import { ClassRoomStudentService } from '../../../domain/service/class-room-student.service';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { SubjectScheduleService } from '../../../domain/service/subject-schedule.service';
 import { SubjectScheduleEditDialogComponent } from './subject-schedule-edit-dialog/subject-schedule-edit-dialog.component';
 import { SubjectScheduleHistoryComponent } from './subject-schedule-edit-history/subject-schedule-history.component';
+import { EmployeeService } from '../../../domain/service/employee.service';
+import { SubjectService } from '../../../domain/service/subject.service';
 
 @Component({
   selector: 'app-subject-schedule',
@@ -21,9 +22,8 @@ import { SubjectScheduleHistoryComponent } from './subject-schedule-edit-history
   imports: [
     BaseInputComponent,
     ReactiveFormsModule,
-    CommonModule,
-    SubmitButtonComponent,
-  ],
+    CommonModule
+],
   providers: [BsModalService],
   templateUrl: './subject-schedule.component.html',
   styleUrl: './subject-schedule.component.scss'
@@ -37,6 +37,8 @@ export class SubjectScheduleComponent {
   selectedClassRoom: any = null;
   isLoading = signal(false);
   data : any[] = []
+  subjects: any[] = []
+  teachers: any[] = []
 
   private fb = inject(FormBuilder);
   private academicYearService = inject(AcademicYearService);
@@ -44,8 +46,12 @@ export class SubjectScheduleComponent {
   private institutionService = inject(InstitutionService);
   private categoryService = inject(StudentCategoryService);
   private subjectScheduleService = inject(SubjectScheduleService);
+  private subjectService = inject(SubjectService)
   private bsModalService = inject(BsModalService);
   private toast = inject(ToastrService);
+  private employeeService = inject(EmployeeService)
+
+
   modalRef?: BsModalRef;
 
   ngOnInit(): void {
@@ -70,6 +76,13 @@ export class SubjectScheduleComponent {
     this.categoryService.findAll('').subscribe((data) => {
       this.categories = data.body;
     });
+    this.subjectService.findAll('').subscribe(res => {
+      this.subjects = res.body
+    })
+    this.employeeService.findAll('').subscribe(res => {
+      this.teachers = res.body
+    })
+
   }
 
   onSelectClassRoom(e: any) {
@@ -110,7 +123,9 @@ export class SubjectScheduleComponent {
       .subscribe((data) => {
         this.data = data.body
         this.isLoading.set(false)
-      });
+      }, ((err: any) => {
+        this.isLoading.set(false)
+      }));
   }
 
   onPreviewReport() {
@@ -137,14 +152,18 @@ export class SubjectScheduleComponent {
     })
   }
 
-  onSelectSchedule(activityId: string, d: any) {
+  onSelectSchedule(activity: any, d: any) {
     const initialState: ModalOptions = {
       initialState: {
-        classRoomId: this.form.getRawValue().classRoomId,
-        activityTimeId: activityId,
+        classRoomName: this.form.getRawValue().classRoomName,
+        activityTime: activity,
+        selectedClassRoom: this.selectedClassRoom,
+        activityTimeId: activity.activityId,
         data: d,
         name: this.form.getRawValue().name,
-        title: `${activityId == null? 'Tambah': 'Ubah'} Jadwal Pelajaran`,
+        subjects: this.subjects,
+        teachers: this.teachers,
+        title: `${activity.activityId == null? 'Tambah': 'Ubah'} Jadwal Pelajaran`,
       },
     };
 
@@ -156,7 +175,6 @@ export class SubjectScheduleComponent {
     this.modalRef.content.closeBtnName = 'Close';
 
     this.modalRef.content.onClose.subscribe((data: any) => {
-      console.log('modal closed', data)
       if(data != null) {
         this.onLoadAllSchedules()
       }

@@ -48,7 +48,7 @@
                   layout="horizontal"
                   [labelFormat]="'${name} - ${sexLabel}'"
                   [items]="classRooms"
-                  (onSelectChange)="onLoadAllSchedules()"
+                  (onSelectChange)="selectedClassRoom = $event; onLoadAllSchedules()"
                 ></app-base-input>
               </div>
               <div class="col-md-6">
@@ -82,7 +82,7 @@
                           </div>
                         </td>
                         <td class="p-0" *ngFor="let d of data[i].days; let i = index">
-                          <div class="list-group h-100" style="cursor: pointer; height: 100%;" (click)="onSelectSchedule(h.activityId, d)" >
+                          <div class="list-group h-100" style="cursor: pointer; height: 100%;" (click)="onSelectSchedule(h, d)" >
                             <div class="list-group-item h-100 list-group-item-action flex-column text-center h-100">
                               <div class="d-flex justify-content-center">
                                 <h6 class="m-0">{{ d.subjectName ?? '&nbsp;' }}</h6>

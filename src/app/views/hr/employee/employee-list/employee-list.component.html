@@ -127,6 +127,9 @@
                       <th jhiSortBy="dob">
                         <span> Tgl. Lahir </span><fa-icon icon="sort"></fa-icon>
                       </th>
+                      <th jhiSortBy="active">
+                        <span> Aktif </span><fa-icon icon="sort"></fa-icon>
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -146,6 +149,10 @@
                       <td>{{ d.sex == "M" ? "Laki-Laki" : "Perempuan" }}</td>
                       <td>{{ d.pob.name }}</td>
                       <td>{{ d.dob | date : "dd/MM/YYYY" }}</td>
+                      <td class="text-center">
+                        <span *ngIf="d.active; else unchecked">&#x2714;</span>
+                        <ng-template #unchecked>&#x2716;</ng-template>
+                      </td>
                     </tr>
                   </tbody>
                 </table>

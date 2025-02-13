@@ -1,4 +1,4 @@
-<form role="form" novalidate>
+<form role="form" novalidate [formGroup]="form">
   <div class="modal-header">
     <strong> Tambah/ Edit Jadwal </strong>
     <small> &nbsp; {{ className }} </small>
@@ -12,6 +12,19 @@
     </button>
   </div>
   <div class="modal-body">
+    <div class="form-group row mb-2">
+      <label class="col-sm-3 col-md-3 col-form-label">
+        Ruang & Jam
+      </label>
+      <div class="col-sm-9 col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          [value]="selectedClassRoom ? selectedClassRoom.name + ' [' + activityTime.activityName + ' ('+activityTime.startTime+' - '+activityTime.endTime+' ) ]' : ''"
+          disabled
+        />
+      </div>
+    </div>
     <app-base-input
       type="ng-select"
       [formGroup]="form"
@@ -22,17 +35,71 @@
       layout="horizontal"
       [items]="subjects"
     ></app-base-input>
-    <app-base-input
-      type="ng-select"
-      [formGroup]="form"
-      label="Pengampu"
-      controlName="teacherId"
-      labelWidth="col-sm-3 col-md-3"
-      inputWidth="col-sm-9 col-md-9"
-      layout="horizontal"
-      [items]="teachers"
-    ></app-base-input>
+    <div class="form-group row">
+      <label class="col-sm-3 col-md-3 col-form-label">
+        Pengajar
+      </label>
+      <div class="col-sm-9 col-md-9">
+        <table class="table table-sm">
+          <tbody>
+            <ng-container
+              formArrayName="teachers"
+              *ngFor="let d of teachersControls.controls; let i = index"
+            >
+              <tr [formGroupName]="i">
+                <td>{{ d.get("name")?.value }}</td>
+                <td width="20%">
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-sm"
+                    (click)="removeTeacher(i)"
+                  >
+                    <i class="fa fa-trash"></i>
+                  </button>
+                  <button
+                    *ngIf="i == teachersControls.controls.length - 1"
+                    type="button"
+                    class="btn btn-secondary btn-sm ml-2"
+                    [hidden]="showComboboxTeacher"
+                    (click)="onShowComboboxTeacher()"
+                  >
+                    <i class="fa fa-plus"></i>
+                  </button>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
 
+      </div>
+    </div>
+    <div class="form-group row" [hidden]="!showComboboxTeacher">
+      <label class="col-sm-3 col-md-3 col-form-label">
+        &nbsp;
+      </label>
+      <div class="col-sm-9 col-md-9">
+        <div class="input-group input-group-sm p-0">
+          <ng-select
+            placeholder="Pilih Guru"
+            id="teacherId"
+            name="teacherId"
+            [items]="teachers"
+            bindLabel="name"
+            bindValue="id"
+            formControlName="teacherId"
+            class="form-control no-padding"
+          ></ng-select>
+          <button
+            [hidden]="rowIndex >= 0"
+            type="button"
+            class="btn btn-success"
+            (click)="addSelectedTeacher()"
+          >
+            <i class="fa fa-plus"></i>
+          </button>
+        </div>
+      </div>
+    </div>
     <div class="row mt-4">
       <div class="d-flex justify-content-between">
         <button
@@ -44,8 +111,13 @@
         >
           <i class="fa fa-ban"></i> Hapus
         </button>
-        <div [hidden]="rowIndex >= 0">&nbsp;</div>
-        <button type="button" class="btn btn-primary" [hidden]="isSubmiting()" (click)="onSave()">
+        <div>&nbsp;</div>
+        <button
+          type="button"
+          class="btn btn-primary"
+          [hidden]="isSubmiting()"
+          (click)="onSave()"
+        >
           Simpan
         </button>
       </div>
