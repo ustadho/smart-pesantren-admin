@@ -27,11 +27,14 @@ import {
 } from '@coreui/angular';
 
 import { IconDirective } from '@coreui/icons-angular';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { LoginService } from 'src/app/core/login/login.service';
+import { PasswordChangeComponent } from 'src/app/views/account/password-change/password-change.component';
 
 @Component({
   selector: 'app-default-header',
   templateUrl: './default-header.component.html',
+  providers: [BsModalService],
   standalone: true,
   imports: [ContainerComponent, HeaderTogglerDirective, SidebarToggleDirective, IconDirective, HeaderNavComponent, NavItemComponent, NavLinkDirective, RouterLink, RouterLinkActive, NgTemplateOutlet, BreadcrumbRouterComponent, ThemeDirective, DropdownComponent, DropdownToggleDirective, TextColorDirective, AvatarComponent, DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective, BadgeComponent, DropdownDividerDirective, ProgressBarDirective, ProgressComponent, NgStyle]
 })
@@ -39,6 +42,8 @@ export class DefaultHeaderComponent extends HeaderComponent {
 
   readonly #colorModeService = inject(ColorModeService);
   readonly colorMode = this.#colorModeService.colorMode;
+  bsModalRef = inject(BsModalRef)
+  bsModalService = inject(BsModalService)
 
   readonly colorModes = [
     { name: 'light', text: 'Light', icon: 'cilSun' },
@@ -132,7 +137,20 @@ export class DefaultHeaderComponent extends HeaderComponent {
     { id: 4, title: 'Angular Version', value: 100, color: 'success' }
   ];
   logout() {
-    console.log('logout');
     this.loginService.logout();
+  }
+
+  changePassword() {
+    const initialState = {
+
+    };
+    const bsModalRef = this.bsModalService.show(PasswordChangeComponent, {
+      initialState,
+    });
+    bsModalRef.content?.onClose.subscribe((res: any) => {
+      if(res == 'success') {
+        this.logout()
+      }
+    })
   }
 }

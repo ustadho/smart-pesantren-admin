@@ -99,7 +99,7 @@
       </div>
       <div
         class="row"
-        *ngIf="form.get('profile')?.value == userProfile.SYSADMIN"
+        *ngIf="form.get('profile')?.value != userProfile.GUARDIAN"
       >
         <label class="col-md-2">Auth</label>
         <div class="col-md-10">
@@ -143,14 +143,24 @@
       </div>
       <div class="row border-top pt-2 mt-2">
         <div class="d-flex justify-content-between px-2">
-          <button
-            type="button"
-            class="btn btn-danger mr-2"
-            (click)="onDelete()"
-            *ngIf="form.get('id')?.value != null"
-          >
-            <i class="fa fa-ban"></i> Hapus
-          </button>
+          <div>
+            <button
+              type="button"
+              class="btn btn-danger mr-2"
+              (click)="onDelete()"
+              *ngIf="form.get('id')?.value != null"
+            >
+              <i class="fa fa-ban"></i> Hapus
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary ml-1"
+              (click)="onResetPassword()"
+              *ngIf="form.get('id')?.value != null"
+            >
+              <i class="fa fa-ban"></i> Reset Password
+            </button>
+          </div>
           &nbsp;
           <app-submit-button [isSubmitting]="isSubmitting" buttonText="Simpan">
           </app-submit-button>

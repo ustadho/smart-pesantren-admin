@@ -1,0 +1,30 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card text-center">
+        <img [src]="imgURL" alt="Profile Picture" class="card-img-top rounded-circle mx-auto mt-3" style="width: 150px;">
+        <div class="card-body">
+          <h5 class="card-title">{{ currentAccount?.login }}</h5>
+          <p class="card-text">{{ currentAccount?.email }}</p>
+          <!-- <button class="btn btn-primary" (click)="editProfile()">Edit Profile</button> -->
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Informasi User</h5>
+        </div>
+        <div class="card-body">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Login:</strong> {{ currentAccount?.login }}</li>
+            <li class="list-group-item"><strong>Email:</strong> {{ currentAccount?.email }}</li>
+            <li class="list-group-item"><strong>Phone:</strong> {{ currentAccount?.phone }}</li>
+            <li class="list-group-item"><strong>Nama Lengkap:</strong> {{ currentAccount?.firstName }} {{currentAccount?.lastName}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

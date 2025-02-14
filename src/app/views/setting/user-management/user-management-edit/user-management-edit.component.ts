@@ -10,6 +10,7 @@ import { PersonDataService } from '../../../../domain/service/person-data.servic
 import Swal from 'sweetalert2';
 import { InstitutionService } from '../../../../domain/service/institution.service';
 import { USER_PROFILE } from '../../../../shared/constant/user-profile.constant';
+import { AccountService } from 'src/app/core/auth/account.service';
 
 @Component({
   selector: 'app-user-management-edit',
@@ -36,6 +37,7 @@ export class UserManagementEditComponent {
     private service: UserService,
     private personDataService: PersonDataService,
     private institutionService: InstitutionService,
+    private accountService: AccountService,
     private toast: ToastrService
   ) {
     this.form = fb.group({
@@ -89,6 +91,28 @@ export class UserManagementEditComponent {
 
   onSelectChange() {
     console.group('onSelectChange');
+  }
+
+  onResetPassword() {
+    Swal
+      .fire({
+        title: 'Hapus data',
+        text: `Anda yakin untuk mereset passowd dari user ${this.form.getRawValue().login} ?`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Batal',
+        confirmButtonText: 'Ya Benar',
+      })
+      .then((result: any) => {
+        if (result.value) {
+          this.accountService.resetDefaultPassword(this.form.getRawValue().id)
+          .subscribe((res: any) => {
+            this.toast.success('Reset password sukses')
+          })
+        }
+      });
   }
 
   validateAllFormFields(formGroup: FormGroup) {
