@@ -82,13 +82,14 @@
                           </div>
                         </td>
                         <td *ngFor="let col of days; let j = index"
-                          (mousedown)="startSelection(i, j)"
-                          (mousemove)="onMouseMove(i, j)"
-                          (mouseup)="endSelection(i, j)"
-                          [class.selected]="isCellSelected(i, j)"
-                          class="p-0 align-middle">
-                        Cell {{ i + 1 }},{{ j + 1 }}
-                      </td>
+                            (mousedown)="startSelection(i, j)"
+                            (mousemove)="onMouseMove(i, j)"
+                            (mouseup)="endSelection(i, j)"
+                            [class.selected]="isCellSelected(i, j)"
+                            class="p-0 align-middle">
+                          Cell {{ i + 1 }},{{ j + 1 }}
+
+                        </td>
 
                         <!-- <td class="p-0" *ngFor="let d of days; let i = index"
                             (mousedown)="startSelection(i)"

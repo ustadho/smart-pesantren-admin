@@ -155,6 +155,7 @@ export class SubjectSchedule2Component {
         {
           next: (res: any) => {
             this.data = res.body
+            console.log(this.data)
             this.isLoading.set(false)
           },
           error: (err: any) => {
@@ -213,7 +214,18 @@ export class SubjectSchedule2Component {
     return new Date(`1970-01-01T${time}`);
   }
 
-
+  getDataSchedule(i: number, j: number) {
+    if(this.data == null || i < 0 || j < 0) {
+      return
+    }
+    const d = this.data.find(e=> e.dayId == this.days[j].id)
+    if(d == null) {
+      return null
+    }
+    const s = d.schedules.find((e: any) => e.activityStartId == this.activityTimes[i].id)
+    console.log('s', s)
+    return s;
+  }
 
 
 
@@ -251,6 +263,7 @@ export class SubjectSchedule2Component {
       console.log('activityTimeStart', activityTimeStart)
       console.log('activityTimeEnd', activityTimeEnd)
       console.log('selectedClassRoom', this.selectedClassRoom)
+      this.getDataSchedule(row, col)
 
       const initialState: ModalOptions = {
         initialState: {
