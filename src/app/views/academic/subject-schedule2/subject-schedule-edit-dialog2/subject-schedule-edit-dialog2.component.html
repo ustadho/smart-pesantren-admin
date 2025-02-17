@@ -1,7 +1,7 @@
 <form role="form" novalidate [formGroup]="form">
   <div class="modal-header">
     <strong> Tambah/ Edit Jadwal </strong>
-    <small> &nbsp; {{ className }} </small>
+    <small> &nbsp; {{ form.getRawValue()?.classRoomName }} </small>
     <button
       type="button"
       class="btn-close close pull-right"
@@ -14,13 +14,13 @@
   <div class="modal-body">
     <div class="form-group row mb-2">
       <label class="col-sm-3 col-md-3 col-form-label">
-        Ruang & Jam
+        Hari/ Jam
       </label>
       <div class="col-sm-9 col-md-9">
         <input
           type="text"
           class="form-control"
-          [value]="selectedClassRoom ? selectedClassRoom.name + ' [' + activityTime.activityName + ' ('+activityTime.startTime+' - '+activityTime.endTime+' ) ]' : ''"
+          [value]="form.getRawValue().dayName+'/ '+ activityTimeStart.startTime+' - '+ activityTimeEnd.endTime "
           disabled
         />
       </div>
@@ -86,48 +86,13 @@
         </div>
       </div>
       <div class="col-sm-9 col-md-9">
-        <table class="table table-sm">
-          <tbody>
-            <ng-container
-              formArrayName="activityTimes"
-              *ngFor="let d of activityTimesControls.controls; let i = index"
-            >
-              <tr [formGroupName]="i">
-                <td class="p-0">
-                  <ng-select
-                    placeholder="Pilih Jam"
-                    [items]="activityTimes"
-                    bindLabel="name"
-                    bindValue="id"
-                    formControlName="id"
-                  >
-                  <ng-template ng-option-tmp let-item="item">
-                    {{ item.startTime }} - {{ item.endTime }}
-                  </ng-template>
-                  <ng-template ng-label-tmp let-item="item">
-                    {{ item.startTime }} - {{ item.endTime }}
-                  </ng-template>
-                </ng-select>
-                </td>
-                <td width="10%">
-                  <button
-                    type="button"
-                    class="btn btn-danger btn-sm"
-                    (click)="removeActivityTime(i)"
-                  >
-                    <i class="fa fa-trash"></i>
-                  </button>
-                </td>
-              </tr>
-            </ng-container>
-          </tbody>
-        </table>
+        <!-- {{activityTimeStart?.startTime}} - {{activityTimeEnd?.endTime}} -->
       </div>
     </div>
     <div class="row mt-4">
       <div class="d-flex justify-content-between">
         <button
-          [hidden]="data.id == null"
+          [hidden]="data?.id == null"
           type="button"
           class="btn btn-danger mr-2"
           (click)="onDelete()"

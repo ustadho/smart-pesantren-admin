@@ -62,7 +62,7 @@ export const navItems: INavData[] = [
   {
     name: 'Pengasuhan',
     url: '/pengasuhan',
-    iconComponent: { name: 'cil-calendar' },
+    iconComponent: { name: 'cil-user' },
     children: [
       {
         name: 'Mapping Santri',

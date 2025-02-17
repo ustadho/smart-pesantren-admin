@@ -5,12 +5,24 @@ import { ReportService } from './report.service';
 
 @Injectable({ providedIn: 'root' })
 export class SubjectScheduleService {
+
   private resourceUrl = '/api/academic/subject-schedule';
 
   constructor(private http: HttpClient, private reportService: ReportService) { }
 
   findAllByClassRoomId(id: string): Observable<any> {
+    return this.http.get(`${this.resourceUrl}/${id}/list`, {
+      observe: 'response'
+    })
+  }
 
+  findAllByClassRoomIdPerDay(id: string): Observable<any> {
+    return this.http.get(`${this.resourceUrl}/${id}/list-per-day`, {
+      observe: 'response'
+    })
+  }
+
+  findById(id: string): Observable<any> {
     return this.http.get(`${this.resourceUrl}/${id}`, {
       observe: 'response'
     })
@@ -47,4 +59,10 @@ export class SubjectScheduleService {
     })
   }
 
+
+  myCurrentSchedule() {
+    return this.http.get(`${this.resourceUrl}/my-current-schedule`, {
+      observe: 'response'
+    })
+  }
 }

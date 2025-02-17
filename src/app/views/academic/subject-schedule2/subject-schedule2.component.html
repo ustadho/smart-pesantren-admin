@@ -1,0 +1,118 @@
+<div class="animated fadeIn">
+  <form [formGroup]="form">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-edit"></i>
+            <span class="h5"> Jadwal Pelajaran</span>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <app-base-input
+                  type="ng-select"
+                  [formGroup]="form"
+                  label="Tahun Ajaran"
+                  controlName="academicYearId"
+                  labelWidth="col-sm-3 col-md-4"
+                  inputWidth="col-sm-9 col-md-8"
+                  layout="horizontal"
+                  [items]="academicYears"
+
+                ></app-base-input>
+              </div>
+              <div class="col-md-6">
+                <app-base-input
+                  type="ng-select"
+                  [formGroup]="form"
+                  label="Institusi/ Lembaga"
+                  controlName="institutionId"
+                  labelWidth="col-sm-3 col-md-4"
+                  inputWidth="col-sm-9 col-md-8"
+                  layout="horizontal"
+                  [items]="institutions"
+                  (onSelectChange)="loadClassRoom()"
+                ></app-base-input>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <app-base-input
+                  type="ng-select"
+                  [formGroup]="form"
+                  label="Ruang Kelas"
+                  controlName="classRoomId"
+                  labelWidth="col-sm-3 col-md-4"
+                  inputWidth="col-sm-9 col-md-8"
+                  layout="horizontal"
+                  [labelFormat]="'${name} - ${sexLabel}'"
+                  [items]="classRooms"
+                  (onSelectChange)="selectedClassRoom = $event; onLoadAllSchedules()"
+                ></app-base-input>
+              </div>
+              <div class="col-md-6 d-inline-flex justify-content-end align-items-center">
+                <button type="button" class="btn btn-md btn-primary mx-1" [disabled]="form.get('classRoomId')?.value == null || isLoading()" (click)="onLoadAllSchedules()"><i class="fa fa-refresh"></i> Refresh</button>
+                <button type="button" class="btn btn-md btn-secodary btn-outline-success mx-1" [disabled]="form.get('classRoomId')?.value == null || isLoading()" (click)="onPreviewReport()"><i class="fa fa-print"></i> Cetak</button>
+                <button type="button" class="btn btn-md btn-outline-primary mx-1" [disabled]="form.get('classRoomId')?.value == null || isLoading()" (click)="onPreviewAuditLog()"><i class="fa fa-list"></i> Riwayat </button>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-12">
+                <div class="table-container">
+                  <table class="table text-center">
+                    <thead>
+                      <tr>
+                        <th class="table-freeze">Jam Ke</th>
+                        <th *ngFor="let d of days; let i = index">
+                          {{d.name}}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let a of activityTimes; let i = index">
+                        <td class="table-freeze p-0">
+                          <div class="list-group h-100">
+                            <div class="list-group-item list-group-item-action flex-column text-center">
+                              <div class="d-flex justify-content-center">
+                                <h6 class="m-0">{{a.seq}}</h6>
+                              </div>
+                              <p class="m-0">{{a.startTime}} - {{a.endTime}}</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td *ngFor="let col of days; let j = index"
+                          (mousedown)="startSelection(i, j)"
+                          (mousemove)="onMouseMove(i, j)"
+                          (mouseup)="endSelection(i, j)"
+                          [class.selected]="isCellSelected(i, j)"
+                          class="p-0 align-middle">
+                        Cell {{ i + 1 }},{{ j + 1 }}
+                      </td>
+
+                        <!-- <td class="p-0" *ngFor="let d of days; let i = index"
+                            (mousedown)="startSelection(i)"
+                            (mousemove)="onMouseMove(i)"
+                            (mouseup)="endSelection(i)"
+                            [class.selected]="isCellSelected(i)">
+                          <div class="list-group h-100" style="height: 100%;" >
+                            <div class="list-group-item h-100 list-group-item-action flex-column text-center h-100">
+                              <div class="d-flex justify-content-center">
+                                <h6 class="m-0">Mata Pelajaran</h6>
+                              </div>
+                              <p class="m-0 text-primary">Nama Guru</p>
+                            </div>
+                          </div>
+                        </td> -->
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

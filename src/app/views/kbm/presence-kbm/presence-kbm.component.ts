@@ -11,6 +11,8 @@ import { PresenceKBMService } from '../../../domain/service/presence-kbm.service
 import { SubjectScheduleService } from '../../../domain/service/subject-schedule.service';
 import { PresenceKbmIzinComponent } from './presence-kbm-izin/presence-kbm-izin.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { AccountService } from '../../../core/auth/account.service';
+import { ROLE_PENDIDIKAN } from '../../../shared/constant/role.constant'
 
 @Component({
   selector: 'app-presence-kbm',
@@ -39,9 +41,10 @@ export class PresenceKbmComponent {
   private academicYearService = inject(AcademicYearService);
   private presenceKBMService = inject(PresenceKBMService);
   private subjectScheduleService = inject(SubjectScheduleService);
-  private toast = inject(ToastrService);
+  private accountService = inject(AccountService);
   private bsModalService = inject(BsModalService);
   modalRef?: BsModalRef;
+  private currentAccount: any
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -61,6 +64,18 @@ export class PresenceKbmComponent {
           this.onLoadTeachers();
         }
       });
+    });
+
+    this.accountService.identity().then(account => {
+      this.currentAccount = account;
+      if(account != null && account.personData.id != null) {
+        if(account.authorities.indexOf(ROLE_PENDIDIKAN)) {
+          this.subjectScheduleService.myCurrentSchedule().subscribe((res: any) => {
+            console.log('mySchedules', res)
+            this.subjectSchedules = res.body
+          })
+        }
+      }
     });
   }
 
@@ -100,15 +115,16 @@ export class PresenceKbmComponent {
     });
   }
 
-  loadStudent() {
+  loadStudent(e: any) {
+    console.log('e', e)
     const students = this.form.get('students') as FormArray;
     students?.clear();
-    if(this.form.value.subjectScheduleId == null) {
+    if(e.classRoomId == null) {
       return;
     }
 
     this.presenceKBMService
-      .findDetailStudents(this.form.value.subjectScheduleId)
+      .findDetailStudents(e.classRoomId)
       .subscribe((data) => {
         console.log('data', data)
         const students = this.form.get('students') as FormArray;

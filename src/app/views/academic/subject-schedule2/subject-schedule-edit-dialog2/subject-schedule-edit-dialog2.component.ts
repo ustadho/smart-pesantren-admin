@@ -12,13 +12,13 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { AcademicActivityTimeService } from 'src/app/domain/service/academic-activity-time.service';
 
 @Component({
-  selector: 'app-subject-schedule-edit-dialog',
+  selector: 'app-subject-schedule-edit-dialog2',
   standalone: true,
   imports: [BaseInputComponent, CommonModule, ReactiveFormsModule, NgSelectModule],
-  templateUrl: './subject-schedule-edit-dialog.component.html',
-  styleUrl: './subject-schedule-edit-dialog.component.scss',
+  templateUrl: './subject-schedule-edit-dialog2.component.html',
+  styleUrl: './subject-schedule-edit-dialog2.component.scss',
 })
-export class SubjectScheduleEditDialogComponent {
+export class SubjectScheduleEditDialog2Component {
   activityTime: any;
   classRoomId: any;
   selectedClassRoom: any;
@@ -28,7 +28,8 @@ export class SubjectScheduleEditDialogComponent {
   className = '';
   subjects: any[] = [];
   teachers: any[] = [];
-  activityTimes: any[] = [];
+  activityTimeStart: any = null;
+  activityTimeEnd: any = null;
 
   isSubmiting = signal(false);
   public onClose: Subject<Object> = new Subject();
@@ -43,10 +44,13 @@ export class SubjectScheduleEditDialogComponent {
     this.form = this.fb.group({
       id: [null],
       classRoomId: [null, [Validators.required]],
+      classRoomName: [null, [Validators.required]],
       subjectId: [null, [Validators.required]],
       dayId: [null, [Validators.required]],
+      dayName: [null, [Validators.required]],
       teachers: this.fb.array([]),
-      activityTimes: this.fb.array([]),
+      activityTimeStartId: [null, [Validators.required]],
+      activityTimeEndId: [null, [Validators.required]],
     });
   }
 
@@ -55,24 +59,12 @@ export class SubjectScheduleEditDialogComponent {
 
 
   ngAfterViewInit() {
-    this.form.patchValue({
-      id: this.data?.id,
-      classRoomId: this.data.classRoomId,
-      subjectId: this.data?.subjectId,
-      dayId: this.data?.dayId,
-    });
+    this.form.patchValue(this.data);
     if (this.data.teachers.length > 0) {
       const teachersArray = this.form.get('teachers') as FormArray;
       teachersArray.clear();
       this.data.teachers.forEach((t: any) => {
         teachersArray.push(this.fb.group(t));
-      });
-    }
-    if (this.data.activityTimes.length > 0) {
-      const arr = this.form.get('activityTimes') as FormArray;
-      arr.clear();
-      this.data.activityTimes.forEach((t: any) => {
-        arr.push(this.fb.group(t));
       });
     }
   }

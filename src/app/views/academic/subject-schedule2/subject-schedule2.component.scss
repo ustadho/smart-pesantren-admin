@@ -1,0 +1,27 @@
+.table-freeze {
+  position: sticky;
+  left: 0;
+  background-color: #fff; /* Warna background untuk kolom freeze */
+  z-index: 2; /* Pastikan kolom tetap di atas */
+  width: 90px; /* Atur lebar kolom freeze */
+  max-width: 120px; /* Agar tidak melebar */
+  overflow: hidden; /* Sembunyikan teks yang terlalu panjang */
+  white-space: nowrap; /* Cegah teks dari breaking line */
+  text-overflow: ellipsis; /* Tambahkan ellipsis jika teks terpotong */
+}
+
+.table-container {
+  overflow-x: auto; /* Aktifkan scroll horizontal */
+  white-space: nowrap; /* Hindari pembungkusan teks */
+}
+
+td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  user-select: none; /* Mencegah seleksi teks */
+}
+
+td.selected {
+  background-color: #00ab66;
+}
