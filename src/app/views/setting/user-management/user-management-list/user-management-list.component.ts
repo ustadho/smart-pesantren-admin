@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Component, EventEmitter, inject, Output, signal } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageChangedEvent, PaginationModule } from 'ngx-bootstrap/pagination';
@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 import { FormModule } from '@coreui/angular';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SORT } from '../../../../shared/constant/navigation.constants';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-user-management-list',
@@ -25,11 +26,13 @@ import { SORT } from '../../../../shared/constant/navigation.constants';
     SortDirective,
     SortByDirective,
     FontAwesomeModule,
+    NgSelectModule,
   ],
   templateUrl: './user-management-list.component.html',
   styleUrl: './user-management-list.component.scss'
 })
 export class UserManagementListComponent {
+  @Input() profiles: any[] = []
   @Output() onAdd = new EventEmitter<any>();
   @Output() onEdit = new EventEmitter<any>();
   currentData: any;
@@ -60,6 +63,7 @@ export class UserManagementListComponent {
     private fb: FormBuilder,
   ) {
     this.filterForm = this.fb.group({
+      profileId: [null],
       q: [''],
     });
   }
@@ -70,6 +74,12 @@ export class UserManagementListComponent {
       this.handleNavigation();
     });
 
+  }
+
+  getProfileName(id: string) {
+    if(id == null)
+      return ""
+      return this.profiles.find((e) => e.id == id).name
   }
 
   private handleNavigation(): void {
@@ -118,6 +128,8 @@ export class UserManagementListComponent {
       relativeTo: this.activatedRoute.parent,
       queryParams: {
         page: this.page,
+        q: this.filterForm.getRawValue().q,
+        profile: this.filterForm.getRawValue().profileId,
         sort: this.sortService.buildSortParam(sortState ?? this.sortState()),
       },
     });
@@ -131,6 +143,7 @@ export class UserManagementListComponent {
         size: this.itemsPerPage,
         sort: this.sortService.buildSortParam(this.sortState(), 'login'),
         q: this.filterForm.value.q??'',
+        profile: this.filterForm.value.profileId??'',
       })
       .subscribe(
         (res: HttpResponse<any[]>) => this.onSuccess(res.body),

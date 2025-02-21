@@ -1,7 +1,7 @@
 <form role="form" novalidate [formGroup]="form">
   <div class="modal-header">
     <strong> Tambah/ Edit Jadwal </strong>
-    <small> &nbsp; {{ className }} </small>
+    <small> &nbsp; {{ form.getRawValue()?.classRoomName }} </small>
     <button
       type="button"
       class="btn-close close pull-right"
@@ -14,13 +14,13 @@
   <div class="modal-body">
     <div class="form-group row mb-2">
       <label class="col-sm-3 col-md-3 col-form-label">
-        Ruang & Jam
+        Hari/ Jam
       </label>
       <div class="col-sm-9 col-md-9">
         <input
           type="text"
           class="form-control"
-          [value]="selectedClassRoom ? selectedClassRoom.name + ' [' + activityTime.activityName + ' ('+activityTime.startTime+' - '+activityTime.endTime+' ) ]' : ''"
+          [value]="form.getRawValue().dayName+'/ '+ activityTimeStart.startTime+' - '+ activityTimeEnd.endTime "
           disabled
         />
       </div>
@@ -76,10 +76,23 @@
         </table>
       </div>
     </div>
+    <div class="form-group row">
+      <div class="col-sm-3 col-md-3">
+        <div class="d-flex justify-content-between align-items-center">
+          <label class="col-form-label mb-0">Jam</label>
+          <button type="button" class="btn btn-secondary btn-sm" (click)="onAddActivityTime()">
+            <i class="fa fa-plus"></i>
+          </button>
+        </div>
+      </div>
+      <div class="col-sm-9 col-md-9">
+        <!-- {{activityTimeStart?.startTime}} - {{activityTimeEnd?.endTime}} -->
+      </div>
+    </div>
     <div class="row mt-4">
       <div class="d-flex justify-content-between">
         <button
-          [hidden]="data.id == null"
+          [hidden]="data?.id == null"
           type="button"
           class="btn btn-danger mr-2"
           (click)="onDelete()"
@@ -99,4 +112,5 @@
       </div>
     </div>
   </div>
+  {{form.getRawValue() | json}}
 </form>

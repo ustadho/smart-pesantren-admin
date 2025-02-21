@@ -57,40 +57,54 @@
                 <button type="button" class="btn btn-md btn-outline-primary mx-1" [disabled]="form.get('classRoomId')?.value == null || isLoading()" (click)="onPreviewAuditLog()"><i class="fa fa-list"></i> Riwayat </button>
               </div>
             </div>
-            <div class="row mt-2" *ngIf="data != null && data.length > 0">
+            <div class="row mt-2">
               <div class="col-md-12">
-                <div class="table-container border">
-                  <table class="table table-bordered text-center">
+                <div class="table-container">
+                  <table class="table text-center">
                     <thead>
                       <tr>
                         <th class="table-freeze">Jam Ke</th>
-                        <th *ngFor="let d of data[0].days; let i = index">
-                          {{d.dayName}}
+                        <th *ngFor="let d of days; let i = index">
+                          {{d.name}}
                         </th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let h of data; let i = index">
+                      <tr *ngFor="let a of activityTimes; let i = index">
                         <td class="table-freeze p-0">
                           <div class="list-group h-100">
                             <div class="list-group-item list-group-item-action flex-column text-center">
                               <div class="d-flex justify-content-center">
-                                <h6 class="m-0">{{h.seq}}</h6>
+                                <h6 class="m-0">{{a.seq}}</h6>
                               </div>
-                              <p class="m-0">{{h.startTime}} - {{h.endTime}}</p>
+                              <p class="m-0">{{a.startTime}} - {{a.endTime}}</p>
                             </div>
                           </div>
                         </td>
-                        <td class="p-0" *ngFor="let d of data[i].days; let i = index">
-                          <div class="list-group h-100" style="cursor: pointer; height: 100%;" (click)="onSelectSchedule(h, d)" >
+                        <td *ngFor="let col of days; let j = index"
+                            (mousedown)="startSelection(i, j)"
+                            (mousemove)="onMouseMove(i, j)"
+                            (mouseup)="endSelection(i, j)"
+                            [class.selected]="isCellSelected(i, j)"
+                            class="p-0 align-middle">
+                          Cell {{ i + 1 }},{{ j + 1 }}
+
+                        </td>
+
+                        <!-- <td class="p-0" *ngFor="let d of days; let i = index"
+                            (mousedown)="startSelection(i)"
+                            (mousemove)="onMouseMove(i)"
+                            (mouseup)="endSelection(i)"
+                            [class.selected]="isCellSelected(i)">
+                          <div class="list-group h-100" style="height: 100%;" >
                             <div class="list-group-item h-100 list-group-item-action flex-column text-center h-100">
                               <div class="d-flex justify-content-center">
-                                <h6 class="m-0">{{ d.subjectName ?? '&nbsp;' }}</h6>
+                                <h6 class="m-0">Mata Pelajaran</h6>
                               </div>
-                              <p class="m-0 text-primary">{{ d.teacherName ?? '&nbsp;' }}</p>
+                              <p class="m-0 text-primary">Nama Guru</p>
                             </div>
                           </div>
-                        </td>
+                        </td> -->
                       </tr>
                     </tbody>
                   </table>

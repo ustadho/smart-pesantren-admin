@@ -1,12 +1,14 @@
 <form role="form" novalidate (ngSubmit)="onSubmit()" [formGroup]="form">
-  <div class="card">
+  <div class="card custom-card">
     <div class="card-body">
       <div class="row">
         <div class="col-md-6">
           <app-base-input
             [formGroup]="form"
-            controlName="login"
-            label="Login"
+            type="ng-select"
+            [items]="profiles"
+            controlName="profile"
+            label="Tipe User"
             labelWidth="col-sm-3 col-md-4"
             inputWidth="col-sm-4 col-md-6"
             layout="horizontal"
@@ -14,7 +16,13 @@
         </div>
         <div class="col-md-6">
           <div class="form-check ms-3">
-            <input class="form-check-input" type="checkbox" formControlName="activated" name="activated" id="activated">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="activated"
+              name="activated"
+              id="activated"
+            />
             <label class="form-check-label text-danger" for="activated">
               Aktif
             </label>
@@ -22,17 +30,51 @@
         </div>
       </div>
       <app-base-input
+        *ngIf="form.get('profile')?.value == userProfile.EMPLOYEE ||form.get('profile')?.value == userProfile.GUARDIAN"
         type="ng-select"
         [formGroup]="form"
-        label="Pegawai"
+        [label]="form.get('profile')?.value == userProfile.EMPLOYEE ? 'Pegawai' : 'Walisantri'"
         controlName="personId"
         labelWidth="col-sm-3 col-md-2"
         inputWidth="col-sm-9 col-md-8"
         layout="horizontal"
         [items]="employees"
-        (onKeyUp)="onEmployeeKeyup($event)"
-        (onSelectChange)="onSelectEmployeeChange($event)"
+        (onKeyUp)="onPersonDataKeyup($event)"
+        (onSelectChange)="onSelectPersonDataChange($event)"
       ></app-base-input>
+      <div class="row">
+        <div class="col-md-4">
+          <app-base-input
+            [formGroup]="form"
+            controlName="login"
+            label="Login"
+            labelWidth="col-sm-3 col-md-6"
+            inputWidth="col-sm-4 col-md-6"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+        <div class="col-md-5">
+          <app-base-input
+            type="email"
+            [formGroup]="form"
+            label="Email"
+            controlName="email"
+            labelWidth="col-sm-3 col-md-3"
+            inputWidth="col-sm-9 col-md-9"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+        <div class="col-md-3">
+          <app-base-input
+            [formGroup]="form"
+            label="HP"
+            controlName="phone"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-9 col-md-8"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
+      </div>
       <div class="row">
         <div class="col-md-6">
           <app-base-input
@@ -55,64 +97,70 @@
           ></app-base-input>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-6">
-          <app-base-input
-            type="email"
-            [formGroup]="form"
-            label="Email"
-            controlName="email"
-            labelWidth="col-sm-3 col-md-4"
-            inputWidth="col-sm-9 col-md-8"
-            layout="horizontal"
-          ></app-base-input>
+      <div
+        class="row"
+        *ngIf="form.get('profile')?.value != userProfile.GUARDIAN"
+      >
+        <label class="col-md-2">Auth</label>
+        <div class="col-md-10">
+          <select
+            class="form-control"
+            multiple
+            name="authority"
+            formControlName="authorities"
+          >
+            <option *ngFor="let authority of authorities" [value]="authority">
+              {{ authority }}
+            </option>
+          </select>
+          <div
+            *ngIf="form.get('authorities')?.errors?.['required'] && form.get('authorities')?.touched"
+            class="invalid-feedback"
+          >
+            Authority harus diisi
+          </div>
         </div>
       </div>
-      <div class="row">
-        <label class="col-md-2" jhiTranslate="userManagement.profiles"
-            >Profiles</label
+      <div
+        class="row pt-2"
+        *ngIf="form.get('profile')?.value == userProfile.EMPLOYEE"
+      >
+        <label class="col-md-2"
+          ></label
+        >
+        <div class="col-md-10">
+          <select
+            class="form-control"
+            multiple
+            name="institutions"
+            formControlName="institutions"
           >
-          <div class="col-md-10">
-            <select
-              class="form-control"
-              multiple
-              name="authority"
-              formControlName="authorities"
-            >
-              <option *ngFor="let authority of authorities" [value]="authority">
-                {{ authority }}
-              </option>
-            </select>
-            <div
-              *ngIf="form.get('authorities')?.errors?.['required'] && form.get('authorities')?.touched"
-              class="invalid-feedback"
-            >
-              Authority harus diisi
-            </div>
-          </div>
+            <option *ngFor="let i of institutions" [value]="i.id">
+              {{ i.name }}
+            </option>
+          </select>
+        </div>
       </div>
-      <div class="row pt-2">
-        <label class="col-md-2" jhiTranslate="userManagement.institution"
-            >Institusi</label
-          >
-          <div class="col-md-10">
-            <select
-              class="form-control"
-              multiple
-              name="institutions"
-              formControlName="institutions"
-            >
-              <option *ngFor="let i of institutions" [value]="i.id">
-                {{ i.name }}
-              </option>
-            </select>
-          </div>
-      </div>
-      <div class="row border-top pt-2">
+      <div class="row border-top pt-2 mt-2">
         <div class="d-flex justify-content-between px-2">
-          <button type="button" class="btn btn-danger mr-2" (click)="onDelete()" *ngIf="form.get('id')?.value != null">
-            <i class="fa fa-ban"></i> Hapus
-          </button>
+          <div>
+            <button
+              type="button"
+              class="btn btn-danger mr-2"
+              (click)="onDelete()"
+              *ngIf="form.get('id')?.value != null"
+            >
+              <i class="fa fa-ban"></i> Hapus
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary ml-1"
+              (click)="onResetPassword()"
+              *ngIf="form.get('id')?.value != null"
+            >
+              <i class="fa fa-ban"></i> Reset Password
+            </button>
+          </div>
           &nbsp;
           <app-submit-button [isSubmitting]="isSubmitting" buttonText="Simpan">
           </app-submit-button>

@@ -25,8 +25,8 @@ export class AcademicActivityTimeService {
     return this.http.post(`${this.resourceUrl}/copy`, vms);
   }
 
-  findAll(q: string): Observable<any> {
-    return this.http.get(`${this.resourceUrl}/all`, {params: {q: q}, observe: 'response'})
+  findAll(param: any): Observable<any> {
+    return this.http.get(`${this.resourceUrl}/all`, {params: param, observe: 'response'})
   }
 
   findOne(id: string): Observable<any> {

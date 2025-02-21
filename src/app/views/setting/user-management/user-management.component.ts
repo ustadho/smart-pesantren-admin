@@ -4,6 +4,7 @@ import { UserManagementListComponent } from './user-management-list/user-managem
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { CommonModule } from '@angular/common';
 import { UserManagementEditComponent } from './user-management-edit/user-management-edit.component';
+import { USER_PROFILE } from 'src/app/shared/constant/user-profile.constant';
 
 @Component({
   selector: 'app-user-management',
@@ -16,7 +17,11 @@ import { UserManagementEditComponent } from './user-management-edit/user-managem
 })
 export class UserManagementComponent {
   tabs: ITab[] = [];
-
+  profiles = [
+    {id: USER_PROFILE.SYSADMIN, name: 'SYSADMIN' },
+    {id: USER_PROFILE.EMPLOYEE, name: 'PEGAWAI' },
+    {id: USER_PROFILE.GUARDIAN, name: 'WALISANTRI' },
+  ]
   @ViewChild(UserManagementListComponent)
   private listComponent?: UserManagementListComponent;
 

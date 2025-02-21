@@ -13,7 +13,15 @@ export const routes: Routes = [
     path: 'subject-schedule',
     loadComponent: () => import('./subject-schedule/subject-schedule.component').then(m => m.SubjectScheduleComponent),
     data: {
-      title: 'Data Kelas',
+      title: 'Jadwal Pelajaran',
+      defaultSort: 'name,asc',
+    }
+  },
+  {
+    path: 'subject-schedule2',
+    loadComponent: () => import('./subject-schedule2/subject-schedule2.component').then(m => m.SubjectSchedule2Component),
+    data: {
+      title: 'Jadwal Pelajaran 2',
       defaultSort: 'name,asc',
     }
   },

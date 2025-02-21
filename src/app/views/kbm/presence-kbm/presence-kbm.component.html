@@ -47,10 +47,10 @@
                   inputWidth="col-sm-9 col-md-9"
                   layout="horizontal"
                   [labelFormat]="
-                    '${subjectName} - ${classRoom} [${startTime} - ${endTime}]'
+                    '${subjectName} - ${classRoomName} [${startTime} - ${endTime}]'
                   "
                   [items]="subjectSchedules"
-                  (onSelectChange)="loadStudent()"
+                  (onSelectChange)="loadStudent($event)"
                 ></app-base-input>
               </div>
               <div class="col-md-4">

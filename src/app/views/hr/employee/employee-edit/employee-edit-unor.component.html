@@ -95,6 +95,17 @@
             (onKeyUp)="onManagerKeyup($event)"
           ></app-base-input>
         </div>
+        <div class="col-md-6 col-12">
+          <app-base-input
+            type="checkbox"
+            [formGroup]="form"
+            label="Aktif"
+            controlName="active"
+            labelWidth="col-sm-3 col-md-4"
+            inputWidth="col-sm-9 col-md-8"
+            layout="horizontal"
+          ></app-base-input>
+        </div>
       </div>
     </div>
   </div>

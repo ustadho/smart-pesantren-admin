@@ -40,6 +40,10 @@ export class LoginService {
     });
   }
 
+  loginWithToken(jwt: any, rememberMe: any) {
+    return this.authServerProvider.loginWithToken(jwt, rememberMe);
+  }
+
   logout() {
     this.authServerProvider.logout().subscribe({
       next: () => {

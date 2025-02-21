@@ -52,6 +52,10 @@ export const routes: Routes = [
         path: 'setting',
         loadChildren: () => import('./views/setting/setting.routes').then((m) => m.routes)
       },
+      {
+        path: 'account',
+        loadChildren: () => import('./views/account/account.routes').then((m) => m.routes)
+      },
     ]
   },
   {
