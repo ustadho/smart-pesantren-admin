@@ -94,6 +94,7 @@ export class PesantrenEditComponent {
         (res: any) => {
           this.isSubmitting = false;
           this.toast.success('Tambah data sukses');
+          this.onRemove.emit(this.activeTab);
           setTimeout(() => {
             this.onReset();
           }, 200);

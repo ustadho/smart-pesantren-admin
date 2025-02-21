@@ -68,7 +68,7 @@ export class PresenceKbmComponent {
 
     this.accountService.identity().then(account => {
       this.currentAccount = account;
-      if(account != null && account.personData.id != null) {
+      if(account != null && account.personData != null && account.personData.id != null) {
         if(account.authorities.indexOf(ROLE_PENDIDIKAN)) {
           this.subjectScheduleService.myCurrentSchedule().subscribe((res: any) => {
             console.log('mySchedules', res)
