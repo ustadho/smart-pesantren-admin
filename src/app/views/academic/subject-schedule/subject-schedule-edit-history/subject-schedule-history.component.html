@@ -14,7 +14,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="table-container border">
-          <table class="table table-bordered text-center">
+          <table class="table table-bordered">
             <thead>
               <tr>
                 <th class="table-freeze">Hari</th>
@@ -30,14 +30,14 @@
             </thead>
             <tbody>
               <tr *ngFor="let d of data; let i = index">
-                <td class="p-0">{{ d.dayName }}</td>
-                <td class="p-0">{{ d.subjectName }}</td>
-                <td class="p-0">{{ d.teacherName }}</td>
-                <td class="p-0">{{ d.seq | number }}</td>
+                <td>{{ d.dayName }}</td>
+                <td>{{ d.subjectName }}</td>
+                <td>{{ d.teacherName }}</td>
+                <td>{{ d.seq | number }}</td>
                 <!-- <td class="table-freeze p-0">{{ d.startTime }} - {{ d.endTime }} </td> -->
-                <td class="p-0">{{ d.activity }}</td>
-                <td class="p-0">{{ d.createdBy }}</td>
-                <td class="p-0">{{ d.createdDate | date: 'dd-MM-yyyy HH:mm' }}</td>
+                <td>{{ d.activity }}</td>
+                <td>{{ d.createdBy }}</td>
+                <td>{{ d.createdDate | date: 'dd-MM-yyyy HH:mm' }}</td>
               </tr>
             </tbody>
           </table>
