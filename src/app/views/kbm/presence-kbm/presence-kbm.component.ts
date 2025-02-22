@@ -41,6 +41,7 @@ export class PresenceKbmComponent {
   private academicYearService = inject(AcademicYearService);
   private presenceKBMService = inject(PresenceKBMService);
   private subjectScheduleService = inject(SubjectScheduleService);
+  private toastrService = inject(ToastrService);
   private accountService = inject(AccountService);
   private bsModalService = inject(BsModalService);
   modalRef?: BsModalRef;
@@ -99,7 +100,10 @@ export class PresenceKbmComponent {
     this.presenceKBMService
       .save(this.form.getRawValue())
       .subscribe((data: any) => {
-        console.log('success');
+        this.toastrService.success('Simpan absen sukses')
+      }, (err: any) => {
+        this.toastrService.error('Gagal menyimpan absen')
+        this.isSubmitting.set(false);
       });
     this.isSubmitting.set(false);
   }
@@ -117,6 +121,7 @@ export class PresenceKbmComponent {
 
   loadStudent(e: any) {
     console.log('e', e)
+    this.form.get('subjectScheduleId')?.setValue(e.subjectScheduleId)
     const students = this.form.get('students') as FormArray;
     students?.clear();
     if(e.classRoomId == null) {
