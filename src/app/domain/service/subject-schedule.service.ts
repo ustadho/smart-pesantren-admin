@@ -65,4 +65,10 @@ export class SubjectScheduleService {
       observe: 'response'
     })
   }
+
+  myWeeklySchedule() {
+    return this.http.get(`${this.resourceUrl}/my-current-schedule`, {
+      observe: 'response'
+    })
+  }
 }

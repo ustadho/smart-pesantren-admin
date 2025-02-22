@@ -53,15 +53,15 @@ export class SubjectScheduleEditDialogComponent {
 
 
   ngAfterViewInit() {
-    console.log('this.data', this.data)
     this.form.patchValue({
       id: this.data?.id,
       classRoomId: this.data.classRoomId,
       activityTimeId: this.data.activityTimeId,
       subjectId: this.data?.subjectId,
       dayId: this.data?.dayId,
+      teachers: [],
     });
-    if (this.data.teachers.length > 0) {
+    if (this.data.teachers != null && this.data.teachers.length > 0) {
       const teachersArray = this.form.get('teachers') as FormArray;
       teachersArray.clear();
       this.data.teachers.forEach((t: any) => {
@@ -88,7 +88,8 @@ export class SubjectScheduleEditDialogComponent {
   onAddTeacher() {
     const teacherGroup = this.fb.group({
       id: [null],
-      name: [null],
+      employeeId: [null],
+      employeeName: [null],
     });
     this.teachersControls.push(teacherGroup);
   }
@@ -98,8 +99,9 @@ export class SubjectScheduleEditDialogComponent {
     const teacherName = this.teachers.find(t => t.id === teacherId)?.name || 'Unknown Teacher';
 
     const teacherGroup = this.fb.group({
-      id: [teacherId],
-      name: [teacherName],
+      id: null,
+      employeeId: [teacherId],
+      employeeName: [teacherName],
     });
 
     this.teachersControls.push(teacherGroup);
