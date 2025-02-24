@@ -72,7 +72,6 @@ export class PresenceKbmComponent {
       if(account != null && account.personData != null && account.personData.id != null) {
         if(account.authorities.indexOf(ROLE_PENDIDIKAN)) {
           this.subjectScheduleService.myCurrentSchedule().subscribe((res: any) => {
-            console.log('mySchedules', res)
             this.subjectSchedules = res.body
           })
         }
@@ -81,6 +80,8 @@ export class PresenceKbmComponent {
   }
 
   onLoadTeachers() {
+    const students = this.form.get('students') as FormArray;
+    students.clear();
     this.teachers = []
     this.subjectScheduleService.findAllTeacherByAcademicYearId(this.form.get('academicYearId')?.value).subscribe((data: any) => {
       this.teachers = data.body
@@ -88,6 +89,9 @@ export class PresenceKbmComponent {
   }
 
   onLoadSubjectScheduleClassRoom() {
+    const students = this.form.get('students') as FormArray;
+    students.clear();
+
     this.subjectSchedules = []
     this.form.get('subjectScheduleId')?.setValue(null)
     this.subjectScheduleService.findSubjectScheduleClassroomByTeacher(this.form.get('teacherId')?.value).subscribe((data: any) => {
@@ -120,8 +124,6 @@ export class PresenceKbmComponent {
   }
 
   loadStudent(e: any) {
-    console.log('e', e)
-    this.form.get('subjectScheduleId')?.setValue(e.subjectScheduleId)
     const students = this.form.get('students') as FormArray;
     students?.clear();
     if(e.classRoomId == null) {
@@ -129,9 +131,8 @@ export class PresenceKbmComponent {
     }
 
     this.presenceKBMService
-      .findDetailStudents(e.classRoomId)
+      .findDetailStudents(this.form.value.subjectScheduleId)
       .subscribe((data) => {
-        console.log('data', data)
         const students = this.form.get('students') as FormArray;
         students.clear();
         data.body.forEach((s: any) => {
@@ -162,7 +163,6 @@ export class PresenceKbmComponent {
 
     this.modalRef.content.onClose.subscribe((data: any) => {
       const students = this.form.get('students') as FormArray;
-      console.log('modal closed', data)
       if(data == 'deleteIzin') {
         students.at(index).patchValue({
           presenceStatusId: PRESENCE_STATUS.HADIR,
