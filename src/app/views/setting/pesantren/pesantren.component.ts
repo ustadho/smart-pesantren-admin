@@ -1,8 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
 import { ITab } from '../../../domain/model/tab.model';
 import { PesantrenEditComponent } from './pesantren-edit/pesantren-edit.component';
 import { PesantrenListComponent } from './pesantren-list/pesantren-list.component';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -12,8 +12,10 @@ import { CommonModule } from '@angular/common';
   templateUrl: './pesantren.component.html',
   styleUrl: './pesantren.component.scss'
 })
-export class PesantrenComponent {
+export class PesantrenComponent implements AfterViewInit {
   tabs: ITab[] = [];
+  @ViewChild('tabset') tabset: TabsetComponent | null= null;
+  private cdRef = inject(ChangeDetectorRef);
 
   @ViewChild(PesantrenListComponent)
   private listComponent?: PesantrenListComponent;
@@ -22,6 +24,14 @@ export class PesantrenComponent {
 
   ngOnInit(): void {
     this.onAdd();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      // Setelah mengubah nilai, panggil detectChanges untuk memberi tahu Angular untuk memperbarui tampilan
+      this.cdRef.detectChanges();
+    }
   }
 
   onAdd() {

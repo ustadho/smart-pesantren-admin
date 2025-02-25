@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { ReferalInstitutionListComponent} from './referal-institution-list/referal-institution-list.component'
 import { ReferalInstitutionEditComponent} from './referal-institution-edit/referal-institution-edit.component'
 import { ITab } from '../../../domain/model/tab.model'
@@ -12,19 +12,29 @@ import { CommonModule } from '@angular/common';
   templateUrl: './referal-institution.component.html',
   styleUrl: './referal-institution.component.scss'
 })
-export class ReferalInstitutionComponent implements OnInit{
+export class ReferalInstitutionComponent implements OnInit, AfterViewInit {
   tabs: ITab[] = [];
 
   @ViewChild(ReferalInstitutionListComponent)
   private listComponent?: ReferalInstitutionListComponent;
 
   @ViewChild('tabset', { static: false }) tabset?: TabsetComponent;
+  private cdRef = inject(ChangeDetectorRef);
 
   constructor() {}
 
   ngOnInit(): void {
     this.onAdd();
   }
+
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      // Setelah mengubah nilai, panggil detectChanges untuk memberi tahu Angular untuk memperbarui tampilan
+      this.cdRef.detectChanges();
+    }
+  }
+
 
   onAdd() {
     const newTabIndex = this.tabs.length;

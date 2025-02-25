@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild } from '@angular/core';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
+import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
 import { ITab } from '../../../domain/model/tab.model';
 import { TugasKepengasuhanListComponent } from './tugas-kepengasuhan-list/tugas-kepengasuhan-list.component';
 import { TugasKepengasuhanEditComponent } from './tugas-kepengasuhan-edit/tugas-kepengasuhan-edit.component';
@@ -12,16 +12,27 @@ import { TugasKepengasuhanEditComponent } from './tugas-kepengasuhan-edit/tugas-
   templateUrl: './tugas-kepengasuhan.component.html',
   styleUrl: './tugas-kepengasuhan.component.scss'
 })
-export class TugasKepengasuhanComponent {
+export class TugasKepengasuhanComponent implements AfterViewInit{
   tabs: ITab[] = [];
 
   @ViewChild(TugasKepengasuhanListComponent)
   private listComponent?: TugasKepengasuhanListComponent;
 
+  @ViewChild('tabset') tabset: TabsetComponent | null= null;
+  private cdRef = inject(ChangeDetectorRef);
+
   constructor() {}
 
   ngOnInit(): void {
     this.onAdd();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      // Setelah mengubah nilai, panggil detectChanges untuk memberi tahu Angular untuk memperbarui tampilan
+      this.cdRef.detectChanges();
+    }
   }
 
   onAdd() {

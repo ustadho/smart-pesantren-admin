@@ -1,10 +1,10 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
 import { ITab } from '../../../domain/model/tab.model';
 import { StudentService } from '../../../domain/service/student.service';
 import { StudentListComponent } from './student-list/student-list.component'
 import { StudentEditComponent } from './student-edit/student-edit.component'
 import { CommonModule } from '@angular/common';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
 import { StudentCategoryService } from '../../../domain/service/student-category.service';
 import { CityService } from '../../../domain/service/city.service';
 import { AcademicYearService } from '../../../domain/service/academic-year.service';
@@ -24,7 +24,7 @@ import { InstitutionService } from '../../../domain/service/institution.service'
   templateUrl: './student.component.html',
   styleUrl: './student.component.scss'
 })
-export class StudentComponent {
+export class StudentComponent implements AfterViewInit {
   tabs: ITab[] = [];
   categories: any[] = [];
   cities: any[] = [];
@@ -35,6 +35,9 @@ export class StudentComponent {
 
   @ViewChild(StudentListComponent)
   private listComponent?: StudentListComponent;
+
+  @ViewChild('tabset') tabset: TabsetComponent | null= null;
+  private cdRef = inject(ChangeDetectorRef);
   private categoryService = inject(StudentCategoryService);
   private academicYearService = inject(AcademicYearService);
   private cityService = inject(CityService);
@@ -65,6 +68,13 @@ export class StudentComponent {
       this.institutions = res.body;
     })
     this.onAdd();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      this.cdRef.detectChanges();
+    }
   }
 
   onAdd() {

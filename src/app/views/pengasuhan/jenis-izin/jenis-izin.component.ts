@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild } from '@angular/core';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+import { ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
+import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
 import { ITab } from '../../../domain/model/tab.model';
 import { JenisIzinListComponent } from './jenis-izin-list/jenis-izin-list.component';
 import { JenisIzinEditComponent } from './jenis-izin-edit/jenis-izin-edit.component';
@@ -18,11 +18,23 @@ export class JenisIzinComponent {
   @ViewChild(JenisIzinListComponent)
   private listComponent?: JenisIzinListComponent;
 
+  @ViewChild('tabset') tabset: TabsetComponent | null= null;
+  private cdRef = inject(ChangeDetectorRef);
+
   constructor() {}
 
   ngOnInit(): void {
     this.onAdd();
   }
+
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      // Setelah mengubah nilai, panggil detectChanges untuk memberi tahu Angular untuk memperbarui tampilan
+      this.cdRef.detectChanges();
+    }
+  }
+
 
   onAdd() {
     const newTabIndex = this.tabs.length;

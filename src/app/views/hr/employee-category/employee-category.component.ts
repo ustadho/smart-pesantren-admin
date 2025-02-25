@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { EmployeeCategoryListComponent} from './employee-category-list/employee-category-list.component'
 import { EmployeeCategoryEditComponent} from './employee-category-edit/employee-category-edit.component'
 import { ITab } from '../../../domain/model/tab.model'
@@ -12,18 +12,27 @@ import { CommonModule } from '@angular/common';
   templateUrl: './employee-category.component.html',
   styleUrl: './employee-category.component.scss'
 })
-export class EmployeeCategoryComponent implements OnInit{
+export class EmployeeCategoryComponent implements OnInit, AfterViewInit {
   tabs: ITab[] = [];
 
   @ViewChild(EmployeeCategoryListComponent)
   private listComponent?: EmployeeCategoryListComponent;
 
   @ViewChild('tabset', { static: false }) tabset?: TabsetComponent;
+  private cdRef = inject(ChangeDetectorRef);
 
   constructor() {}
 
   ngOnInit(): void {
     this.onAdd();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      // Setelah mengubah nilai, panggil detectChanges untuk memberi tahu Angular untuk memperbarui tampilan
+      this.cdRef.detectChanges();
+    }
   }
 
   onAdd() {

@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { ITab } from '../../../domain/model/tab.model';
 import { AsramaListComponent } from './asrama-list/asrama-list.component';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
 import { CommonModule } from '@angular/common';
 import { AsramaEditComponent } from './asrama-edit/asrama-edit.component';
 import { LocationService } from '../../../domain/service/location.service';
@@ -14,13 +14,14 @@ import { PesantrenService } from '../../../domain/service/pesantren.service';
   templateUrl: './asrama.component.html',
   styleUrl: './asrama.component.scss'
 })
-export class AsramaComponent implements OnInit {
+export class AsramaComponent implements OnInit, AfterViewInit {
   tabs: ITab[] = [];
   locations: any[] =[]
   pesantrens: any[] =[]
-
+  @ViewChild('tabset') tabset: TabsetComponent | null= null;
   @ViewChild(AsramaListComponent)
   private listComponent?: AsramaListComponent;
+  private cdRef = inject(ChangeDetectorRef);
 
   constructor(
     private locationService: LocationService,
@@ -35,6 +36,14 @@ export class AsramaComponent implements OnInit {
     this.pesantrenService.findAll('').subscribe(res => {
       this.pesantrens = res.body
     })
+  }
+
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      // Setelah mengubah nilai, panggil detectChanges untuk memberi tahu Angular untuk memperbarui tampilan
+      this.cdRef.detectChanges();
+    }
   }
 
   onAdd() {

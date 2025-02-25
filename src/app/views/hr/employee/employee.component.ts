@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
 import { ITab } from '../../../domain/model/tab.model';
 import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
@@ -20,7 +20,7 @@ import { ReligionService } from '../../../domain/service/religion.service';
   templateUrl: './employee.component.html',
   styleUrl: './employee.component.scss'
 })
-export class EmployeeComponent {
+export class EmployeeComponent implements AfterViewInit {
   tabs: ITab[] = [];
 
   @ViewChild(EmployeeListComponent)
@@ -37,6 +37,7 @@ export class EmployeeComponent {
   referalInstitutions: any[] = [];
   religions: any[] = [];
 
+  private cdRef = inject(ChangeDetectorRef);
   private organizationService = inject(OrganizationService);
   private employeeCategoryService = inject(EmployeeCategoryService);
   private jobLevelService = inject(JobLevelService);
@@ -77,6 +78,14 @@ export class EmployeeComponent {
     this.religionService.findAll('').subscribe((res: any) => {
       this.religions = res.body;
     });
+  }
+
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      // Setelah mengubah nilai, panggil detectChanges untuk memberi tahu Angular untuk memperbarui tampilan
+      this.cdRef.detectChanges();
+    }
   }
 
   onAdd() {

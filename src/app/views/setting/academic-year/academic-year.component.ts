@@ -1,9 +1,9 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
 import { ITab } from '../../../domain/model/tab.model';
 import { AcademicYearListComponent } from './academic-year-list/academic-year-list.component';
 import { CommonModule } from '@angular/common';
 import { AcademicYearEditComponent } from './academic-year-edit/academic-year-edit.component';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
 import { AcademicYearService } from '../../../domain/service/academic-year.service';
 import { CurriculumService } from '../../../domain/service/curriculum.service';
 
@@ -14,13 +14,14 @@ import { CurriculumService } from '../../../domain/service/curriculum.service';
   templateUrl: './academic-year.component.html',
   styleUrl: './academic-year.component.scss'
 })
-export class AcademicYearComponent {
+export class AcademicYearComponent implements AfterViewInit {
   tabs: ITab[] = [];
   curriculums: any[] = []
-
+  @ViewChild('tabset') tabset: TabsetComponent | null= null;
   @ViewChild(AcademicYearListComponent)
   private listComponent?: AcademicYearListComponent;
   private curriculumService = inject(CurriculumService);
+  private cdRef = inject(ChangeDetectorRef);
 
   constructor() {}
 
@@ -29,6 +30,14 @@ export class AcademicYearComponent {
     this.curriculumService.findAll('').subscribe((data) => {
       this.curriculums = data.body
     })
+  }
+
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      // Setelah mengubah nilai, panggil detectChanges untuk memberi tahu Angular untuk memperbarui tampilan
+      this.cdRef.detectChanges();
+    }
   }
 
   onAdd() {

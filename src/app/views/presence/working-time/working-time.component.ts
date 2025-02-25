@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { WorkingTimeListComponent} from './working-time-list/working-time-list.component'
 import { WorkingTimeEditComponent} from './working-time-edit/working-time-edit.component'
 import { ITab } from '../../../domain/model/tab.model'
@@ -12,18 +12,26 @@ import { CommonModule } from '@angular/common';
   templateUrl: './working-time.component.html',
   styleUrl: './working-time.component.scss'
 })
-export class WorkingTimeComponent implements OnInit{
+export class WorkingTimeComponent implements OnInit, AfterViewInit {
   tabs: ITab[] = [];
 
   @ViewChild(WorkingTimeListComponent)
   private listComponent?: WorkingTimeListComponent;
 
-  @ViewChild('tabset', { static: false }) tabset?: TabsetComponent;
+  @ViewChild('tabset') tabset: TabsetComponent | null= null;
+  private cdRef = inject(ChangeDetectorRef);
 
   constructor() {}
 
   ngOnInit(): void {
     this.onAdd();
+  }
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      // Setelah mengubah nilai, panggil detectChanges untuk memberi tahu Angular untuk memperbarui tampilan
+      this.cdRef.detectChanges();
+    }
   }
 
   onAdd() {

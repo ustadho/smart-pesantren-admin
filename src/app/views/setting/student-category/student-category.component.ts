@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild } from '@angular/core';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
+import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
 import { StudentCategoryListComponent } from './student-category-list/student-category-list.component'
 import { StudentCategoryEditComponent } from './student-category-edit/student-category-edit.component'
 import { ITab } from '../../../domain/model/tab.model';
@@ -18,16 +18,27 @@ import { StudentCategoryService } from '../../../domain/service/student-category
   templateUrl: './student-category.component.html',
   styleUrl: './student-category.component.scss'
 })
-export class StudentCategoryComponent {
+export class StudentCategoryComponent implements AfterViewInit {
   tabs: ITab[] = [];
 
   @ViewChild(StudentCategoryListComponent)
   private listComponent?: StudentCategoryListComponent;
 
+  @ViewChild('tabset') tabset: TabsetComponent | null= null;
+  private cdRef = inject(ChangeDetectorRef);
+
   constructor() {}
 
   ngOnInit(): void {
     this.onAdd();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      // Setelah mengubah nilai, panggil detectChanges untuk memberi tahu Angular untuk memperbarui tampilan
+      this.cdRef.detectChanges();
+    }
   }
 
   onAdd() {

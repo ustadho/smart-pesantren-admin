@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { SectionListComponent} from './section-list/section-list.component'
 import { SectionEditComponent} from './section-edit/section-edit.component'
 import { ITab } from '../../../domain/model/tab.model'
@@ -12,18 +12,27 @@ import { CommonModule } from '@angular/common';
   templateUrl: './section.component.html',
   styleUrl: './section.component.scss'
 })
-export class SectionComponent implements OnInit{
+export class SectionComponent implements OnInit, AfterViewInit {
   tabs: ITab[] = [];
 
   @ViewChild(SectionListComponent)
   private listComponent?: SectionListComponent;
 
   @ViewChild('tabset', { static: false }) tabset?: TabsetComponent;
+  private cdRef = inject(ChangeDetectorRef);
 
   constructor() {}
 
   ngOnInit(): void {
     this.onAdd();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      // Setelah mengubah nilai, panggil detectChanges untuk memberi tahu Angular untuk memperbarui tampilan
+      this.cdRef.detectChanges();
+    }
   }
 
   onAdd() {

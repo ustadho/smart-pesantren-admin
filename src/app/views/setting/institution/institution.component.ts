@@ -1,8 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
 import { ITab } from '../../../domain/model/tab.model';
 import { InstitutionEditComponent } from './institution-edit/institution-edit.component';
 import { InstitutionListComponent } from './institution-list/institution-list.component';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -12,17 +12,29 @@ import { CommonModule } from '@angular/common';
   templateUrl: './institution.component.html',
   styleUrl: './institution.component.scss'
 })
-export class InstitutionComponent {
+export class InstitutionComponent implements AfterViewInit {
   tabs: ITab[] = [];
 
   @ViewChild(InstitutionListComponent)
   private listComponent?: InstitutionListComponent;
+
+  @ViewChild('tabset') tabset: TabsetComponent | null= null;
+  private cdRef = inject(ChangeDetectorRef);
 
   constructor() {}
 
   ngOnInit(): void {
     this.onAdd();
   }
+
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      // Setelah mengubah nilai, panggil detectChanges untuk memberi tahu Angular untuk memperbarui tampilan
+      this.cdRef.detectChanges();
+    }
+  }
+
 
   onAdd() {
     const newTabIndex = this.tabs.length;

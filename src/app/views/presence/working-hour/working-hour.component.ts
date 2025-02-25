@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
 import { WorkingHourListComponent } from './working-hour-list/working-hour-list.component';
 import { ITab } from 'src/app/domain/model/tab.model';
@@ -17,18 +17,27 @@ import { CommonModule } from '@angular/common';
   templateUrl: './working-hour.component.html',
   styleUrl: './working-hour.component.scss'
 })
-export class WorkingHourComponent implements OnInit {
+export class WorkingHourComponent implements OnInit, AfterViewInit {
   tabs: ITab[] = [];
 
   @ViewChild(WorkingHourListComponent)
   private listComponent?: WorkingHourListComponent;
 
-  @ViewChild('tabset', { static: false }) tabset?: TabsetComponent;
+  @ViewChild('tabset') tabset: TabsetComponent | null= null;
+  private cdRef = inject(ChangeDetectorRef);
 
   constructor() {}
 
   ngOnInit(): void {
     this.onAdd();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      // Setelah mengubah nilai, panggil detectChanges untuk memberi tahu Angular untuk memperbarui tampilan
+      this.cdRef.detectChanges();
+    }
   }
 
   onAdd() {

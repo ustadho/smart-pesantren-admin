@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { ITab } from 'src/app/domain/model/tab.model';
 import { EmployeeTransferListComponent } from './employee-transfer-list/employee-transfer-list.component';
 import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
@@ -18,13 +18,14 @@ import { EmployeeStatusService } from 'src/app/domain/service/employee-status.se
   templateUrl: './employee-transfer.component.html',
   styleUrl: './employee-transfer.component.scss'
 })
-export class EmployeeTransferComponent implements OnInit {
+export class EmployeeTransferComponent implements OnInit, AfterViewInit {
   tabs: ITab[] = [];
 
   @ViewChild(EmployeeTransferListComponent)
   private listComponent?: EmployeeTransferListComponent;
 
   @ViewChild('tabset', { static: false }) tabset?: TabsetComponent;
+  private cdRef = inject(ChangeDetectorRef);
 
   organizations: any[] = [];
   jobPositions: any[] = [];
@@ -62,6 +63,15 @@ export class EmployeeTransferComponent implements OnInit {
       this.jobLevels = res.body;
     });
   }
+
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      // Setelah mengubah nilai, panggil detectChanges untuk memberi tahu Angular untuk memperbarui tampilan
+      this.cdRef.detectChanges();
+    }
+  }
+
 
   onAdd() {
     const newTabIndex = this.tabs.length;

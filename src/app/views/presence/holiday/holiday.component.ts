@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { HolidayListComponent } from './holiday-list/holiday-list.component';
 import { HolidayEditComponent } from './holiday-edit/holiday-edit.component';
 import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
@@ -17,18 +17,28 @@ import { ITab } from 'src/app/domain/model/tab.model';
   templateUrl: './holiday.component.html',
   styleUrl: './holiday.component.scss'
 })
-export class HolidayComponent implements OnInit {
+export class HolidayComponent implements OnInit, AfterViewInit {
   tabs: ITab[] = [];
 
   @ViewChild(HolidayListComponent)
   private listComponent?: HolidayListComponent;
 
-  @ViewChild('tabset', { static: false }) tabset?: TabsetComponent;
+  @ViewChild('tabset') tabset: TabsetComponent | null= null;
+  private cdRef = inject(ChangeDetectorRef);
+  
 
   constructor() {}
 
   ngOnInit(): void {
     this.onAdd();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      // Setelah mengubah nilai, panggil detectChanges untuk memberi tahu Angular untuk memperbarui tampilan
+      this.cdRef.detectChanges();
+    }
   }
 
   onAdd() {

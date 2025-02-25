@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild } from '@angular/core';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
+import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
 import { ClassLevelListComponent } from './class-level-list/class-level-list.component';
 import { ClassLevelEditComponent } from './class-level-edit/class-level-edit.component';
 import { ITab } from '../../../domain/model/tab.model';
@@ -18,12 +18,15 @@ import { EducationLevelService } from '../../../domain/service/education-level.s
   templateUrl: './class-level.component.html',
   styleUrl: './class-level.component.scss'
 })
-export class ClassLevelComponent {
+export class ClassLevelComponent implements AfterViewInit {
   tabs: ITab[] = [];
   educationLevels: any[] = [];
 
   @ViewChild(ClassLevelListComponent)
   private listComponent?: ClassLevelListComponent;
+
+  @ViewChild('tabset') tabset: TabsetComponent | null= null;
+  private cdRef = inject(ChangeDetectorRef);
 
   private educationLevelService = inject(EducationLevelService);
   constructor() {}
@@ -34,6 +37,15 @@ export class ClassLevelComponent {
       this.educationLevels = data.body
     })
   }
+
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      // Setelah mengubah nilai, panggil detectChanges untuk memberi tahu Angular untuk memperbarui tampilan
+      this.cdRef.detectChanges();
+    }
+  }
+
 
   onAdd() {
     const newTabIndex = this.tabs.length;

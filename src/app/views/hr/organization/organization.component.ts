@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { TreeTableModule } from 'primeng/treetable';
 import { CommonModule } from '@angular/common';
 import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
@@ -19,18 +19,27 @@ import { OrganizationService } from '../../../domain/service/organization.servic
   templateUrl: './organization.component.html',
   styleUrl: './organization.component.scss',
 })
-export class OrganizationComponent implements OnInit {
+export class OrganizationComponent implements OnInit, AfterViewInit {
   tabs: ITab[] = [];
 
   @ViewChild(OrganizationListComponent)
   private listComponent?: OrganizationListComponent;
 
   @ViewChild('tabset', { static: false }) tabset?: TabsetComponent;
+  private cdRef = inject(ChangeDetectorRef);
 
   constructor() {}
 
   ngOnInit(): void {
     this.onAdd(null);
+  }
+
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      // Setelah mengubah nilai, panggil detectChanges untuk memberi tahu Angular untuk memperbarui tampilan
+      this.cdRef.detectChanges();
+    }
   }
 
   onAdd(d: any) {
