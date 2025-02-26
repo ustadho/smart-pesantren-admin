@@ -36,7 +36,6 @@ export class BuildingEditComponent {
       code: [null, [Validators.required]],
       name: [null, [Validators.required]],
       description: [null],
-      color: [null],
     });
   }
 
@@ -60,7 +59,11 @@ export class BuildingEditComponent {
         this.isSubmitting = false
         this.toast.success('Tambah data sukses')
         setTimeout(() => {
-          this.onReset();
+          if(this.activeTab != null && this.activeTab.index > 1) {
+            this.onRemove.emit(this.activeTab)
+          } else {
+            this.onReset();
+          }
         }, 200);
       });
     } else {

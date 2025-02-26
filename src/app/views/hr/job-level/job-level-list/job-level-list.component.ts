@@ -58,7 +58,6 @@ export class JobLevelListComponent implements OnInit {
   private sortService = inject(SortService);
 
   ngOnInit(): void {
-    this.handleNavigation();
   }
 
   public loadAll() {

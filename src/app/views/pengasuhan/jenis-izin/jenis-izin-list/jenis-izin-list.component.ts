@@ -46,7 +46,6 @@ export class JenisIzinListComponent {
   private sortService = inject(SortService);
 
   ngOnInit(): void {
-    this.handleNavigation();
   }
 
   public loadAll() {

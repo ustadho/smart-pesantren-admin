@@ -4,6 +4,7 @@ export interface ITab {
   removable: boolean;
   disabled: boolean;
   active?: boolean;
+  index: number;
   customClass?: string;
   data?: any
 }

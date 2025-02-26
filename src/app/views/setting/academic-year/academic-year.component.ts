@@ -49,6 +49,7 @@ export class AcademicYearComponent implements AfterViewInit {
       removable: true,
       active: true,
       data: null,
+      index: newTabIndex,
     });
     this.tabs[newTabIndex].active = true;
   }
@@ -68,6 +69,7 @@ export class AcademicYearComponent implements AfterViewInit {
         disabled: false,
         removable: true,
         data: data,
+        index: newTabIndex,
       });
       this.tabs[newTabIndex].active = true;
     } else {
@@ -76,13 +78,9 @@ export class AcademicYearComponent implements AfterViewInit {
   }
 
   onRemoveTab(tab: ITab) {
-    const idx = this.tabs.indexOf(tab)
-    if(idx > 0 && this.tabs[idx - 1].active != null) {
-      this.tabs[idx - 1].active = true;
-    }
-    this.tabs.splice(this.tabs.indexOf(tab), 1);
-    if(this.listComponent) {
-      this.listComponent.onRefresh();
+    this.tabs.splice(tab.index, 1);
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
     }
   }
 

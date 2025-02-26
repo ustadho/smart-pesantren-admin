@@ -45,7 +45,7 @@ export class ReferalInstitutionListComponent implements OnInit {
     private sortService = inject(SortService);
 
     ngOnInit(): void {
-      this.handleNavigation();
+      // this.handleNavigation();
     }
 
     public loadAll() {

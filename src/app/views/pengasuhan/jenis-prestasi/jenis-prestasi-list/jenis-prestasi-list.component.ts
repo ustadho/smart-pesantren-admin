@@ -46,7 +46,6 @@ export class JenisPrestasiListComponent {
   private sortService = inject(SortService);
 
   ngOnInit(): void {
-    this.handleNavigation();
   }
 
   public loadAll() {

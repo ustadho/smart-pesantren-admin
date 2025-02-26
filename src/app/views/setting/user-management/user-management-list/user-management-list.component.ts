@@ -71,7 +71,6 @@ export class UserManagementListComponent {
   ngOnInit(): void {
     this.accountService.identity().then(account => {
       this.currentAccount = account;
-      this.handleNavigation();
     });
 
   }

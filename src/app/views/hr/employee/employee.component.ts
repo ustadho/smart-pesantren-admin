@@ -96,6 +96,7 @@ export class EmployeeComponent implements AfterViewInit {
       disabled: false,
       removable: true,
       data: null,
+      index: newTabIndex,
     });
     this.tabs[newTabIndex].active = true;
   }
@@ -115,6 +116,7 @@ export class EmployeeComponent implements AfterViewInit {
         disabled: false,
         removable: true,
         data: data,
+        index: newTabIndex,
       });
       this.tabs[newTabIndex].active = true;
     } else {
@@ -123,23 +125,9 @@ export class EmployeeComponent implements AfterViewInit {
   }
 
   onRemoveTab(tab: ITab) {
-    const idx = this.tabs.indexOf(tab)
-    if(idx > 0 && this.tabs[idx - 1].active != null) {
-      this.tabs.splice(idx, 1);
-      if(this.tabs.length > 0)
-        this.tabs[idx - 1].active = true;
-      else if(this.tabset) {
-        this.tabset.tabs[0].active = true
-      }
-    } else {
-      if(this.tabset) {
-        this.tabset.tabs[0].active = true
-      }
-      this.tabs[0].active = true;
-    }
-
-    if(this.listComponent) {
-      this.listComponent.onRefresh();
+    this.tabs.splice(tab.index, 1);
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
     }
   }
 

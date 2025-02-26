@@ -65,7 +65,6 @@
                       <th jhiSortBy="code"><span> Kode </span><fa-icon icon="sort"></fa-icon></th>
                       <th jhiSortBy="name"><span> Nama Gedung </span><fa-icon icon="sort"></fa-icon></th>
                       <th jhiSortBy="l.name"><span> Lokasi </span><fa-icon icon="sort"></fa-icon></th>
-                      <th><span> Warna </span></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -82,7 +81,6 @@
                       <td>{{ d.code }}</td>
                       <td>{{ d.name }}</td>
                       <td>{{ d.locationName }}</td>
-                      <td [ngStyle]="{'background-color': d.color}">&nbsp;</td>
                     </tr>
                   </tbody>
                 </table>

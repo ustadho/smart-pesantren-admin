@@ -45,7 +45,6 @@ export class ClassLevelListComponent {
   private sortService = inject(SortService);
 
   ngOnInit(): void {
-    this.handleNavigation();
   }
 
   public loadAll() {
