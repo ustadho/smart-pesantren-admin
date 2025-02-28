@@ -181,11 +181,27 @@ export class PresenceKbmComponent {
 
     });
   }
-  onSelected() {
-    const lineItems = <FormArray>this.form.get('students');
-    lineItems.markAsDirty();
-    lineItems.markAsTouched();
-    lineItems.markAsPending();
+  onSelected(d: any) {
+    console.log(d.value)
+    if(d.value.selected == true) {
+      d.patchValue({
+        presenceStatusId: PRESENCE_STATUS.HADIR,
+        presenceStatusName: 'HADIR',
+        note: null,
+        attachment: null
+      })
+    } else {
+      d.patchValue({
+        presenceStatusId: PRESENCE_STATUS.ALPHA,
+        presenceStatusName: 'APLHA',
+        note: null,
+        attachment: null
+      })
+    }
+    // const lineItems = <FormArray>this.form.get('students');
+    // lineItems.markAsDirty();
+    // lineItems.markAsTouched();
+    // lineItems.markAsPending();
   }
 
   get getFormDetailControls() {
