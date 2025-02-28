@@ -94,7 +94,7 @@
     <ng-select
       *ngIf="type == 'ng-select'"
       [items]="items"
-      bindValue="id"
+      [bindValue]="bindValue"
       [id]="controlName"
       [formControlName]="controlName"
       (change)="onSelectChange.emit($event)"

@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { ITab } from '../../../domain/model/tab.model';
 import { AsramaListComponent } from './asrama-list/asrama-list.component';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
 import { CommonModule } from '@angular/common';
 import { AsramaEditComponent } from './asrama-edit/asrama-edit.component';
 import { LocationService } from '../../../domain/service/location.service';
@@ -14,13 +14,14 @@ import { PesantrenService } from '../../../domain/service/pesantren.service';
   templateUrl: './asrama.component.html',
   styleUrl: './asrama.component.scss'
 })
-export class AsramaComponent implements OnInit {
+export class AsramaComponent implements OnInit, AfterViewInit {
   tabs: ITab[] = [];
   locations: any[] =[]
   pesantrens: any[] =[]
-
+  @ViewChild('tabset') tabset: TabsetComponent | null= null;
   @ViewChild(AsramaListComponent)
   private listComponent?: AsramaListComponent;
+  private cdRef = inject(ChangeDetectorRef);
 
   constructor(
     private locationService: LocationService,
@@ -37,6 +38,14 @@ export class AsramaComponent implements OnInit {
     })
   }
 
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      // Setelah mengubah nilai, panggil detectChanges untuk memberi tahu Angular untuk memperbarui tampilan
+      this.cdRef.detectChanges();
+    }
+  }
+
   onAdd() {
     const newTabIndex = this.tabs.length;
     this.tabs.push({
@@ -46,6 +55,7 @@ export class AsramaComponent implements OnInit {
       removable: true,
       active: true,
       data: null,
+      index: newTabIndex,
     });
     this.tabs[newTabIndex].active = true;
   }
@@ -65,6 +75,7 @@ export class AsramaComponent implements OnInit {
         disabled: false,
         removable: true,
         data: data,
+        index: newTabIndex,
       });
       this.tabs[newTabIndex].active = true;
     } else {
@@ -73,13 +84,9 @@ export class AsramaComponent implements OnInit {
   }
 
   onRemoveTab(tab: ITab) {
-    const idx = this.tabs.indexOf(tab)
-    if(idx > 0 && this.tabs[idx - 1].active != null) {
-      this.tabs[idx - 1].active = true;
-    }
-    this.tabs.splice(this.tabs.indexOf(tab), 1);
-    if(this.listComponent) {
-      this.listComponent.onRefresh();
+    this.tabs.splice(tab.index, 1);
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
     }
   }
 

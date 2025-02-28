@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild } from '@angular/core';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
+import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
 import { ClassLevelListComponent } from './class-level-list/class-level-list.component';
 import { ClassLevelEditComponent } from './class-level-edit/class-level-edit.component';
 import { ITab } from '../../../domain/model/tab.model';
@@ -18,12 +18,15 @@ import { EducationLevelService } from '../../../domain/service/education-level.s
   templateUrl: './class-level.component.html',
   styleUrl: './class-level.component.scss'
 })
-export class ClassLevelComponent {
+export class ClassLevelComponent implements AfterViewInit {
   tabs: ITab[] = [];
   educationLevels: any[] = [];
 
   @ViewChild(ClassLevelListComponent)
   private listComponent?: ClassLevelListComponent;
+
+  @ViewChild('tabset') tabset: TabsetComponent | null= null;
+  private cdRef = inject(ChangeDetectorRef);
 
   private educationLevelService = inject(EducationLevelService);
   constructor() {}
@@ -35,6 +38,15 @@ export class ClassLevelComponent {
     })
   }
 
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      // Setelah mengubah nilai, panggil detectChanges untuk memberi tahu Angular untuk memperbarui tampilan
+      this.cdRef.detectChanges();
+    }
+  }
+
+
   onAdd() {
     const newTabIndex = this.tabs.length;
     this.tabs.push({
@@ -44,6 +56,7 @@ export class ClassLevelComponent {
       removable: true,
       active: true,
       data: null,
+      index: newTabIndex,
     });
     this.tabs[newTabIndex].active = true;
   }
@@ -63,6 +76,7 @@ export class ClassLevelComponent {
         disabled: false,
         removable: true,
         data: data,
+        index: newTabIndex,
       });
       this.tabs[newTabIndex].active = true;
     } else {
@@ -71,13 +85,9 @@ export class ClassLevelComponent {
   }
 
   onRemoveTab(tab: ITab) {
-    const idx = this.tabs.indexOf(tab);
-    if (idx > 0 && this.tabs[idx - 1].active != null) {
-      this.tabs[idx - 1].active = true;
-    }
-    this.tabs.splice(this.tabs.indexOf(tab), 1);
-    if (this.listComponent) {
-      this.listComponent.onRefresh();
+    this.tabs.splice(tab.index, 1);
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
     }
   }
 

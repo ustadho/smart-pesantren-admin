@@ -1,7 +1,7 @@
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
 import { ITab } from 'src/app/domain/model/tab.model';
 import { UserManagementListComponent } from './user-management-list/user-management-list.component';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
 import { CommonModule } from '@angular/common';
 import { UserManagementEditComponent } from './user-management-edit/user-management-edit.component';
 import { USER_PROFILE } from 'src/app/shared/constant/user-profile.constant';
@@ -15,7 +15,7 @@ import { USER_PROFILE } from 'src/app/shared/constant/user-profile.constant';
   templateUrl: './user-management.component.html',
   styleUrl: './user-management.component.scss'
 })
-export class UserManagementComponent {
+export class UserManagementComponent implements AfterViewInit {
   tabs: ITab[] = [];
   profiles = [
     {id: USER_PROFILE.SYSADMIN, name: 'SYSADMIN' },
@@ -25,11 +25,23 @@ export class UserManagementComponent {
   @ViewChild(UserManagementListComponent)
   private listComponent?: UserManagementListComponent;
 
+  @ViewChild('tabset') tabset: TabsetComponent | null= null;
+  private cdRef = inject(ChangeDetectorRef);
+
   constructor() {}
 
   ngOnInit(): void {
     this.onAdd();
   }
+
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      // Setelah mengubah nilai, panggil detectChanges untuk memberi tahu Angular untuk memperbarui tampilan
+      this.cdRef.detectChanges();
+    }
+  }
+
 
   onAdd() {
     const newTabIndex = this.tabs.length;
@@ -40,6 +52,7 @@ export class UserManagementComponent {
       removable: true,
       active: true,
       data: null,
+      index: newTabIndex,
     });
     this.tabs[newTabIndex].active = true;
   }
@@ -59,6 +72,7 @@ export class UserManagementComponent {
         disabled: false,
         removable: true,
         data: data,
+        index: newTabIndex,
       });
       this.tabs[newTabIndex].active = true;
     } else {
@@ -67,13 +81,9 @@ export class UserManagementComponent {
   }
 
   onRemoveTab(tab: ITab) {
-    const idx = this.tabs.indexOf(tab)
-    if(idx > 0 && this.tabs[idx - 1].active != null) {
-      this.tabs[idx - 1].active = true;
-    }
-    this.tabs.splice(this.tabs.indexOf(tab), 1);
-    if(this.listComponent) {
-      this.listComponent.onRefresh();
+    this.tabs.splice(tab.index, 1);
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
     }
   }
 

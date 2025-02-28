@@ -51,7 +51,6 @@ export class GuardianListComponent {
   private sortService = inject(SortService);
 
   ngOnInit(): void {
-    this.handleNavigation();
   }
 
   onPersonTitleChange(e: any) {

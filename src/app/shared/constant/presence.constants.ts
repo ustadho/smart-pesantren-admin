@@ -3,5 +3,6 @@ export const PRESENCE_STATUS = {
   HADIR: 1,
   IZIN: 2,
   SAKIT: 3,
-  TUGAS_LUAR: 4,
+  LIBUR: 4,
+  TUGAS_LUAR: 5,
 };

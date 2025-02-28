@@ -1,10 +1,10 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
 import { ITab } from '../../../domain/model/tab.model';
 import { ActivityTimeEditComponent } from './activity-time-edit/activity-time-edit.component';
 import { ActivityTimeListComponent } from './activity-time-list/activity-time-list.component';
 import { InstitutionService } from '../../../domain/service/institution.service';
 import { CommonModule } from '@angular/common';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
 
 @Component({
   selector: 'app-activity-time',
@@ -17,7 +17,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
   templateUrl: './activity-time.component.html',
   styleUrl: './activity-time.component.scss'
 })
-export class ActivityTimeComponent {
+export class ActivityTimeComponent implements AfterViewInit {
   tabs: ITab[] = [];
   categories: any[] = [];
   cities: any[] = [];
@@ -28,6 +28,10 @@ export class ActivityTimeComponent {
 
   @ViewChild(ActivityTimeListComponent)
   private listComponent?: ActivityTimeListComponent;
+
+  @ViewChild('tabset') tabset: TabsetComponent | null= null;
+  private cdRef = inject(ChangeDetectorRef);
+
   private institutionService = inject(InstitutionService);
 
 
@@ -40,6 +44,14 @@ export class ActivityTimeComponent {
     this.onAdd();
   }
 
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      // Setelah mengubah nilai, panggil detectChanges untuk memberi tahu Angular untuk memperbarui tampilan
+      this.cdRef.detectChanges();
+    }
+  }
+
   onAdd() {
     const newTabIndex = this.tabs.length;
     this.tabs.push({
@@ -49,6 +61,7 @@ export class ActivityTimeComponent {
       removable: true,
       active: true,
       data: null,
+      index: newTabIndex,
     });
     this.tabs[newTabIndex].active = true;
   }
@@ -68,6 +81,7 @@ export class ActivityTimeComponent {
         disabled: false,
         removable: true,
         data: data,
+        index: newTabIndex,
       });
       this.tabs[newTabIndex].active = true;
     } else {
@@ -76,13 +90,9 @@ export class ActivityTimeComponent {
   }
 
   onRemoveTab(tab: ITab) {
-    const idx = this.tabs.indexOf(tab)
-    if(idx > 0 && this.tabs[idx - 1].active != null) {
-      this.tabs[idx - 1].active = true;
-    }
-    this.tabs.splice(this.tabs.indexOf(tab), 1);
-    if(this.listComponent) {
-      this.listComponent.onRefresh();
+    this.tabs.splice(tab.index, 1);
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
     }
   }
 

@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
 import { ClassRoomListComponent } from './class-room-list/class-room-list.component';
 import { ClassRoomEditComponent } from './class-room-edit/class-room-edit.component';
 import { ITab } from '../../../domain/model/tab.model';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
 import { AcademicYearService } from '../../../domain/service/academic-year.service';
 import { ClassLevelService } from '../../../domain/service/class-level.service';
 import { LocationService } from '../../../domain/service/location.service';
@@ -23,7 +23,7 @@ import { InstitutionService } from '../../../domain/service/institution.service'
   templateUrl: './class-room.component.html',
   styleUrl: './class-room.component.scss'
 })
-export class ClassRoomComponent {
+export class ClassRoomComponent implements AfterViewInit {
   tabs: ITab[] = [];
   academicYears: any[] = [];
   classLevels: any[] = [];
@@ -34,6 +34,9 @@ export class ClassRoomComponent {
 
   @ViewChild(ClassRoomListComponent)
   private listComponent?: ClassRoomListComponent;
+
+  @ViewChild('tabset') tabset: TabsetComponent | null= null;
+  private cdRef = inject(ChangeDetectorRef);
 
   private academicYearService = inject(AcademicYearService);
   private classLevelService = inject(ClassLevelService);
@@ -65,6 +68,13 @@ export class ClassRoomComponent {
     })
   }
 
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      this.cdRef.detectChanges();
+    }
+  }
+
   onAdd() {
     const newTabIndex = this.tabs.length;
     this.tabs.push({
@@ -74,6 +84,7 @@ export class ClassRoomComponent {
       removable: true,
       active: true,
       data: null,
+      index: newTabIndex,
     });
     this.tabs[newTabIndex].active = true;
   }
@@ -93,6 +104,7 @@ export class ClassRoomComponent {
         disabled: false,
         removable: true,
         data: data,
+        index: newTabIndex,
       });
       this.tabs[newTabIndex].active = true;
     } else {
@@ -101,13 +113,9 @@ export class ClassRoomComponent {
   }
 
   onRemoveTab(tab: ITab) {
-    const idx = this.tabs.indexOf(tab);
-    if (idx > 0 && this.tabs[idx - 1].active != null) {
-      this.tabs[idx - 1].active = true;
-    }
-    this.tabs.splice(this.tabs.indexOf(tab), 1);
-    if (this.listComponent) {
-      this.listComponent.onRefresh();
+    this.tabs.splice(tab.index, 1);
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
     }
   }
 

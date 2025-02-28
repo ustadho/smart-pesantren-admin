@@ -36,16 +36,18 @@ export class SubjectScheduleEditDialogComponent {
   subjectScheduleService = inject(SubjectScheduleService);
   private toastService = inject(ToastrService);
   modalRef = inject(BsModalRef);
+  emptyFormGroup: any;
 
   constructor() {
     this.form = this.fb.group({
       id: [null],
       classRoomId: [null, [Validators.required]],
       activityTimeId: [null, [Validators.required]],
-      subjectId: [null, [Validators.required]],
       dayId: [null, [Validators.required]],
-      teachers: this.fb.array([]),
+      subjects: this.fb.array([]),
     });
+    this.emptyFormGroup = this.fb.group({});
+
   }
 
   ngOnInit() {
@@ -53,20 +55,26 @@ export class SubjectScheduleEditDialogComponent {
 
 
   ngAfterViewInit() {
-    console.log('this.data', this.data)
-    this.form.patchValue({
-      id: this.data?.id,
-      classRoomId: this.data.classRoomId,
-      activityTimeId: this.data.activityTimeId,
-      subjectId: this.data?.subjectId,
-      dayId: this.data?.dayId,
-    });
-    if (this.data.teachers.length > 0) {
-      const teachersArray = this.form.get('teachers') as FormArray;
-      teachersArray.clear();
-      this.data.teachers.forEach((t: any) => {
-        teachersArray.push(this.fb.group(t));
+    if(this.data != null) {
+      this.form.patchValue(this.data)
+    }
+    const subjectsArray = this.form.get('subjects') as FormArray;
+    subjectsArray.clear();
+
+    console.log('Data subjects sebelum inisialisasi:', this.data?.subjects);
+
+    if (this.data?.subjects && this.data.subjects.length > 0) {
+      this.data.subjects.forEach((t: any) => {
+        subjectsArray.push(this.fb.group({
+          id: [t.id],
+          subjectId: [t.subjectId],
+          subjectName: [t.subjectName],
+          teacherId: [t.teacherId || null],
+          teacherName: [t.teacherName],
+        }));
       });
+
+      console.log('Subjects setelah diisi:', subjectsArray.value);
     }
   }
 
@@ -88,27 +96,16 @@ export class SubjectScheduleEditDialogComponent {
   onAddTeacher() {
     const teacherGroup = this.fb.group({
       id: [null],
-      name: [null],
+      subjectId: [null],
+      subjectName: [null],
+      teacherId: [null],
+      teacherName: [null],
     });
-    this.teachersControls.push(teacherGroup);
+    this.subjectsControls.push(teacherGroup);
   }
 
-  addSelectedTeacher() {
-    const teacherId = this.form.get('teacherId')?.value;
-    const teacherName = this.teachers.find(t => t.id === teacherId)?.name || 'Unknown Teacher';
-
-    const teacherGroup = this.fb.group({
-      id: [teacherId],
-      name: [teacherName],
-    });
-
-    this.teachersControls.push(teacherGroup);
-    // Reset pilihan di ng-select
-    this.form.get('teacherId')?.reset();
-  }
-
-  removeTeacher(index: number) {
-    this.teachersControls.removeAt(index);
+  removeSubject(index: number) {
+    this.subjectsControls.removeAt(index);
   }
 
   onDelete() {
@@ -121,8 +118,12 @@ export class SubjectScheduleEditDialogComponent {
     });
   }
 
-  get teachersControls() {
-    const control = this.form.get('teachers') as FormArray;
-    return control;
+  getSubjectFormGroup(index: number): FormGroup | null {
+    const formGroup = this.subjectsControls.at(index);
+    return formGroup instanceof FormGroup ? formGroup : null;
+  }
+
+  get subjectsControls(): FormArray<FormGroup> {
+    return this.form.get('subjects') as FormArray<FormGroup>;
   }
 }

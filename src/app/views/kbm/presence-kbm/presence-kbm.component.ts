@@ -41,6 +41,7 @@ export class PresenceKbmComponent {
   private academicYearService = inject(AcademicYearService);
   private presenceKBMService = inject(PresenceKBMService);
   private subjectScheduleService = inject(SubjectScheduleService);
+  private toastrService = inject(ToastrService);
   private accountService = inject(AccountService);
   private bsModalService = inject(BsModalService);
   modalRef?: BsModalRef;
@@ -71,7 +72,6 @@ export class PresenceKbmComponent {
       if(account != null && account.personData != null && account.personData.id != null) {
         if(account.authorities.indexOf(ROLE_PENDIDIKAN)) {
           this.subjectScheduleService.myCurrentSchedule().subscribe((res: any) => {
-            console.log('mySchedules', res)
             this.subjectSchedules = res.body
           })
         }
@@ -80,6 +80,8 @@ export class PresenceKbmComponent {
   }
 
   onLoadTeachers() {
+    const students = this.form.get('students') as FormArray;
+    students.clear();
     this.teachers = []
     this.subjectScheduleService.findAllTeacherByAcademicYearId(this.form.get('academicYearId')?.value).subscribe((data: any) => {
       this.teachers = data.body
@@ -87,6 +89,9 @@ export class PresenceKbmComponent {
   }
 
   onLoadSubjectScheduleClassRoom() {
+    const students = this.form.get('students') as FormArray;
+    students.clear();
+
     this.subjectSchedules = []
     this.form.get('subjectScheduleId')?.setValue(null)
     this.subjectScheduleService.findSubjectScheduleClassroomByTeacher(this.form.get('teacherId')?.value).subscribe((data: any) => {
@@ -99,7 +104,10 @@ export class PresenceKbmComponent {
     this.presenceKBMService
       .save(this.form.getRawValue())
       .subscribe((data: any) => {
-        console.log('success');
+        this.toastrService.success('Simpan absen sukses')
+      }, (err: any) => {
+        this.toastrService.error('Gagal menyimpan absen')
+        this.isSubmitting.set(false);
       });
     this.isSubmitting.set(false);
   }
@@ -116,7 +124,6 @@ export class PresenceKbmComponent {
   }
 
   loadStudent(e: any) {
-    console.log('e', e)
     const students = this.form.get('students') as FormArray;
     students?.clear();
     if(e.classRoomId == null) {
@@ -124,9 +131,8 @@ export class PresenceKbmComponent {
     }
 
     this.presenceKBMService
-      .findDetailStudents(e.classRoomId)
+      .findDetailStudents(this.form.value.subjectScheduleId)
       .subscribe((data) => {
-        console.log('data', data)
         const students = this.form.get('students') as FormArray;
         students.clear();
         data.body.forEach((s: any) => {
@@ -157,7 +163,6 @@ export class PresenceKbmComponent {
 
     this.modalRef.content.onClose.subscribe((data: any) => {
       const students = this.form.get('students') as FormArray;
-      console.log('modal closed', data)
       if(data == 'deleteIzin') {
         students.at(index).patchValue({
           presenceStatusId: PRESENCE_STATUS.HADIR,
@@ -176,11 +181,27 @@ export class PresenceKbmComponent {
 
     });
   }
-  onSelected() {
-    const lineItems = <FormArray>this.form.get('students');
-    lineItems.markAsDirty();
-    lineItems.markAsTouched();
-    lineItems.markAsPending();
+  onSelected(d: any) {
+    console.log(d.value)
+    if(d.value.selected == true) {
+      d.patchValue({
+        presenceStatusId: PRESENCE_STATUS.HADIR,
+        presenceStatusName: 'HADIR',
+        note: null,
+        attachment: null
+      })
+    } else {
+      d.patchValue({
+        presenceStatusId: PRESENCE_STATUS.ALPHA,
+        presenceStatusName: 'APLHA',
+        note: null,
+        attachment: null
+      })
+    }
+    // const lineItems = <FormArray>this.form.get('students');
+    // lineItems.markAsDirty();
+    // lineItems.markAsTouched();
+    // lineItems.markAsPending();
   }
 
   get getFormDetailControls() {

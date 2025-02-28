@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild } from '@angular/core';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
+import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
 import { StudentCategoryListComponent } from './student-category-list/student-category-list.component'
 import { StudentCategoryEditComponent } from './student-category-edit/student-category-edit.component'
 import { ITab } from '../../../domain/model/tab.model';
@@ -18,16 +18,27 @@ import { StudentCategoryService } from '../../../domain/service/student-category
   templateUrl: './student-category.component.html',
   styleUrl: './student-category.component.scss'
 })
-export class StudentCategoryComponent {
+export class StudentCategoryComponent implements AfterViewInit {
   tabs: ITab[] = [];
 
   @ViewChild(StudentCategoryListComponent)
   private listComponent?: StudentCategoryListComponent;
 
+  @ViewChild('tabset') tabset: TabsetComponent | null= null;
+  private cdRef = inject(ChangeDetectorRef);
+
   constructor() {}
 
   ngOnInit(): void {
     this.onAdd();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      // Setelah mengubah nilai, panggil detectChanges untuk memberi tahu Angular untuk memperbarui tampilan
+      this.cdRef.detectChanges();
+    }
   }
 
   onAdd() {
@@ -39,6 +50,7 @@ export class StudentCategoryComponent {
       removable: true,
       active: true,
       data: null,
+      index: newTabIndex,
     });
     this.tabs[newTabIndex].active = true;
   }
@@ -58,6 +70,7 @@ export class StudentCategoryComponent {
         disabled: false,
         removable: true,
         data: data,
+        index: newTabIndex,
       });
       this.tabs[newTabIndex].active = true;
     } else {
@@ -66,13 +79,9 @@ export class StudentCategoryComponent {
   }
 
   onRemoveTab(tab: ITab) {
-    const idx = this.tabs.indexOf(tab);
-    if (idx > 0 && this.tabs[idx - 1].active != null) {
-      this.tabs[idx - 1].active = true;
-    }
-    this.tabs.splice(this.tabs.indexOf(tab), 1);
-    if (this.listComponent) {
-      this.listComponent.onRefresh();
+    this.tabs.splice(tab.index, 1);
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
     }
   }
 

@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { ITab } from '../../../domain/model/tab.model';
 import { BuildingListComponent } from './building-list/building-list.component';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
 import { CommonModule } from '@angular/common';
 import { BuildingEditComponent } from './building-edit/building-edit.component';
 import { LocationService } from '../../../domain/service/location.service';
@@ -13,12 +13,15 @@ import { LocationService } from '../../../domain/service/location.service';
   templateUrl: './building.component.html',
   styleUrl: './building.component.scss'
 })
-export class BuildingComponent implements OnInit {
+export class BuildingComponent implements OnInit, AfterViewInit {
   tabs: ITab[] = [];
   locations: any[] =[]
 
   @ViewChild(BuildingListComponent)
   private listComponent?: BuildingListComponent;
+
+  @ViewChild('tabset') tabset: TabsetComponent | null= null;
+  private cdRef = inject(ChangeDetectorRef);
 
   constructor(
     private locationService: LocationService,
@@ -31,6 +34,15 @@ export class BuildingComponent implements OnInit {
     })
   }
 
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      // Setelah mengubah nilai, panggil detectChanges untuk memberi tahu Angular untuk memperbarui tampilan
+      this.cdRef.detectChanges();
+    }
+  }
+
+
   onAdd() {
     const newTabIndex = this.tabs.length;
     this.tabs.push({
@@ -40,6 +52,7 @@ export class BuildingComponent implements OnInit {
       removable: true,
       active: true,
       data: null,
+      index: newTabIndex -1, 
     });
     this.tabs[newTabIndex].active = true;
   }
@@ -59,6 +72,7 @@ export class BuildingComponent implements OnInit {
         disabled: false,
         removable: true,
         data: data,
+        index: newTabIndex,
       });
       this.tabs[newTabIndex].active = true;
     } else {
@@ -67,13 +81,9 @@ export class BuildingComponent implements OnInit {
   }
 
   onRemoveTab(tab: ITab) {
-    const idx = this.tabs.indexOf(tab)
-    if(idx > 0 && this.tabs[idx - 1].active != null) {
-      this.tabs[idx - 1].active = true;
-    }
-    this.tabs.splice(this.tabs.indexOf(tab), 1);
-    if(this.listComponent) {
-      this.listComponent.onRefresh();
+    this.tabs.splice(tab.index, 1);
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
     }
   }
 

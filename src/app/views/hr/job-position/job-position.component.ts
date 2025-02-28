@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { JobPositionEditComponent } from './job-position-edit/job-position-edit.component';
 import { JobPositionListComponent } from './job-position-list/job-position-list.component';
 import { ITab } from '../../../domain/model/tab.model';
@@ -13,18 +13,26 @@ import { CommonModule } from '@angular/common';
   styleUrl: './job-position.component.scss',
   providers: []
 })
-export class JobPositionComponent implements OnInit{
+export class JobPositionComponent implements OnInit, AfterViewInit{
   tabs: ITab[] = [];
 
   @ViewChild(JobPositionListComponent)
   private listComponent?: JobPositionListComponent;
 
   @ViewChild('tabset', { static: false }) tabset?: TabsetComponent;
+  private cdRef = inject(ChangeDetectorRef);
 
   constructor() {}
 
   ngOnInit(): void {
     this.onAdd();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      this.cdRef.detectChanges();
+    }
   }
 
   onAdd() {
@@ -35,8 +43,9 @@ export class JobPositionComponent implements OnInit{
       disabled: false,
       removable: true,
       data: null,
+      index: newTabIndex,
     });
-    this.tabs[newTabIndex].active = true;
+    this.tabs[0].active = true;
   }
 
   onEdit(data: any) {
@@ -54,6 +63,7 @@ export class JobPositionComponent implements OnInit{
         disabled: false,
         removable: true,
         data: data,
+        index: newTabIndex,
       });
       this.tabs[newTabIndex].active = true;
     } else {
@@ -62,23 +72,9 @@ export class JobPositionComponent implements OnInit{
   }
 
   onRemoveTab(tab: ITab) {
-    const idx = this.tabs.indexOf(tab)
-    if(idx > 0 && this.tabs[idx - 1].active != null) {
-      this.tabs.splice(idx, 1);
-      if(this.tabs.length > 0)
-        this.tabs[idx - 1].active = true;
-      else if(this.tabset) {
-        this.tabset.tabs[0].active = true
-      }
-    } else {
-      if(this.tabset) {
-        this.tabset.tabs[0].active = true
-      }
-      this.tabs[0].active = true;
-    }
-
-    if(this.listComponent) {
-      this.listComponent.onRefresh();
+    this.tabs.splice(tab.index, 1);
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
     }
   }
 

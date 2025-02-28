@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
 import { WorkingHourListComponent } from './working-hour-list/working-hour-list.component';
 import { ITab } from 'src/app/domain/model/tab.model';
@@ -17,18 +17,27 @@ import { CommonModule } from '@angular/common';
   templateUrl: './working-hour.component.html',
   styleUrl: './working-hour.component.scss'
 })
-export class WorkingHourComponent implements OnInit {
+export class WorkingHourComponent implements OnInit, AfterViewInit {
   tabs: ITab[] = [];
 
   @ViewChild(WorkingHourListComponent)
   private listComponent?: WorkingHourListComponent;
 
-  @ViewChild('tabset', { static: false }) tabset?: TabsetComponent;
+  @ViewChild('tabset') tabset: TabsetComponent | null= null;
+  private cdRef = inject(ChangeDetectorRef);
 
   constructor() {}
 
   ngOnInit(): void {
     this.onAdd();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      // Setelah mengubah nilai, panggil detectChanges untuk memberi tahu Angular untuk memperbarui tampilan
+      this.cdRef.detectChanges();
+    }
   }
 
   onAdd() {
@@ -39,6 +48,7 @@ export class WorkingHourComponent implements OnInit {
       disabled: false,
       removable: true,
       data: null,
+      index: newTabIndex,
     });
     this.tabs[newTabIndex].active = true;
   }
@@ -58,6 +68,7 @@ export class WorkingHourComponent implements OnInit {
         disabled: false,
         removable: true,
         data: data,
+        index: newTabIndex,
       });
       this.tabs[newTabIndex].active = true;
     } else {
@@ -66,23 +77,9 @@ export class WorkingHourComponent implements OnInit {
   }
 
   onRemoveTab(tab: ITab) {
-    const idx = this.tabs.indexOf(tab)
-    if(idx > 0 && this.tabs[idx - 1].active != null) {
-      this.tabs.splice(idx, 1);
-      if(this.tabs.length > 0)
-        this.tabs[idx - 1].active = true;
-      else if(this.tabset) {
-        this.tabset.tabs[0].active = true
-      }
-    } else {
-      if(this.tabset) {
-        this.tabset.tabs[0].active = true
-      }
-      this.tabs[0].active = true;
-    }
-
-    if(this.listComponent) {
-      this.listComponent.onRefresh();
+    this.tabs.splice(tab.index, 1);
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
     }
   }
 

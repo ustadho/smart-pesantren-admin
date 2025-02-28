@@ -61,7 +61,7 @@ export class StudentListComponent {
       institutionId: [null],
       categoryId: [null],
     })
-    this.handleNavigation();
+    // this.handleNavigation();
   }
 
   public loadAll() {

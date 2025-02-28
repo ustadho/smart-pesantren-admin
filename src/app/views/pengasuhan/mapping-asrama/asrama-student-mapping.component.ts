@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild } from '@angular/core';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
+import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
 import { ITab } from '../../../domain/model/tab.model';
 import { AcademicYearService } from '../../../domain/service/academic-year.service';
 import { PesantrenService } from '../../../domain/service/pesantren.service';
@@ -19,13 +19,16 @@ import { AsramaStudentMappingEditComponent } from './asrama-student-mapping-edit
   templateUrl: './asrama-student-mapping.component.html',
   styleUrl: './asrama-student-mapping.component.scss'
 })
-export class AsramaStudentMappingComponent {
+export class AsramaStudentMappingComponent implements AfterViewInit{
   tabs: ITab[] = [];
   academicYears: any[] = [];
   pesantrens: any[] = [];
 
   @ViewChild(AsramaStudentMappingListComponent)
   private listComponent?: AsramaStudentMappingListComponent;
+
+  @ViewChild('tabset') tabset: TabsetComponent | null= null;
+  private cdRef = inject(ChangeDetectorRef);
 
   private academicYearService = inject(AcademicYearService);
   private pesantrenService = inject(PesantrenService);
@@ -41,6 +44,14 @@ export class AsramaStudentMappingComponent {
     })
   }
 
+  ngAfterViewInit(): void {
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
+      // Setelah mengubah nilai, panggil detectChanges untuk memberi tahu Angular untuk memperbarui tampilan
+      this.cdRef.detectChanges();
+    }
+  }
+
   onAdd() {
     const newTabIndex = this.tabs.length;
     this.tabs.push({
@@ -50,6 +61,7 @@ export class AsramaStudentMappingComponent {
       removable: true,
       active: true,
       data: null,
+      index: newTabIndex,
     });
     this.tabs[newTabIndex].active = true;
   }
@@ -69,6 +81,7 @@ export class AsramaStudentMappingComponent {
         disabled: false,
         removable: true,
         data: data,
+        index: newTabIndex,
       });
       this.tabs[newTabIndex].active = true;
     } else {
@@ -77,13 +90,9 @@ export class AsramaStudentMappingComponent {
   }
 
   onRemoveTab(tab: ITab) {
-    const idx = this.tabs.indexOf(tab);
-    if (idx > 0 && this.tabs[idx - 1].active != null) {
-      this.tabs[idx - 1].active = true;
-    }
-    this.tabs.splice(this.tabs.indexOf(tab), 1);
-    if (this.listComponent) {
-      this.listComponent.onRefresh();
+    this.tabs.splice(tab.index, 1);
+    if (this.tabset && this.tabset.tabs.length > 0) {
+      this.tabset.tabs[0].active = true;
     }
   }
 
