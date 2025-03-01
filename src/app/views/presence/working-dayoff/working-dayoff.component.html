@@ -1,0 +1,254 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-edit"></i> <span class="h5"> Hari Kerja Pegawai</span>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <form
+              [formGroup]="filterForm"
+              (keydown.enter)="$event.preventDefault()"
+            >
+              <div class="col-md-12">
+                <div class="form-row">
+                  <label for="category" class="col-md-2"
+                    >Kategori
+                    <ng-select
+                      placeholder="Pilih Kategori"
+                      id="category"
+                      name="category"
+                      [items]="categories"
+                      bindLabel="name"
+                      bindValue="id"
+                      formControlName="category"
+                      (change)="loadAll()"
+                    >
+                    </ng-select>
+                  </label>
+                  <label for="organization" class="col-md-3"
+                    >Unit Organisasi
+                    <ng-select
+                      placeholder="Pilih Unit Organisasi"
+                      id="organization"
+                      name="organization"
+                      [items]="organizations"
+                      bindLabel="name"
+                      bindValue="id"
+                      formControlName="organization"
+                      (change)="loadAll()"
+                    >
+                    </ng-select>
+                  </label>
+                  <label for="jobPositionId" class="col-md-3"
+                    >Jabatan
+                    <ng-select
+                      placeholder="Pilih Jabatan"
+                      id="jobPosition"
+                      name="jobPosition"
+                      [items]="jobPositions"
+                      bindLabel="name"
+                      bindValue="id"
+                      formControlName="jobPosition"
+                      (change)="loadAll()"
+                    >
+                    </ng-select>
+                  </label>
+                  <label for="q" class="col-md-2"
+                    >Pencarian
+                    <input
+                      id="q"
+                      autocomplete="off"
+                      formControlName="q"
+                      (keyup.enter)="loadAll()"
+                      name="q"
+                      type="text"
+                      class="form-control"
+                    />
+                  </label>
+                  <label class="col-md-2 px-lg-2">
+                    &nbsp;
+                    <div class="">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        (click)="loadAll()"
+                        [disabled]="isLoading()"
+                      >
+                        <!-- <i class="fa fa-refresh fa-fw"></i> -->
+                        <fa-icon
+                          [icon]="['fas', 'sync']"
+                          [animation]="isLoading() ? 'spin' : undefined"
+                        ></fa-icon>
+                      </button>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="row mt-2">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table table-sm table-hover">
+                  <thead>
+                    <tr>
+                      <th>
+                        <span> NIY </span>
+                      </th>
+                      <th>
+                        <span> Nama Pegawai </span>
+                      </th>
+                      <th>
+                        <span> Jabatan </span>
+                      </th>
+                      <th>
+                        <span> Jam Kerja </span>
+                      </th>
+                      <th class="text-center">Senin</th>
+                      <th class="text-center">Selasa</th>
+                      <th class="text-center">Rabu</th>
+                      <th class="text-center">Kamis</th>
+                      <th class="text-center">Jumat</th>
+                      <th class="text-center">Sabtu</th>
+                      <th class="text-center">Ahad</th>
+                      <th>Jml. Hari Libur</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let d of data; let idx = index">
+                      <td>{{ d.employeeNo }}</td>
+                      <td>{{ d.name }}</td>
+                      <td>{{ d.jobPosition }}</td>
+                      <td>{{ d.workingHour }}</td>
+                      <!-- ComboBox untuk Hari Senin -->
+                      <td>
+                        <select
+                          class="form-control"
+                          [(ngModel)]="d.senin"
+                          (change)="updateAttendance(idx, d.id, 1, d.senin)"
+                          [ngClass]="{'libur': d.senin === 'Libur'}"
+                        >
+                          <option
+                            *ngFor="let option of attendanceOptions"
+                            [value]="option"
+                          >
+                            {{ option }}
+                          </option>
+                        </select>
+                      </td>
+
+                      <!-- ComboBox untuk Hari Selasa -->
+                      <td>
+                        <select
+                          class="form-control"
+                          [(ngModel)]="d.selasa"
+                          (change)="updateAttendance(idx, d.id, 2, d.selasa)"
+                          [ngClass]="{'libur': d.selasa === 'Libur'}"
+                        >
+                          <option
+                            *ngFor="let option of attendanceOptions"
+                            [value]="option"
+                          >
+                            {{ option }}
+                          </option>
+                        </select>
+                      </td>
+
+                      <!-- ComboBox untuk Hari Rabu -->
+                      <td>
+                        <select
+                          class="form-control"
+                          [(ngModel)]="d.rabu"
+                          (change)="updateAttendance(idx, d.id, 3, d.rabu)"
+                          [ngClass]="{'libur': d.rabu === 'Libur'}"
+                        >
+                          <option
+                            *ngFor="let option of attendanceOptions"
+                            [value]="option"
+                          >
+                            {{ option }}
+                          </option>
+                        </select>
+                      </td>
+
+                      <!-- ComboBox untuk Hari Kamis -->
+                      <td>
+                        <select
+                          class="form-control"
+                          [(ngModel)]="d.kamis"
+                          (change)="updateAttendance(idx, d.id, 4, d.kamis)"
+                          [ngClass]="{'libur': d.kamis === 'Libur'}"
+                        >
+                          <option
+                            *ngFor="let option of attendanceOptions"
+                            [value]="option"
+                          >
+                            {{ option }}
+                          </option>
+                        </select>
+                      </td>
+
+                      <!-- ComboBox untuk Hari Jumat -->
+                      <td>
+                        <select
+                          class="form-control"
+                          [(ngModel)]="d.jumat"
+                          (change)="updateAttendance(idx, d.id, 5, d.jumat)"
+                          [ngClass]="{'libur': d.jumat === 'Libur'}"
+                        >
+                          <option
+                            *ngFor="let option of attendanceOptions"
+                            [value]="option"
+                          >
+                            {{ option }}
+                          </option>
+                        </select>
+                      </td>
+
+                      <!-- ComboBox untuk Hari Sabtu -->
+                      <td>
+                        <select
+                          class="form-control"
+                          [(ngModel)]="d.sabtu"
+                          (change)="updateAttendance(idx, d.id, 6, d.sabtu)"
+                          [ngClass]="{'libur': d.sabtu === 'Libur'}"
+                        >
+                          <option
+                            *ngFor="let option of attendanceOptions"
+                            [value]="option"
+                          >
+                            {{ option }}
+                          </option>
+                        </select>
+                      </td>
+
+                      <!-- ComboBox untuk Hari Ahad -->
+                      <td>
+                        <select
+                          class="form-control"
+                          [(ngModel)]="d.ahad"
+                          (change)="updateAttendance(idx, d.id, 0, d.ahad)"
+                          [ngClass]="{'libur': d.ahad === 'Libur'}"
+                        >
+                          <option
+                            *ngFor="let option of attendanceOptions"
+                            [value]="option"
+                          >
+                            {{ option }}
+                          </option>
+                        </select>
+                      </td>
+                      <td>{{ d.dayOff | number }} Hari Libur</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
