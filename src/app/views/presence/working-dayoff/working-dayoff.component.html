@@ -121,7 +121,7 @@
                       <td>{{ d.employeeNo }}</td>
                       <td>{{ d.name }}</td>
                       <td>{{ d.jobPosition }}</td>
-                      <td>{{ d.workingHour }}</td>
+                      <td><a href="javascript:void(0)" (click)="updateDefaultWorkingHour(d.id)">{{ d.workingHour }}</a></td>
                       <!-- ComboBox untuk Hari Senin -->
                       <td>
                         <select
