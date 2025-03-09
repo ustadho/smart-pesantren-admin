@@ -45,7 +45,7 @@ export class WorkingHourDialogComponent implements OnInit {
       })
       setTimeout(() => {
         this.onSelectWorkingTimeChange(this.workingHours.find((e: any) => e.id === res.body?.workingHourId))
-      }, 1000);
+      }, 500);
     })
   }
 
