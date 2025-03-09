@@ -9,6 +9,13 @@ export const routes: Routes = [
     }
   },
   {
+    path: 'working-dayoff',
+    loadComponent: () => import('./working-dayoff/working-dayoff.component').then(m => m.WorkingDayoffComponent),
+    data: {
+      title: 'Hari Herja'
+    }
+  },
+  {
     path: 'working-calendar',
     loadComponent: () => import('./working-schedule/working-schedule.component').then(m => m.WorkingScheduleComponent),
     data: {

@@ -1,0 +1,52 @@
+<form role="form" novalidate>
+  <div class="card">
+    <div class="card-header">
+      <i class="fa fa-edit"></i>
+      <span class="h5"> Update default jam kerja </span>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12">
+          <app-base-input
+            type="ng-select"
+            [formGroup]="form"
+            label="Jam Kerja"
+            controlName="workingHourId"
+            labelWidth="col-sm-2 col-md-2"
+            inputWidth="col-sm-10 col-md-10"
+            layout="horizontal"
+            [items]="workingHours"
+            (onSelectChange)="onSelectWorkingTimeChange($event)"
+          ></app-base-input>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="table table-sm table-hover">
+              <thead>
+                <tr>
+                  <th><span> Hari </span></th>
+                  <th><span> Jam Absen </span></th>
+                  <th><span> Masuk </span></th>
+                  <th><span> Keluar </span></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="
+                let d of details;
+                let idx = index;
+              ">
+                  <td>{{d.dayName}}</td>
+                  <td>{{d.workingTimeName}}</td>
+                  <td class="text-right">{{d.checkInTime}}</td>
+                  <td class="text-right">{{d.checkOutTime}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

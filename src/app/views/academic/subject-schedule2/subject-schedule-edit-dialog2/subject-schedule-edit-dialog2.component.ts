@@ -1,15 +1,13 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SubjectService } from '../../../../domain/service/subject.service';
-import { EmployeeService } from '../../../../domain/service/employee.service';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { BaseInputComponent } from '../../../../components/base-input/base-input.component';
-import { SubjectScheduleService } from '../../../../domain/service/subject-schedule.service';
+import { SubjectSchedule2Service } from '../../../../domain/service/subject-schedule2.service';
 import { Subject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { AcademicActivityTimeService } from 'src/app/domain/service/academic-activity-time.service';
 
 @Component({
   selector: 'app-subject-schedule-edit-dialog2',
@@ -36,22 +34,25 @@ export class SubjectScheduleEditDialog2Component {
 
   fb = inject(FormBuilder);
   subjectService = inject(SubjectService);
-  subjectScheduleService = inject(SubjectScheduleService);
+  subjectScheduleService = inject(SubjectSchedule2Service);
   private toastService = inject(ToastrService);
   modalRef = inject(BsModalRef);
+  emptyFormGroup: any;
 
   constructor() {
     this.form = this.fb.group({
       id: [null],
       classRoomId: [null, [Validators.required]],
-      classRoomName: [null, [Validators.required]],
-      subjectId: [null, [Validators.required]],
+      activityStartId: [null, [Validators.required]],
+      activityStartTime: [null, [Validators.required]],
+      activityEndId: [null, [Validators.required]],
+      activityEndTime: [null, [Validators.required]],
       dayId: [null, [Validators.required]],
       dayName: [null, [Validators.required]],
-      teachers: this.fb.array([]),
-      activityTimeStartId: [null, [Validators.required]],
-      activityTimeEndId: [null, [Validators.required]],
+      duration: [0, [Validators.required]],
+      subjectTeachers: this.fb.array([]),
     });
+    this.emptyFormGroup = this.fb.group({});
   }
 
   ngOnInit() {
@@ -60,11 +61,11 @@ export class SubjectScheduleEditDialog2Component {
 
   ngAfterViewInit() {
     this.form.patchValue(this.data);
-    if (this.data.teachers.length > 0) {
-      const teachersArray = this.form.get('teachers') as FormArray;
-      teachersArray.clear();
-      this.data.teachers.forEach((t: any) => {
-        teachersArray.push(this.fb.group(t));
+    if (this.data.subjectTeachers.length > 0) {
+      const subjectTeachersArray = this.form.get('subjectTeachers') as FormArray;
+      subjectTeachersArray.clear();
+      this.data.subjectTeachers.forEach((t: any) => {
+        subjectTeachersArray.push(this.fb.group(t));
       });
     }
   }
@@ -87,40 +88,16 @@ export class SubjectScheduleEditDialog2Component {
   onAddTeacher() {
     const teacherGroup = this.fb.group({
       id: [null],
-      name: [null],
+      subjectId: [null],
+      subjectName: [null],
+      teacherId: [null],
+      teacherName: [null],
     });
-    this.teachersControls.push(teacherGroup);
+    this.subjectTeachersControls.push(teacherGroup);
   }
 
-  onAddActivityTime() {
-    this.activityTimesControls.push(
-      this.fb.group({
-        id: [null],
-        name: [null],
-      })
-    )
-  }
-
-  addSelectedTeacher() {
-    const teacherId = this.form.get('teacherId')?.value;
-    const teacherName = this.teachers.find(t => t.id === teacherId)?.name || 'Unknown Teacher';
-
-    const teacherGroup = this.fb.group({
-      id: [teacherId],
-      name: [teacherName],
-    });
-
-    this.teachersControls.push(teacherGroup);
-    // Reset pilihan di ng-select
-    this.form.get('teacherId')?.reset();
-  }
-
-  removeTeacher(index: number) {
-    this.teachersControls.removeAt(index);
-  }
-
-  removeActivityTime(index: number) {
-    this.activityTimesControls.removeAt(index);
+  removeSubject(index: number) {
+    this.subjectTeachersControls.removeAt(index);
   }
 
   onDelete() {
@@ -133,14 +110,7 @@ export class SubjectScheduleEditDialog2Component {
     });
   }
 
-  get teachersControls() {
-    const control = this.form.get('teachers') as FormArray;
-    return control;
-  }
-
-
-  get activityTimesControls() {
-    const control = this.form.get('activityTimes') as FormArray;
-    return control;
+  get subjectTeachersControls(): FormArray<FormGroup> {
+    return this.form.get('subjectTeachers') as FormArray<FormGroup>;
   }
 }

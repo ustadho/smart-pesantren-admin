@@ -171,6 +171,11 @@ export const navItems: INavData[] = [
         icon: 'nav-icon-bullet'
       },
       {
+        name: 'Hari Kerja Karyawan',
+        url: '/presence/working-dayoff',
+        icon: 'nav-icon-bullet'
+      },
+      {
         name: 'Jam Kerja',
         url: '/presence/working-hour',
         icon: 'nav-icon-bullet'

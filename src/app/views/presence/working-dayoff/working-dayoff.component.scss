@@ -1,0 +1,19 @@
+/* 1. Vertikal alignment tengah untuk semua teks di tabel */
+td {
+  vertical-align: middle !important;
+}
+
+/* 2. Hapus padding di combobox */
+td select {
+  // padding: 0 !important;
+  margin: 0 !important;
+  height: 100%; /* Sesuaikan tinggi combobox dengan tinggi sel */
+  width: 100%;  /* Pastikan combobox memenuhi sel */
+  border: none; /* Opsional: bisa menghilangkan border */
+  background: none; /* Opsional: bisa menghilangkan background */
+}
+
+.libur {
+  color: red !important;
+  font-weight: bold !important;
+}
