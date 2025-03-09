@@ -8,6 +8,7 @@ import { Subject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
+import Utils from '../../../../shared/util/util';
 
 @Component({
   selector: 'app-subject-schedule-edit-dialog2',
@@ -60,37 +61,53 @@ export class SubjectScheduleEditDialog2Component {
 
 
   ngAfterViewInit() {
+    console.log('this.data', this.data)
     this.form.patchValue(this.data);
+    const subjectTeachersArray = this.form.get('subjectTeachers') as FormArray;
     if (this.data.subjectTeachers.length > 0) {
-      const subjectTeachersArray = this.form.get('subjectTeachers') as FormArray;
       subjectTeachersArray.clear();
       this.data.subjectTeachers.forEach((t: any) => {
         subjectTeachersArray.push(this.fb.group(t));
       });
+    } else {
+      this.onAddTeacher();
     }
   }
 
   onSave() {
-    this.isSubmiting.set(true);
-    this.subjectScheduleService
-      .save(this.form.getRawValue())
-      .subscribe((res) => {
-        this.onClose.next(res);
-        this.modalRef.hide();
-        this.toastService.success('Simpan/update jadwal sukses');
-        this.isSubmiting.set(false);
-      }, (err: any) => {
-        this.toastService.error(err.error)
-        this.isSubmiting.set(false);
-      });
+    Utils.validateAllFormFields(this.form);
+    for (let el in this.form.controls) {
+      if (
+        this.form.controls[el].errors ||
+        this.form.controls[el].status === 'INVALID'
+      ) {
+        this.toastService.error(`${el} harus diisi!`)
+        console.log(el);
+      }
+    }
+
+    if (this.form.valid) {
+      this.isSubmiting.set(true);
+      this.subjectScheduleService
+        .save(this.form.getRawValue())
+        .subscribe((res) => {
+          this.onClose.next(res);
+          this.modalRef.hide();
+          this.toastService.success('Simpan/update jadwal sukses');
+          this.isSubmiting.set(false);
+        }, (err: any) => {
+          this.toastService.error(err.error)
+          this.isSubmiting.set(false);
+        });
+    }
   }
 
   onAddTeacher() {
     const teacherGroup = this.fb.group({
       id: [null],
-      subjectId: [null],
+      subjectId: [null, [Validators.required]],
       subjectName: [null],
-      teacherId: [null],
+      teacherId: [null, [Validators.required]],
       teacherName: [null],
     });
     this.subjectTeachersControls.push(teacherGroup);

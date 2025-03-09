@@ -416,8 +416,6 @@ export class SubjectSchedule2Component {
     const initialState: ModalOptions = {
       initialState: {
         selectedClassRoom: this.selectedClassRoom,
-        activityTimeStart: activityTimeStart,
-        activityTimeEnd: activityTimeEnd,
         data: {
           id: null,
           classRoomId: this.selectedClassRoom.id,
@@ -426,8 +424,10 @@ export class SubjectSchedule2Component {
           subjectName: null,
           dayId: day.id,
           dayName: day.name,
-          activityTimeStartId: activityTimeStart?.id,
-          activityTimeEndId: activityTimeEnd?.id,
+          activityStartId: activityTimeStart?.id,
+          activityStartTime: activityTimeStart?.startTime,
+          activityEndId: activityTimeEnd?.id,
+          activityEndTime: activityTimeEnd?.endTime,
           duration: selectedRows,
           subjectTeachers: [],
         },

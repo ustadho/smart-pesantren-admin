@@ -81,8 +81,8 @@
                               [class.selected]="isCellSelected(i, j)">
                             <ng-container *ngIf="getScheduleData(i, j) as schedule">
                               <div class="schedule-content" (click)="onSelectSchedule(schedule)">
-                                <div class="subject-name">{{schedule.subject?.name}}</div>
-                                <div class="text-primary"><small>{{schedule.teacher?.name}}</small></div>
+                                <div class="text-primary">{{schedule.subject?.name}}</div>
+                                <div class="teacher-name"><small>{{schedule.teacher?.name}}</small></div>
                               </div>
                             </ng-container>
                           </td>
