@@ -1,7 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SubjectService } from '../../../../domain/service/subject.service';
-import { EmployeeService } from '../../../../domain/service/employee.service';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { BaseInputComponent } from '../../../../components/base-input/base-input.component';
 import { SubjectScheduleService } from '../../../../domain/service/subject-schedule.service';
@@ -9,9 +8,10 @@ import { Subject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
+import Utils from '../../../../shared/util/util';
 
 @Component({
-  selector: 'app-subject-schedule-edit-dialog',
+  selector: 'app-subject-schedule-edit-dialog2',
   standalone: true,
   imports: [BaseInputComponent, CommonModule, ReactiveFormsModule, NgSelectModule],
   templateUrl: './subject-schedule-edit-dialog.component.html',
@@ -27,6 +27,8 @@ export class SubjectScheduleEditDialogComponent {
   className = '';
   subjects: any[] = [];
   teachers: any[] = [];
+  activityTimeStart: any = null;
+  activityTimeEnd: any = null;
 
   isSubmiting = signal(false);
   public onClose: Subject<Object> = new Subject();
@@ -42,12 +44,16 @@ export class SubjectScheduleEditDialogComponent {
     this.form = this.fb.group({
       id: [null],
       classRoomId: [null, [Validators.required]],
-      activityTimeId: [null, [Validators.required]],
+      activityStartId: [null, [Validators.required]],
+      activityStartTime: [null, [Validators.required]],
+      activityEndId: [null, [Validators.required]],
+      activityEndTime: [null, [Validators.required]],
       dayId: [null, [Validators.required]],
-      subjects: this.fb.array([]),
+      dayName: [null, [Validators.required]],
+      duration: [0, [Validators.required]],
+      subjectTeachers: this.fb.array([]),
     });
     this.emptyFormGroup = this.fb.group({});
-
   }
 
   ngOnInit() {
@@ -55,57 +61,60 @@ export class SubjectScheduleEditDialogComponent {
 
 
   ngAfterViewInit() {
-    if(this.data != null) {
-      this.form.patchValue(this.data)
-    }
-    const subjectsArray = this.form.get('subjects') as FormArray;
-    subjectsArray.clear();
-
-    console.log('Data subjects sebelum inisialisasi:', this.data?.subjects);
-
-    if (this.data?.subjects && this.data.subjects.length > 0) {
-      this.data.subjects.forEach((t: any) => {
-        subjectsArray.push(this.fb.group({
-          id: [t.id],
-          subjectId: [t.subjectId],
-          subjectName: [t.subjectName],
-          teacherId: [t.teacherId || null],
-          teacherName: [t.teacherName],
-        }));
+    console.log('this.data', this.data)
+    this.form.patchValue(this.data);
+    const subjectTeachersArray = this.form.get('subjectTeachers') as FormArray;
+    if (this.data.subjectTeachers.length > 0) {
+      subjectTeachersArray.clear();
+      this.data.subjectTeachers.forEach((t: any) => {
+        subjectTeachersArray.push(this.fb.group(t));
       });
-
-      console.log('Subjects setelah diisi:', subjectsArray.value);
+    } else {
+      this.onAddTeacher();
     }
   }
 
   onSave() {
-    this.isSubmiting.set(true);
-    this.subjectScheduleService
-      .save(this.form.getRawValue())
-      .subscribe((res) => {
-        this.onClose.next(res);
-        this.modalRef.hide();
-        this.toastService.success('Simpan/update jadwal sukses');
-        this.isSubmiting.set(false);
-      }, (err: any) => {
-        this.toastService.error(err.error)
-        this.isSubmiting.set(false);
-      });
+    Utils.validateAllFormFields(this.form);
+    for (let el in this.form.controls) {
+      if (
+        this.form.controls[el].errors ||
+        this.form.controls[el].status === 'INVALID'
+      ) {
+        this.toastService.error(`${el} harus diisi!`)
+        console.log(el);
+      }
+    }
+
+    if (this.form.valid) {
+      this.isSubmiting.set(true);
+      this.subjectScheduleService
+        .save(this.form.getRawValue())
+        .subscribe((res) => {
+          this.onClose.next(res);
+          this.modalRef.hide();
+          this.toastService.success('Simpan/update jadwal sukses');
+          this.isSubmiting.set(false);
+        }, (err: any) => {
+          this.toastService.error(err.error)
+          this.isSubmiting.set(false);
+        });
+    }
   }
 
   onAddTeacher() {
     const teacherGroup = this.fb.group({
       id: [null],
-      subjectId: [null],
+      subjectId: [null, [Validators.required]],
       subjectName: [null],
-      teacherId: [null],
+      teacherId: [null, [Validators.required]],
       teacherName: [null],
     });
-    this.subjectsControls.push(teacherGroup);
+    this.subjectTeachersControls.push(teacherGroup);
   }
 
   removeSubject(index: number) {
-    this.subjectsControls.removeAt(index);
+    this.subjectTeachersControls.removeAt(index);
   }
 
   onDelete() {
@@ -118,12 +127,7 @@ export class SubjectScheduleEditDialogComponent {
     });
   }
 
-  getSubjectFormGroup(index: number): FormGroup | null {
-    const formGroup = this.subjectsControls.at(index);
-    return formGroup instanceof FormGroup ? formGroup : null;
-  }
-
-  get subjectsControls(): FormArray<FormGroup> {
-    return this.form.get('subjects') as FormArray<FormGroup>;
+  get subjectTeachersControls(): FormArray<FormGroup> {
+    return this.form.get('subjectTeachers') as FormArray<FormGroup>;
   }
 }

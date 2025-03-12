@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SubjectScheduleEditDialogComponent } from './subject-schedule-edit-dialog.component';
 
-describe('SubjectScheduleEditDialogComponent', () => {
+describe('SubjectScheduleEditDialog2Component', () => {
   let component: SubjectScheduleEditDialogComponent;
   let fixture: ComponentFixture<SubjectScheduleEditDialogComponent>;
 

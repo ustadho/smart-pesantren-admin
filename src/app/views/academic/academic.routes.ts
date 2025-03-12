@@ -18,14 +18,6 @@ export const routes: Routes = [
     }
   },
   {
-    path: 'subject-schedule2',
-    loadComponent: () => import('./subject-schedule2/subject-schedule2.component').then(m => m.SubjectSchedule2Component),
-    data: {
-      title: 'Jadwal Pelajaran 2',
-      defaultSort: 'name,asc',
-    }
-  },
-  {
     path: 'class-room',
     loadComponent: () => import('./class-room/class-room.component').then(m => m.ClassRoomComponent),
     data: {
