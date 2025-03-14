@@ -15,14 +15,25 @@
                   [formGroup]="form"
                   label="Guru"
                   controlName="teacherId"
-                  labelWidth="col-sm-3 col-md-3"
-                  inputWidth="col-sm-9 col-md-9"
+                  labelWidth="col-sm-4 col-md-2"
+                  inputWidth="col-sm-8 col-md-10"
                   layout="horizontal"
                   [items]="teachers"
                   (onSelectChange)="onLoadSubjectScheduleClassRoom()"
                 ></app-base-input>
               </div>
               <div class="col-md-4">
+                <app-base-input
+                  type="ng-select"
+                  [formGroup]="form"
+                  label="Hari"
+                  controlName="dayId"
+                  labelWidth="col-sm-3 col-md-4"
+                  inputWidth="col-sm-9 col-md-8"
+                  layout="horizontal"
+                  [items]="days"
+                  (onSelectChange)="onLoadTeachers()"
+                ></app-base-input>
                 <!-- <app-base-input
                   type="ng-select"
                   [formGroup]="form"
@@ -41,11 +52,11 @@
                 <app-base-input
                   type="ng-select"
                   [formGroup]="form"
-                  bindValue="subjectScheduleId"
+                  bindValue="subjectTeacherScheduleId"
                   label="Jadwal Kelas"
                   controlName="subjectScheduleId"
-                  labelWidth="col-sm-3 col-md-3"
-                  inputWidth="col-sm-9 col-md-9"
+                  labelWidth="col-sm-4 col-md-2"
+                  inputWidth="col-sm-8 col-md-10"
                   layout="horizontal"
                   [labelFormat]="'${subjectName} - ${classRoomName} [${startTime} - ${endTime}]'"
                   [items]="subjectSchedules"
@@ -53,17 +64,7 @@
                 ></app-base-input>
               </div>
               <div class="col-md-4">
-                <!-- <div class="row">
-                  <label class="col-md-4 col-form-label">&nbsp;</label>
-                  <div class="col-md-8">
-                    <div class="input-group">
-                      <input type="text" class="form-control" placeholder="filter..." aria-label="Filter" formControlName="filterText">
-                      <span class="input-group-text">
-                        <i class="fas fa-filter"></i>
-                      </span>
-                    </div>
-                  </div>
-                </div> -->
+                <button type="button" [disabled]="form.get('subjectScheduleId')?.value == null" class="btn btn-outline-primary" (click)="onMappingStudent()"> Mapping Siswa </button>
               </div>
             </div>
             <div class="row mt-2">

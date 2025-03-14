@@ -1,0 +1,195 @@
+<div class="animated fadeIn">
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-edit"></i>
+            <span class="h5"> Mapping Jadwal Santri</span>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="form">
+            <div class="row">
+              <div class="col-md-8">
+                <app-base-input
+                  type="ng-select"
+                  [formGroup]="form"
+                  label="Guru"
+                  controlName="teacherId"
+                  labelWidth="col-sm-4 col-md-2"
+                  inputWidth="col-sm-8 col-md-10"
+                  layout="horizontal"
+                  [items]="teachers"
+                  (onSelectChange)="onLoadSubjectScheduleClassRoom()"
+                ></app-base-input>
+              </div>
+              <div class="col-md-4">
+                <app-base-input
+                  type="ng-select"
+                  [formGroup]="form"
+                  label="Hari"
+                  controlName="dayId"
+                  labelWidth="col-sm-3 col-md-4"
+                  inputWidth="col-sm-9 col-md-8"
+                  layout="horizontal"
+                  [items]="days"
+                  (onSelectChange)="onLoadTeachers()"
+                ></app-base-input>
+                <!-- <app-base-input
+                  type="ng-select"
+                  [formGroup]="form"
+                  label="Tahun Ajaran"
+                  controlName="academicYearId"
+                  labelWidth="col-sm-3 col-md-4"
+                  inputWidth="col-sm-9 col-md-8"
+                  layout="horizontal"
+                  [items]="academicYears"
+                  (onSelectChange)="onLoadTeachers()"
+                ></app-base-input> -->
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-8">
+                <app-base-input
+                  type="ng-select"
+                  [formGroup]="form"
+                  bindValue="subjectTeacherScheduleId"
+                  label="Jadwal Kelas"
+                  controlName="id"
+                  labelWidth="col-sm-4 col-md-2"
+                  inputWidth="col-sm-8 col-md-10"
+                  layout="horizontal"
+                  [labelFormat]="'${subjectName} - ${classRoomName} [${startTime} - ${endTime}]'"
+                  [items]="subjectSchedules"
+                  (onSelectChange)="onMappingStudent($event)"
+                ></app-base-input>
+              </div>
+            </div>
+          </form>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <form [formGroup]="sourceForm">
+                  <div class="row mb-3">
+                    <div class="table-responsive">
+                      <table class="table table-sm table-hover">
+                        <thead class="table-light">
+                          <tr class="text-center">
+                            <th colspan="4" class="text-center align-middle bg-warning">
+                              <span>Siswa Belum Termapping</span>
+                            </th>
+                          </tr>
+                          <tr>
+                            <th class="align-middle"><span> No </span></th>
+                            <th class="align-middle"><span> NIS </span></th>
+                            <th class="align-middle"><span> Nama Santri </span></th>
+                            <th class="align-middle text-center">
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                formControlName="selectAll"
+                                name="selectAll"
+                                id="selectAll"
+                                (ngModelChange)="onSelectAllSource()"
+                              />
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody formArrayName="students">
+                          <ng-container
+                            *ngFor="
+                              let d of getSourceStudentsControl.controls;
+                              let i = index
+                            "
+                          >
+                            <tr [formGroup]="$any(d)">
+                              <td>{{ i + 1 }}</td>
+                              <td>{{ d.value.nis }}</td>
+                              <td>{{ d.value.name }}</td>
+                              <td class="text-center align-middle">
+                                <input type="checkbox" formControlName="selected" />
+                              </td>
+                            </tr>
+                          </ng-container>
+                          <tr>
+                            <td colspan="4">
+                              <button type="button" [disabled]="!hasSelectedSourceStudent" class="btn btn-sm btn-secondary w-100" (click)="moveSelectedToForm()"> Tambahkan </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="col-md-6">
+                <form [formGroup]="form">
+                  <div class="row mb-3">
+                    <div class="table-responsive">
+                      <table class="table table-sm table-hover">
+                        <thead class="table-light">
+                          <tr class="text-center">
+                            <th colspan="4" class="text-center align-middle bg-primary text-white">
+                              <span>Siswa Sudah Termapping</span>
+                            </th>
+                          </tr>
+                          <tr>
+                            <th class="align-middle"><span> No </span></th>
+                            <th class="align-middle"><span> NIS </span></th>
+                            <th class="align-middle"><span> Nama Santri </span></th>
+                            <th class="align-middle text-center">
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                formControlName="selectAll"
+                                name="selectAll"
+                                id="selectAll"
+                                (ngModelChange)="onSelectAllDest()"
+                              />
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody formArrayName="students">
+                          <ng-container
+                            *ngFor="
+                              let d of getDestStudentsControl.controls;
+                              let i = index
+                            "
+                          >
+                            <tr [formGroup]="$any(d)">
+                              <td>{{ i + 1 }}</td>
+                              <td>{{ d.value.nis }}</td>
+                              <td>{{ d.value.name }}</td>
+                              <td class="text-center align-middle">
+                                <input type="checkbox" formControlName="selected" />
+                              </td>
+                            </tr>
+                          </ng-container>
+                          <tr>
+                            <td colspan="4">
+                              <button type="button" [disabled]="!hasSelectedDestStudent" class="btn btn-sm btn-danger w-100" (click)="moveSelectedBackToSource()"> Hapus </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="border-top pt-2 d-flex justify-content-end px-2">
+                  <app-submit-button
+                    [isSubmitting]="isSubmitting()"
+                    (click)="onSave()"
+                    buttonText="Simpan"
+                  >
+                  </app-submit-button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

@@ -18,6 +18,13 @@ export const routes: Routes = [
     }
   },
   {
+    path: 'mapping-schedule-student',
+    loadComponent: () => import('./mapping-schedule-student/mapping-schedule-student.component').then(m => m.MappingScheduleStudentComponent),
+    data: {
+      title: 'Mapping Jadwal - Santri',
+    }
+  },
+  {
     path: 'class-room',
     loadComponent: () => import('./class-room/class-room.component').then(m => m.ClassRoomComponent),
     data: {

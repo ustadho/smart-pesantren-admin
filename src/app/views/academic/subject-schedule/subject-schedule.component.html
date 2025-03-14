@@ -1,101 +1,181 @@
 <div class="animated fadeIn">
-  <form [formGroup]="form">
+  <div class="animated fadeIn">
     <div class="row">
       <div class="col-lg-12">
         <div class="card">
           <div class="card-header">
-            <i class="fa fa-edit"></i>
-            <span class="h5"> Jadwal Pelajaran</span>
+            <i class="fa fa-edit"></i> <span class="h5"> Jadwal Pelajaran & Mapping Santri </span>
           </div>
           <div class="card-body">
-            <div class="row">
-              <div class="col-md-6">
-                <app-base-input
-                  type="ng-select"
-                  [formGroup]="form"
-                  label="Tahun Ajaran"
-                  controlName="academicYearId"
-                  labelWidth="col-sm-3 col-md-4"
-                  inputWidth="col-sm-9 col-md-8"
-                  layout="horizontal"
-                  [items]="academicYears"
-                ></app-base-input>
-              </div>
-              <div class="col-md-6">
-                <app-base-input
-                  type="ng-select"
-                  [formGroup]="form"
-                  label="Institusi/ Lembaga"
-                  controlName="institutionId"
-                  labelWidth="col-sm-3 col-md-4"
-                  inputWidth="col-sm-9 col-md-8"
-                  layout="horizontal"
-                  [items]="institutions"
-                  (onSelectChange)="loadClassRoom()"
-                ></app-base-input>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <app-base-input
-                  type="ng-select"
-                  [formGroup]="form"
-                  label="Ruang Kelas"
-                  controlName="classRoomId"
-                  labelWidth="col-sm-3 col-md-4"
-                  inputWidth="col-sm-9 col-md-8"
-                  layout="horizontal"
-                  [labelFormat]="'${name} - ${sexLabel}'"
-                  [items]="classRooms"
-                  (onSelectChange)="selectedClassRoom = $event; onLoadAllSchedules()"
-                ></app-base-input>
-              </div>
-              <div class="col-md-6 d-inline-flex justify-content-end align-items-center">
-                <button type="button" class="btn btn-md btn-primary mx-1" [disabled]="form.get('classRoomId')?.value == null || isLoading()" (click)="onLoadAllSchedules()"><i class="fa fa-refresh"></i> Refresh</button>
-                <button type="button" class="btn btn-md btn-secodary btn-outline-success mx-1" [disabled]="form.get('classRoomId')?.value == null || isLoading()" (click)="onPreviewReport()"><i class="fa fa-print"></i> Cetak</button>
-                <button type="button" class="btn btn-md btn-outline-primary mx-1" [disabled]="form.get('classRoomId')?.value == null || isLoading()" (click)="onPreviewAuditLog()"><i class="fa fa-list"></i> Riwayat </button>
-              </div>
-            </div>
-            <div class="row mt-2">
-              <div class="col-md-12">
-                <div class="table-responsive">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th class="table-freeze">Jam Ke</th>
-                        <th *ngFor="let d of days">{{d.name}}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let a of activityTimes; let i = index">
-                        <td class="table-freeze">
-                          {{a.seq}}<br>
-                          <small>{{a.startTime}} - {{a.endTime}}</small>
-                        </td>
-                        <ng-container *ngFor="let col of days; let j = index">
-                          <td *ngIf="shouldShowCell(i, j)"
-                              [attr.rowspan]="getCellRowspan(i, j)"
-                              (mousedown)="startSelection(i, j)"
-                              (mousemove)="onMouseMove(i, j)"
-                              (mouseup)="endSelection(i, j)"
-                              [class.selected]="isCellSelected(i, j)">
-                            <ng-container *ngIf="getScheduleData(i, j) as schedule">
-                              <div class="schedule-content" (click)="onSelectSchedule(schedule)">
-                                <div class="text-primary">{{schedule.subject?.name}}</div>
-                                <div class="teacher-name"><small>{{schedule.teacher?.name}}</small></div>
+            <tabset #tabset>
+              <tab>
+                <ng-template tabHeading><i class="fa fa-list"></i> Jadwal Pelajaran </ng-template>
+                <form [formGroup]="form">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <app-base-input
+                                type="ng-select"
+                                [formGroup]="form"
+                                label="Tahun Ajaran"
+                                controlName="academicYearId"
+                                labelWidth="col-sm-3 col-md-4"
+                                inputWidth="col-sm-9 col-md-8"
+                                layout="horizontal"
+                                [items]="academicYears"
+                              ></app-base-input>
+                            </div>
+                            <div class="col-md-6">
+                              <app-base-input
+                                type="ng-select"
+                                [formGroup]="form"
+                                label="Institusi/ Lembaga"
+                                controlName="institutionId"
+                                labelWidth="col-sm-3 col-md-4"
+                                inputWidth="col-sm-9 col-md-8"
+                                layout="horizontal"
+                                [items]="institutions"
+                                (onSelectChange)="loadClassRoom()"
+                              ></app-base-input>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                              <app-base-input
+                                type="ng-select"
+                                [formGroup]="form"
+                                label="Ruang Kelas"
+                                controlName="classRoomId"
+                                labelWidth="col-sm-3 col-md-4"
+                                inputWidth="col-sm-9 col-md-8"
+                                layout="horizontal"
+                                [labelFormat]="'${name} - ${sexLabel}'"
+                                [items]="classRooms"
+                                (onSelectChange)="
+                                  selectedClassRoom = $event;
+                                  onLoadAllSchedules()
+                                "
+                              ></app-base-input>
+                            </div>
+                            <div
+                              class="col-md-6 d-inline-flex justify-content-end align-items-center"
+                            >
+                              <button
+                                type="button"
+                                class="btn btn-md btn-primary mx-1"
+                                [disabled]="
+                                  form.get('classRoomId')?.value == null ||
+                                  isLoading()
+                                "
+                                (click)="onLoadAllSchedules()"
+                              >
+                                <i class="fa fa-refresh"></i> Refresh
+                              </button>
+                              <button
+                                type="button"
+                                class="btn btn-md btn-secodary btn-outline-success mx-1"
+                                [disabled]="
+                                  form.get('classRoomId')?.value == null ||
+                                  isLoading()
+                                "
+                                (click)="onPreviewReport()"
+                              >
+                                <i class="fa fa-print"></i> Cetak
+                              </button>
+                              <button
+                                type="button"
+                                class="btn btn-md btn-outline-primary mx-1"
+                                [disabled]="
+                                  form.get('classRoomId')?.value == null ||
+                                  isLoading()
+                                "
+                                (click)="onPreviewAuditLog()"
+                              >
+                                <i class="fa fa-list"></i> Riwayat
+                              </button>
+                            </div>
+                          </div>
+                          <div class="row mt-2">
+                            <div class="col-md-12">
+                              <div class="table-responsive">
+                                <table class="table">
+                                  <thead>
+                                    <tr>
+                                      <th class="table-freeze">Jam Ke</th>
+                                      <th *ngFor="let d of days">
+                                        {{ d.name }}
+                                      </th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr
+                                      *ngFor="
+                                        let a of activityTimes;
+                                        let i = index
+                                      "
+                                    >
+                                      <td class="table-freeze">
+                                        {{ a.seq }}<br />
+                                        <small
+                                          >{{ a.startTime }} -
+                                          {{ a.endTime }}</small
+                                        >
+                                      </td>
+                                      <ng-container
+                                        *ngFor="let col of days; let j = index"
+                                      >
+                                        <td
+                                          *ngIf="shouldShowCell(i, j)"
+                                          [attr.rowspan]="getCellRowspan(i, j)"
+                                          (mousedown)="startSelection(i, j)"
+                                          (mousemove)="onMouseMove(i, j)"
+                                          (mouseup)="endSelection(i, j)"
+                                          [class.selected]="
+                                            isCellSelected(i, j)
+                                          "
+                                        >
+                                          <ng-container
+                                            *ngIf="
+                                              getScheduleData(i, j) as schedule
+                                            "
+                                          >
+                                            <div
+                                              class="schedule-content"
+                                              (click)="
+                                                onSelectSchedule(schedule)
+                                              "
+                                            >
+                                              <div class="text-primary">
+                                                {{ schedule.subject?.name }}
+                                              </div>
+                                              <div class="teacher-name">
+                                                <small>{{
+                                                  schedule.teacher?.name
+                                                }}</small>
+                                              </div>
+                                            </div>
+                                          </ng-container>
+                                        </td>
+                                      </ng-container>
+                                    </tr>
+                                  </tbody>
+                                </table>
                               </div>
-                            </ng-container>
-                          </td>
-                        </ng-container>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </tab>
+            </tabset>
           </div>
         </div>
       </div>
     </div>
-  </form>
+  </div>
 </div>
