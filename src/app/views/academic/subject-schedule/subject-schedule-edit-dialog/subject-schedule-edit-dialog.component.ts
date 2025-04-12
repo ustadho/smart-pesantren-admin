@@ -1,19 +1,20 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SubjectService } from '../../../../domain/service/subject.service';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { BaseInputComponent } from '../../../../components/base-input/base-input.component';
 import { SubjectScheduleService } from '../../../../domain/service/subject-schedule.service';
 import { Subject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
 import Utils from '../../../../shared/util/util';
 
 @Component({
   selector: 'app-subject-schedule-edit-dialog2',
   standalone: true,
-  imports: [BaseInputComponent, CommonModule, ReactiveFormsModule, NgSelectModule],
+  imports: [BaseInputComponent, CommonModule, ReactiveFormsModule, NgSelectModule, AccordionModule],
   templateUrl: './subject-schedule-edit-dialog.component.html',
   styleUrl: './subject-schedule-edit-dialog.component.scss',
 })
@@ -44,6 +45,7 @@ export class SubjectScheduleEditDialogComponent {
     this.form = this.fb.group({
       id: [null],
       classRoomId: [null, [Validators.required]],
+      classRoomName: [null, [Validators.required]],
       activityStartId: [null, [Validators.required]],
       activityStartTime: [null, [Validators.required]],
       activityEndId: [null, [Validators.required]],
@@ -67,7 +69,11 @@ export class SubjectScheduleEditDialogComponent {
     if (this.data.subjectTeachers.length > 0) {
       subjectTeachersArray.clear();
       this.data.subjectTeachers.forEach((t: any) => {
-        subjectTeachersArray.push(this.fb.group(t));
+        subjectTeachersArray.push(this.fb.group({
+          ...t,
+          mappingStudent: false,
+          showLookupStudent: false,
+        }));
       });
     } else {
       this.onAddTeacher();
@@ -109,6 +115,9 @@ export class SubjectScheduleEditDialogComponent {
       subjectName: [null],
       teacherId: [null, [Validators.required]],
       teacherName: [null],
+      mappingStudent: [false],
+      showLookupStudent: [false],
+      students: this.fb.array([]),
     });
     this.subjectTeachersControls.push(teacherGroup);
   }

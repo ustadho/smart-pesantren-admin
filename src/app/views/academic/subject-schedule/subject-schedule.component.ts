@@ -22,6 +22,7 @@ import { AcademicActivityTimeService } from '../../../domain/service/academic-ac
 import { DayService } from '../../../domain/service/day.service';
 import { SubjectScheduleEditDialogComponent } from './subject-schedule-edit-dialog/subject-schedule-edit-dialog.component';
 import { SubjectScheduleHistoryComponent } from './subject-schedule-edit-history/subject-schedule-history.component';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 export interface SubjectTeacher {
   id: string;
@@ -51,7 +52,7 @@ export interface DaySchedule {
 @Component({
   selector: 'app-subject-schedule2',
   standalone: true,
-  imports: [BaseInputComponent, ReactiveFormsModule, CommonModule],
+  imports: [BaseInputComponent, ReactiveFormsModule, CommonModule, TabsModule, TabsModule],
   providers: [BsModalService],
   templateUrl: './subject-schedule.component.html',
   styleUrl: './subject-schedule.component.scss',
@@ -223,11 +224,12 @@ export class SubjectScheduleComponent {
 
 
   onSelectSchedule(d: any) {
-    console.log(d);
-
     const initialState: ModalOptions = {
       initialState: {
-        data: d,
+        data: {
+          ...d,
+          classRoomName: this.selectedClassRoom?.name
+        },
         name: this.form.getRawValue().name,
         subjects: this.subjects,
         teachers: this.teachers,

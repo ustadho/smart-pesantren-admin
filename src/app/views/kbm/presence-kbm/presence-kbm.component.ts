@@ -10,6 +10,7 @@ import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } fr
 import { PresenceKBMService } from '../../../domain/service/presence-kbm.service';
 import { SubjectScheduleService } from '../../../domain/service/subject-schedule.service';
 import { PresenceKbmIzinComponent } from './presence-kbm-izin/presence-kbm-izin.component';
+import { LookupUnmappedStudentComponent } from '../../../components/lookup-unmapped-student/lookup-unmapped-student.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { AccountService } from '../../../core/auth/account.service';
 import { ROLE_PENDIDIKAN } from '../../../shared/constant/role.constant'
@@ -36,6 +37,16 @@ export class PresenceKbmComponent {
   categories: any[] = [];
   selectedClassRoom: any = null;
   isSubmitting = signal(false);
+  private selectedSchedule: any;
+  public days = [
+    {id: 1, name: 'Senin'},
+    {id: 2, name: 'Selasa'},
+    {id: 3, name: 'Rabu'},
+    {id: 4, name: 'Kamis'},
+    {id: 5, name: 'Jumat'},
+    {id: 6, name: 'Sabtu'},
+    {id: 7, name: 'Ahad'},
+  ]
 
   private fb = inject(FormBuilder);
   private academicYearService = inject(AcademicYearService);
@@ -50,6 +61,7 @@ export class PresenceKbmComponent {
   ngOnInit(): void {
     this.form = this.fb.group({
       academicYearId: [null],
+      dayId: [(new Date()).getDay()],
       teacherId: [null],
       subjectScheduleId: [null],
       filterText: [null],
@@ -83,7 +95,16 @@ export class PresenceKbmComponent {
     const students = this.form.get('students') as FormArray;
     students.clear();
     this.teachers = []
-    this.subjectScheduleService.findAllTeacherByAcademicYearId(this.form.get('academicYearId')?.value).subscribe((data: any) => {
+    this.form.patchValue({
+      teacherId: null,
+      subjectScheduleId: null
+    })
+    students.clear();
+    const p = {
+      academicYear: this.form.get('academicYearId')?.value,
+      dayId: this.form.get('dayId')?.value,
+    }
+    this.subjectScheduleService.findAllTeacherByAcademicYearId(p).subscribe((data: any) => {
       this.teachers = data.body
     })
   }
@@ -124,14 +145,14 @@ export class PresenceKbmComponent {
   }
 
   loadStudent(e: any) {
+    this.selectedSchedule = e;
     const students = this.form.get('students') as FormArray;
     students?.clear();
     if(e.classRoomId == null) {
       return;
     }
-
     this.presenceKBMService
-      .findDetailStudents(this.form.value.subjectScheduleId)
+      .findDetailStudents(e.subjectTeacherScheduleId)
       .subscribe((data) => {
         const students = this.form.get('students') as FormArray;
         students.clear();
@@ -142,6 +163,38 @@ export class PresenceKbmComponent {
           }));
         });
       });
+  }
+
+  onMappingStudent(){
+    if(this.selectedSchedule == null) {
+      return
+    }
+
+    this.subjectScheduleService.lookupUnmappedStudentInClassRoom(this.form.value?.subjectScheduleId).subscribe((res: any) => {
+      const initialState: ModalOptions = {
+        initialState: {
+          data: this.selectedSchedule,
+          availableStudents: res.body,
+          teacher: this.teachers.find(t => t.id == this.form.get('teacherId')?.value),
+          title: `Mapping Siswa & Jadwal`,
+        },
+      };
+
+      this.modalRef = this.bsModalService.show(
+        LookupUnmappedStudentComponent,
+        initialState
+      );
+      this.modalRef.setClass('custom-modal-width');
+      this.modalRef.content.closeBtnName = 'Close';
+
+      this.modalRef.content.onClose.subscribe((data: any) => {
+        if (data != null) {
+
+        }
+      });
+    })
+
+
   }
 
   onIzin(index: number) {

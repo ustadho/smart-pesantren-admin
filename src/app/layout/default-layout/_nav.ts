@@ -38,6 +38,11 @@ export const navItems: INavData[] = [
         icon: 'nav-icon-bullet'
       },
       {
+        name: 'Mapping Jadwal - Santri',
+        url: '/academic/mapping-schedule-student',
+        icon: 'nav-icon-bullet'
+      },
+      {
         name: 'Kelola Kelas-Santri',
         url: '/academic/class-room-student',
         icon: 'nav-icon-bullet'

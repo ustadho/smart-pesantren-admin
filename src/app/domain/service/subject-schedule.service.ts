@@ -32,6 +32,10 @@ export class SubjectScheduleService {
     return this.http.put(`${this.resourceUrl}`, data);
   }
 
+  updateSubjectTeacher(data: any): Observable<any> {
+    return this.http.put(`${this.resourceUrl}/subject-teacher`, data);
+  }
+
   deleteById(id: any) : Observable<HttpResponse<any>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, {
       observe: 'response',
@@ -45,8 +49,11 @@ export class SubjectScheduleService {
     this.reportService.getReport(`${this.resourceUrl}/report/by-classroom`, 'Jadwal Kelas', params, format)
   }
 
-  findAllTeacherByAcademicYearId(id: string) {
-    return this.http.get(`${this.resourceUrl}/teachers/${id}`, {observe: 'response'})
+  findAllTeacherByAcademicYearId(p: any) {
+    return this.http.get(`${this.resourceUrl}/teachers`, {
+      params: p,
+      observe: 'response'
+    })
   }
 
   findSubjectScheduleClassroomByTeacher(id: string) {
@@ -68,6 +75,18 @@ export class SubjectScheduleService {
 
   myWeeklySchedule() {
     return this.http.get(`${this.resourceUrl}/my-current-schedule`, {
+      observe: 'response'
+    })
+  }
+
+  lookupUnmappedStudentInClassRoom(id: string) {
+    return this.http.get(`${this.resourceUrl}/lookup-unmapped-student/${id}`, {
+      observe: 'response'
+    })
+  }
+
+  lookupMappedStudentInClassRoom(id: string) {
+    return this.http.get(`${this.resourceUrl}/lookup-mapped-student/${id}`, {
       observe: 'response'
     })
   }

@@ -36,25 +36,16 @@
               formArrayName="subjectTeachers"
               *ngFor="let d of subjectTeachersControls.controls; let i = index"
             >
-              <div [formGroupName]="i">
+              <div [formGroupName]="i" class="">
                 <div class="row mb-1">
-                  <ng-select
-                    placeholder="Pilih Pelajaran"
-                    [items]="subjects"
-                    bindLabel="name"
-                    bindValue="id"
-                    formControlName="subjectId"
-                  ></ng-select>
-                </div>
-                <div class="row mb-3">
                   <div class="input-group d-flex w-100">
                     <ng-select
                       class="flex-grow-1"
-                      placeholder="Pilih Pengajar"
-                      [items]="teachers"
+                      placeholder="Pilih Pelajaran"
+                      [items]="subjects"
                       bindLabel="name"
                       bindValue="id"
-                      formControlName="teacherId"
+                      formControlName="subjectId"
                     ></ng-select>
                     <div class="input-group-append">
                       <button
@@ -67,30 +58,54 @@
                     </div>
                   </div>
                 </div>
+                <div class="row mb-1">
+                  <div class="input-group d-flex w-100">
+                    <ng-select
+                      class="flex-grow-1"
+                      placeholder="Pilih Pengajar"
+                      [items]="teachers"
+                      bindLabel="name"
+                      bindValue="id"
+                      formControlName="teacherId"
+                    ></ng-select>
+                    <div class="input-group-append">
+                      <!-- <button
+                        type="button"
+                        class="btn btn-outline-primary btn-sm"
+                        (click)="onLookupClassStudent(i)"
+                      >
+                        <i class="fa fa-search"></i>
+                      </button> -->
+                    </div>
+                  </div>
+                </div>
+                <hr class="hr hr-blurry mb-3" />
               </div>
             </ng-container>
           </div>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="offset-md-3 col-md-9">
-        <button type="button" class="btn btn-secondary btn-sm w-100" (click)="onAddTeacher()">
-          <i class="fa fa-plus"></i>
-        </button>
-      </div>
-    </div>
     <div class="row mt-4">
       <div class="d-flex justify-content-between">
-        <button
-          [hidden]="data?.id == null"
-          type="button"
-          class="btn btn-danger mr-2"
-          (click)="onDelete()"
-          [hidden]="isSubmiting()"
-        >
-          <i class="fa fa-ban"></i> Hapus
-        </button>
+        <div class="div">
+          <button
+            [hidden]="data?.id == null"
+            type="button"
+            class="btn btn-danger pr-2"
+            (click)="onDelete()"
+            [hidden]="isSubmiting()"
+          >
+            <i class="fa fa-ban"></i> Hapus
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="onAddTeacher()"
+          >
+            Tambah Pelajaran & Guru
+          </button>
+        </div>
         <div>&nbsp;</div>
         <button
           type="button"

@@ -1,0 +1,128 @@
+<div class="modal-header">
+  <strong> Mapping Santri </strong>
+  <small>
+    &nbsp; {{ data.classRoomName }} - Jam {{ data.startTime }} -
+    {{ data.endTime }} | {{ data.subjectName }} - {{ teacher?.name }}
+  </small>
+  <button
+    type="button"
+    class="btn-close close pull-right"
+    aria-label="Close"
+    (click)="modalRef.hide()"
+  >
+    <span aria-hidden="true" class="visually-hidden">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <form [formGroup]="sourceForm">
+        <div class="row mb-3">
+          <div class="table-responsive">
+            <table class="table table-sm table-hover">
+              <thead class="table-light">
+                <tr class="text-center">
+                  <th colspan="4" class="text-center align-middle bg-warning">
+                    <span>Siswa Belum Termapping</span>
+                  </th>
+                </tr>
+                <tr>
+                  <th class="align-middle"><span> No </span></th>
+                  <th class="align-middle"><span> NIS </span></th>
+                  <th class="align-middle"><span> Nama Santri </span></th>
+                  <th class="align-middle text-center">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      formControlName="selectAll"
+                      name="selectAll"
+                      id="selectAll"
+                      (ngModelChange)="onSelectAllSource()"
+                    />
+                  </th>
+                </tr>
+              </thead>
+              <tbody formArrayName="students">
+                <ng-container
+                  *ngFor="
+                    let d of getSourceStudentsControl.controls;
+                    let i = index
+                  "
+                >
+                  <tr [formGroup]="$any(d)">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ d.value.nis }}</td>
+                    <td>{{ d.value.name }}</td>
+                    <td class="text-center align-middle">
+                      <input type="checkbox" formControlName="selected" />
+                    </td>
+                  </tr>
+                </ng-container>
+                <tr>
+                  <td colspan="4">
+                    <button type="button" [disabled]="!hasSelectedSourceStudent" class="btn btn-sm btn-secondary w-100" (click)="moveSelectedToForm()"> Tambahkan </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <form [formGroup]="form">
+        <div class="row mb-3">
+          <div class="table-responsive">
+            <table class="table table-sm table-hover">
+              <thead class="table-light">
+                <tr class="text-center">
+                  <th colspan="4" class="text-center align-middle bg-primary text-white">
+                    <span>{{ data.subjectName }} - {{ teacher?.name }}</span>
+                  </th>
+                </tr>
+                <tr>
+                  <th class="align-middle"><span> No </span></th>
+                  <th class="align-middle"><span> NIS </span></th>
+                  <th class="align-middle"><span> Nama Santri </span></th>
+                  <th class="align-middle text-center">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      formControlName="selectAll"
+                      name="selectAll"
+                      id="selectAll"
+                      (ngModelChange)="onSelectAllDest()"
+                    />
+                  </th>
+                </tr>
+              </thead>
+              <tbody formArrayName="students">
+                <ng-container
+                  *ngFor="
+                    let d of getDestStudentsControl.controls;
+                    let i = index
+                  "
+                >
+                  <tr [formGroup]="$any(d)">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ d.value.nis }}</td>
+                    <td>{{ d.value.name }}</td>
+                    <td class="text-center align-middle">
+                      <input type="checkbox" formControlName="selected" />
+                    </td>
+                  </tr>
+                </ng-container>
+                <tr>
+                  <td colspan="4">
+                    <button type="button" [disabled]="!hasSelectedDestStudent" class="btn btn-sm btn-danger w-50" (click)="moveSelectedBackToSource()"> Hapus </button>
+                    <button type="button" [disabled]="isSubmitting() || form.getRawValue().students.length == 0" class="ml-2 btn btn-sm btn-primary w-50" (click)="save()"> SIMPAN </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
