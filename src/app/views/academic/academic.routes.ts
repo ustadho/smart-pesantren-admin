@@ -18,11 +18,10 @@ export const routes: Routes = [
     }
   },
   {
-    path: 'subject-schedule2',
-    loadComponent: () => import('./subject-schedule2/subject-schedule2.component').then(m => m.SubjectSchedule2Component),
+    path: 'mapping-schedule-student',
+    loadComponent: () => import('./mapping-schedule-student/mapping-schedule-student.component').then(m => m.MappingScheduleStudentComponent),
     data: {
-      title: 'Jadwal Pelajaran 2',
-      defaultSort: 'name,asc',
+      title: 'Mapping Jadwal - Santri',
     }
   },
   {
