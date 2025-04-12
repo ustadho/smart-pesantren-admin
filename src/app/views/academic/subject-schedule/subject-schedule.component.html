@@ -19,7 +19,6 @@
                   inputWidth="col-sm-9 col-md-8"
                   layout="horizontal"
                   [items]="academicYears"
-
                 ></app-base-input>
               </div>
               <div class="col-md-6">
@@ -57,40 +56,37 @@
                 <button type="button" class="btn btn-md btn-outline-primary mx-1" [disabled]="form.get('classRoomId')?.value == null || isLoading()" (click)="onPreviewAuditLog()"><i class="fa fa-list"></i> Riwayat </button>
               </div>
             </div>
-            <div class="row mt-2" *ngIf="data != null && data.length > 0">
+            <div class="row mt-2">
               <div class="col-md-12">
-                <div class="table-container border">
-                  <table class="table table-bordered text-center">
+                <div class="table-responsive">
+                  <table class="table">
                     <thead>
                       <tr>
                         <th class="table-freeze">Jam Ke</th>
-                        <th *ngFor="let d of data[0].days; let i = index">
-                          {{d.dayName}}
-                        </th>
+                        <th *ngFor="let d of days">{{d.name}}</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let h of data; let i = index">
-                        <td class="table-freeze p-0">
-                          <div class="list-group h-100">
-                            <div class="list-group-item list-group-item-action flex-column text-center">
-                              <div class="d-flex justify-content-center">
-                                <h6 class="m-0">{{h.seq}}</h6>
-                              </div>
-                              <p class="m-0">{{h.startTime}} - {{h.endTime}}</p>
-                            </div>
-                          </div>
+                      <tr *ngFor="let a of activityTimes; let i = index">
+                        <td class="table-freeze">
+                          {{a.seq}}<br>
+                          <small>{{a.startTime}} - {{a.endTime}}</small>
                         </td>
-                        <td class="p-0" *ngFor="let d of data[i].days; let i = index">
-                          <div class="list-group h-100" style="cursor: pointer; height: 100%;" (click)="onSelectSchedule(h, d)" >
-                            <div class="list-group-item h-100 list-group-item-action flex-column text-center h-100">
-                              <div class="d-flex justify-content-center">
-                                <h6 class="m-0">{{ d.subject ?? '&nbsp;' }}</h6>
+                        <ng-container *ngFor="let col of days; let j = index">
+                          <td *ngIf="shouldShowCell(i, j)"
+                              [attr.rowspan]="getCellRowspan(i, j)"
+                              (mousedown)="startSelection(i, j)"
+                              (mousemove)="onMouseMove(i, j)"
+                              (mouseup)="endSelection(i, j)"
+                              [class.selected]="isCellSelected(i, j)">
+                            <ng-container *ngIf="getScheduleData(i, j) as schedule">
+                              <div class="schedule-content" (click)="onSelectSchedule(schedule)">
+                                <div class="text-primary">{{schedule.subject?.name}}</div>
+                                <div class="teacher-name"><small>{{schedule.teacher?.name}}</small></div>
                               </div>
-                              <p class="m-0 text-primary">{{ d.teacher ?? '&nbsp;' }}</p>
-                            </div>
-                          </div>
-                        </td>
+                            </ng-container>
+                          </td>
+                        </ng-container>
                       </tr>
                     </tbody>
                   </table>

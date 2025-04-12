@@ -71,7 +71,7 @@ export class JenisKegiatanEditComponent {
     if (this.form.valid) {
       this.isSubmitting.set(true);
       let data = this.form.getRawValue()
-      data.inTime = new Date(`1970-01-01 ${data.inTime}`)
+      // data.inTime = new Date(`1970-01-01 ${data.inTime}`)
       if (this.form.getRawValue().id == null) {
         this.service.create(data).subscribe({
           next: (res: any) => {
