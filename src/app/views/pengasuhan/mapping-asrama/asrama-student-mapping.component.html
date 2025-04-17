@@ -9,7 +9,7 @@
           <tabset #tabset>
             <tab (selectTab)="refreshList($event)">
               <ng-template tabHeading><i class="fa fa-list"></i></ng-template>
-              <app-asrama-student-mapping-list (onAdd)="onAdd()" (onEdit)="onEdit($event)" [pesantrens]="pesantrens" [academicYears]="academicYears">
+              <app-asrama-student-mapping-list (onAdd)="onAdd($event)" (onEdit)="onEdit($event)" [pesantrens]="pesantrens" [academicYears]="academicYears">
               </app-asrama-student-mapping-list>
             </tab>
             <tab
@@ -37,10 +37,11 @@
 
   <ng-template let-tab="tab" #formEdit>
     <app-asrama-student-mapping-edit
+      [tabset]="tabset"
       [activeTab]="tab"
       [pesantrens]="pesantrens"
       [academicYears]="academicYears"
-      (onAdd)="onAdd()"
+      [institutions]="institutions"
       (onRemove)="onRemoveTab(tab)"
     ></app-asrama-student-mapping-edit>
   </ng-template>

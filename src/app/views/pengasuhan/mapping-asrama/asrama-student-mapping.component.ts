@@ -6,6 +6,7 @@ import { AcademicYearService } from '../../../domain/service/academic-year.servi
 import { PesantrenService } from '../../../domain/service/pesantren.service';
 import { AsramaStudentMappingListComponent } from './asrama-student-mapping-list/asrama-student-mapping-list.component';
 import { AsramaStudentMappingEditComponent } from './asrama-student-mapping-edit/asrama-student-mapping-edit.component';
+import { InstitutionService } from '../../../domain/service/institution.service';
 
 @Component({
   selector: 'app-mapping-asrama',
@@ -23,6 +24,7 @@ export class AsramaStudentMappingComponent implements AfterViewInit{
   tabs: ITab[] = [];
   academicYears: any[] = [];
   pesantrens: any[] = [];
+  institutions: any[] = [];
 
   @ViewChild(AsramaStudentMappingListComponent)
   private listComponent?: AsramaStudentMappingListComponent;
@@ -32,15 +34,18 @@ export class AsramaStudentMappingComponent implements AfterViewInit{
 
   private academicYearService = inject(AcademicYearService);
   private pesantrenService = inject(PesantrenService);
+  private institutionService = inject(InstitutionService);
   constructor() {}
 
   ngOnInit(): void {
-    this.onAdd();
     this.academicYearService.findAll('').subscribe((data) => {
       this.academicYears = data.body
     })
     this.pesantrenService.findAll('').subscribe((data) => {
       this.pesantrens = data.body
+    })
+    this.institutionService.findAll('').subscribe((data) => {
+      this.institutions = data.body
     })
   }
 
@@ -50,9 +55,10 @@ export class AsramaStudentMappingComponent implements AfterViewInit{
       // Setelah mengubah nilai, panggil detectChanges untuk memberi tahu Angular untuk memperbarui tampilan
       this.cdRef.detectChanges();
     }
+    this.onAdd(null);
   }
 
-  onAdd() {
+  onAdd(data: any) {
     const newTabIndex = this.tabs.length;
     this.tabs.push({
       title: `Data Baru`,
@@ -60,7 +66,7 @@ export class AsramaStudentMappingComponent implements AfterViewInit{
       disabled: false,
       removable: true,
       active: true,
-      data: null,
+      data: data,
       index: newTabIndex,
     });
     this.tabs[newTabIndex].active = true;

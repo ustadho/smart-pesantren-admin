@@ -28,6 +28,13 @@ export class AsramaMappingService {
     });
   }
 
+  findOneByAsramaAndYear(asramaId: string, academicYearId: string): Observable<any> {
+    return this.http.get(`${this.resourceUrl}/${asramaId}/${academicYearId}`, {
+      observe: 'response',
+    });
+  }
+
+
   save(data: any): Observable<any> {
     return this.http.put(`${this.resourceUrl}`, data);
   }

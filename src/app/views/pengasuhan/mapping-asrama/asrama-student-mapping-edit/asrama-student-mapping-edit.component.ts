@@ -1,4 +1,4 @@
-import { Component, inject, Input, signal } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, signal } from '@angular/core';
 import { BaseInputComponent } from '../../../../components/base-input/base-input.component';
 import {
   FormArray,
@@ -16,7 +16,8 @@ import { SubmitButtonComponent } from '../../../../components/submit-button/subm
 import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
 import { EmployeeService } from '../../../../domain/service/employee.service';
-import { ITab } from 'src/app/domain/model/tab.model';
+import { ITab } from '../../../../domain/model/tab.model';
+import { TabsetComponent } from 'ngx-bootstrap/tabs';
 
 @Component({
   selector: 'app-asrama-student-mapping-edit',
@@ -33,8 +34,11 @@ import { ITab } from 'src/app/domain/model/tab.model';
 })
 export class AsramaStudentMappingEditComponent {
   @Input() activeTab?: ITab;
-  @Input() academicYears: any[] = [];
-  @Input() pesantrens: any[] = [];
+  @Input() academicYears!: any[];
+  @Input() pesantrens!: any[];
+  @Input() institutions!: any[];
+  @Input() tabset!: TabsetComponent;
+  @Output() onRemove = new EventEmitter<any>();
   form!: FormGroup;
   asramas: any[] = [];
   employees: any[] = [];
@@ -53,9 +57,12 @@ export class AsramaStudentMappingEditComponent {
 
   ngOnInit(): void {
     this.form = this.fb.group({
+      id: [null],
       locationId: [null],
       academicYearId: [null],
+      academicYearName: [null],
       asramaId: [null],
+      asramaName: [null],
       musyrifId: [null],
       students: this.fb.array([]),
     });
@@ -66,17 +73,19 @@ export class AsramaStudentMappingEditComponent {
     }).subscribe((data) => {
       this.asramas = data.body;
     })
-    this.academicYears.map((item: any) => {
-      if (item.isDefault == true) {
-        this.form.get('academicYearId')?.setValue(item.id);
-      }
-    });
     this.employeeService.findAll('').subscribe((data) => {
       this.employees = data.body;
     });
+  }
+
+  ngAfterViewInit(): void {
     setTimeout(async ()=> {
       if(this.activeTab?.data != null) {
-        this.form.patchValue(this.activeTab.data)
+        console.log('this.activeTab.data', this.activeTab.data)
+        if(this.activeTab.data != null) {
+          this.form.patchValue(this.activeTab.data)
+        }
+        console.log('this.activeTab.data', this.activeTab.data)
         const students = this.form.get('students') as FormArray;
         students.clear();
         this.activeTab.data.students.forEach((s: any) => {
@@ -84,24 +93,48 @@ export class AsramaStudentMappingEditComponent {
         });
         this.selectedAsrama = await this.asramas.find((x: any) => x.id == this.form.get('asramaId')?.value);
         this.onSelectAsrama(this.selectedAsrama);
+      } else {
+        const defaultYear = this.academicYears.find((e: any) => e.isDefault === true);
+      if (defaultYear) {
+        this.form.get('academicYearId')?.setValue(defaultYear.id);
       }
-    }, 500)
+      }
+    }, 800)
   }
 
   onSelectAsrama(e: any) {
     this.selectedAsrama = e;
+    if(e == null) 
+      return;
     this.musyrifs = this.employees.filter((x: any) => x.sex == e.sex);
-    // if(this.form.get('id')?.value == null) {
-    //   this.loadStudent();
-    // }
+    console.log(e)
+    if(e.id != null && this.form.value.academicYearId != null) {
+      this.asramaMappingService.findOneByAsramaAndYear(e.id, this.form.value.academicYearId).subscribe((data) => {
+        this.form.patchValue(data.body);
+        const students = this.form.get('students') as FormArray;
+        students.clear();
+        data.body.students.forEach((s: any) => {
+          students.push(this.fb.group(s));
+        });
+      });
+    }
   }
 
   onSave() {
     this.isSubmitting.set(true);
     this.asramaMappingService
       .save(this.form.getRawValue())
-      .subscribe((data: any) => {
-        console.log('success');
+      .subscribe({
+        next: (res) => {
+          this.toast.success('Simpan data sukses');
+          this.onRemove.emit(this.activeTab);
+        },
+        error: (err) => {
+          console.log('Error:', err);
+          this.toast.error(`Gagal menyimpan data<br>${err.error.title}`, '', {
+            enableHtml: true
+          });
+        }
       });
     this.isSubmitting.set(false);
   }
@@ -116,6 +149,8 @@ export class AsramaStudentMappingEditComponent {
           sex: this.selectedAsrama?.sex,
           pesantrenId: '',
         },
+        academicYears: this.academicYears,
+        institutions: this.institutions,
         title: 'Lookup Santri',
       },
     };
@@ -135,9 +170,9 @@ export class AsramaStudentMappingEditComponent {
           this.fb.group({
             id: null,
             studentId: el.id,
-            nis: el.nis,
-            nisn: el.nisn,
-            name: el.name,
+            studentNis: el.nis,
+            studentNisn: el.nisn,
+            studentName: el.name,
             joinYear: el.joinYear,
           })
         );
@@ -184,15 +219,13 @@ export class AsramaStudentMappingEditComponent {
   }
 
   onDelete() {
+    console.log('this.activeTab',  this.activeTab)
     if(this.activeTab == null || this.activeTab.data == null) {
       return
     }
-  }
-
-  onDeleteStudent(a: any) {
     Swal.fire({
       title: 'Hapus data',
-      text: `Anda yakin untuk menghapus ' ${a.name} - ${a.nis}'?`,
+      text: `Anda yakin untuk menghapus ' ${this.activeTab.data.asramaName} - ${this.activeTab.data.academicYearName}'?`,
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -201,12 +234,33 @@ export class AsramaStudentMappingEditComponent {
       confirmButtonText: 'Ya Benar',
     }).then((result) => {
       if (result.value) {
-        // this.classRoomStudentService.deleteById(a.id).subscribe((response) => {
-        //   if (this.form.getRawValue().id != null) {
-        //     this.toast.success('Hapus data sukses');
-        //     this.loadStudent()
-        //   }
-        // });
+        this.asramaMappingService?.delete(this.activeTab?.data?.id).subscribe({
+          next: (res) => {
+            this.toast.success('Hapus data sukses');
+            this.onRemove.emit(this.activeTab);
+          },
+          error: (e) => {
+            this.toast.error('Gagal menghapus data');
+          }
+        });
+      }
+    });
+  }
+
+  onDeleteStudent(a: any) {
+    Swal.fire({
+      title: 'Hapus data',
+      text: `Anda yakin untuk menghapus ' ${a.studentName} - ${a.studentNis}'?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Batal',
+      confirmButtonText: 'Ya Benar',
+    }).then((result) => {
+      if (result.value) {
+        const students = this.form.get('students') as FormArray;
+        students.removeAt(a.id);
       }
     });
   }

@@ -16,14 +16,14 @@
                     bindLabel="name"
                     bindValue="id"
                     formControlName="pesantrenId"
-                    (change)="page = 1; loadAll()"
+                    (change)="page = 1; loadAll(); selectPesantren($event)"
                   >
                   </ng-select>
                 </label>
                 <label for="academicYearId" class="col-md-3">
                   Tahun Ajaran
                   <ng-select
-                    placeholder="2024-2025"
+                    placeholder="Pilih tahun"
                     id="academicYearId"
                     name="academicYearId"
                     [items]="academicYears"
@@ -68,7 +68,10 @@
                     <button
                       type="button"
                       class="btn btn-primary"
-                      (click)="onAdd.emit()"
+                      (click)="onAdd.emit({
+                        academicYearId: filterForm.value.academicYearId,
+                        students: []
+                      })"
                     >
                       <i class="fa fa-plus fa-fw"></i>
                     </button>

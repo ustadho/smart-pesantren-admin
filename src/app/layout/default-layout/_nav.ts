@@ -70,7 +70,7 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-user' },
     children: [
       {
-        name: 'Mapping Santri',
+        name: 'Santri - Asrama',
         url: '/pengasuhan/student-mapping',
         icon: 'nav-icon-bullet'
       },

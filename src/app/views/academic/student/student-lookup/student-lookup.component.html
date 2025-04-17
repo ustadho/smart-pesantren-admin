@@ -11,7 +11,7 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="form-row">
-                  <label for="institutionId" class="col-md-2"
+                  <label for="academicYearId" class="col-md-2"
                     >Th. Masuk
                     <ng-select
                       placeholder="Tahun Masuk"
@@ -26,15 +26,15 @@
                     </ng-select>
                   </label>
                   <label for="institutionId" class="col-md-2"
-                    >Kategori
+                    >Institusi
                     <ng-select
-                      placeholder="Kategori"
-                      id="categoryId"
-                      name="categoryId"
-                      [items]="categories"
+                      placeholder="Institusi"
+                      id="institutionId"
+                      name="institutionId"
+                      [items]="institutions"
                       bindLabel="name"
                       bindValue="id"
-                      formControlName="categoryId"
+                      formControlName="institutionId"
                       (change)="page = 1; loadAll()"
                     >
                     </ng-select>
@@ -62,7 +62,7 @@
                       >
                         <!-- <i class="fa fa-refresh fa-fw"></i> -->
                         <fa-icon
-                          [icon]="['fas', 'sync']"
+                          [icon]="['fas', 'search']"
                           [animation]="isLoading() ? 'spin' : undefined"
                         ></fa-icon>
                       </button>
@@ -156,6 +156,7 @@
               <pagination
                 [totalItems]="totalItems"
                 [(ngModel)]="page"
+                [ngModelOptions]="{standalone: true}"
                 [boundaryLinks]="true"
                 (pageChanged)="loadPage($event)"
                 [itemsPerPage]="itemsPerPage"

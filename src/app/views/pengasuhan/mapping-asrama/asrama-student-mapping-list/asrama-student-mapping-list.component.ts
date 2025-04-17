@@ -7,10 +7,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { PageChangedEvent, PaginationModule } from 'ngx-bootstrap/pagination';
 import { combineLatest } from 'rxjs';
-import { AsramaMappingService } from 'src/app/domain/service/asrama-mapping.service';
-import { SORT } from 'src/app/shared/constant/navigation.constants';
-import { ITEMS_PER_PAGE } from 'src/app/shared/constant/pagination.constants';
-import { SortByDirective, SortDirective, SortService, SortState, sortStateSignal } from 'src/app/shared/directive/sort';
+import { AsramaMappingService } from '../../../../domain/service/asrama-mapping.service';
+import { SORT } from '../../../../shared/constant/navigation.constants';
+import { ITEMS_PER_PAGE } from '../../../../shared/constant/pagination.constants';
+import { SortByDirective, SortDirective, SortService, SortState, sortStateSignal } from '../../../../shared/directive/sort';
 
 @Component({
   selector: 'app-asrama-student-mapping-list',
@@ -60,7 +60,19 @@ export class AsramaStudentMappingListComponent {
 
   ngOnInit(): void {
     this.handleNavigation();
+  }
 
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      const defaultYear = this.academicYears.find((e: any) => e.isDefault === true);
+      if (defaultYear) {
+        this.filterForm.get('academicYearId')?.setValue(defaultYear.id);
+      }
+    }, 700)
+  }
+
+  selectPesantren(evt: any) {
+    console.log('selectPesantren', evt)
   }
 
   public loadAll() {

@@ -32,8 +32,8 @@ import { SubmitButtonComponent } from '../../../../components/submit-button/subm
   styleUrl: './student-lookup.component.scss'
 })
 export class StudentLookupComponent {
-  categories: any[] = [];
-  academicYears: any[] =[];
+  public institutions: any[] = [];
+  public academicYears: any[] =[];
   public totalItems: number = 0;
   public page: any;
   public previousPage: any;
@@ -58,6 +58,7 @@ export class StudentLookupComponent {
     this.form = this.fb.group({
       q: [null],
       academicYearId: [null],
+      institutionId: [null],
       categoryId: [null],
       selectAll: [false, [Validators.required]],
       items: this.fb.array([])
@@ -72,7 +73,7 @@ export class StudentLookupComponent {
         size: this.itemsPerPage,
         sort: this.sortService.buildSortParam(this.sortState(), 'name'),
         q: this.form.value.q?? '',
-        iid: this.param?.institutionId,
+        iid: this.form.value.institutionId?? '',
         y: this.form.value.academicYearId?? '',
         c: this.form.value.categoryId?? '',
         sex: this.param?.sex,
