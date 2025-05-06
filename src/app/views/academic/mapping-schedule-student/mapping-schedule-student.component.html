@@ -59,7 +59,7 @@
                   labelWidth="col-sm-4 col-md-2"
                   inputWidth="col-sm-8 col-md-10"
                   layout="horizontal"
-                  [labelFormat]="'${subjectName} - ${classRoomName} [${startTime} - ${endTime}]'"
+                  [labelFormat]="'${subjectName} - ${classRoomName} [${startTime} - ${endTime}] - ${institutionName}'"
                   [items]="subjectSchedules"
                   (onSelectChange)="onMappingStudent($event)"
                 ></app-base-input>

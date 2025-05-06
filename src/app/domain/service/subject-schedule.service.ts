@@ -56,8 +56,8 @@ export class SubjectScheduleService {
     })
   }
 
-  findSubjectScheduleClassroomByTeacher(id: string) {
-    return this.http.get(`${this.resourceUrl}/by-teacher/${id}`, {observe: 'response'})
+  findSubjectScheduleClassroomByTeacher(p: any) {
+    return this.http.get(`${this.resourceUrl}/by-teacher`, {params: p, observe: 'response'})
   }
 
   findAllHistoryByClassRoomId(id: string): Observable<any> {

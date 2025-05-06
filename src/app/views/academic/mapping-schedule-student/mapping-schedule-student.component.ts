@@ -111,7 +111,10 @@ export class MappingScheduleStudentComponent {
     this.form.get('id')?.setValue(null);
     this.subjectScheduleService;
     this.subjectScheduleService
-      .findSubjectScheduleClassroomByTeacher(this.form.get('teacherId')?.value)
+      .findSubjectScheduleClassroomByTeacher({
+        teacherId: this.form.get('teacherId')?.value,
+        dayId: this.form.get('dayId')?.value,
+      })
       .pipe(
         catchError((err: any) => {
           console.error(err);
