@@ -100,6 +100,7 @@
       (change)="onSelectChange.emit($event)"
       (keyup)="search(getValue($event))"
       [searchFn]="customSearchFn"
+      [multiple]="multiple"
       [ngClass]="{
         'is-invalid':
           formGroup.get(controlName)?.invalid &&

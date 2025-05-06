@@ -63,7 +63,7 @@ export class AsramaStudentMappingEditComponent {
       academicYearName: [null],
       asramaId: [null],
       asramaName: [null],
-      musyrifId: [null],
+      musyrifIds: [null],
       students: this.fb.array([]),
     });
 

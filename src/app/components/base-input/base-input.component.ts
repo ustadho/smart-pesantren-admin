@@ -67,6 +67,7 @@ export class BaseInputComponent implements OnInit, AfterViewInit {
   @Input() autofocus: boolean = false;
   @Input() labelFormat: string = '${name}';
   @Input() bindValue: string = 'id';
+  @Input() multiple: boolean = false;
   @Output() onSelectChange = new EventEmitter<any>();
   @Output() onKeyUp = new EventEmitter<string>();
 
