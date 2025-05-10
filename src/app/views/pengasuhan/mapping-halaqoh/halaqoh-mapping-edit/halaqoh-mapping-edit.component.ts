@@ -83,19 +83,18 @@ export class HalaqohMappingEditComponent {
   ngAfterViewInit(): void {
     setTimeout(async ()=> {
       if(this.activeTab?.data != null) {
-        console.log('this.activeTab.data', this.activeTab.data)
-        if(this.activeTab.data != null) {
-          this.selectedPesantren = this.pesantrens.find((x: any) => x.id == this.activeTab?.data?.pesantrenId);
-          this.form.patchValue(this.activeTab.data)
+        this.selectedPesantren = await this.pesantrens.find((x: any) => x.id == this.activeTab?.data?.pesantrenId);
+        if(this.selectedPesantren != null) {
+          this.musyrifs = this.employees.filter((x: any) => x.sex == this.selectedPesantren.sex);
         }
-        console.log('this.activeTab.data', this.activeTab.data)
+        this.form.patchValue(this.activeTab.data)
         const students = this.form.get('students') as FormArray;
         students.clear();
         this.activeTab.data.students.forEach((s: any) => {
           students.push(this.fb.group(s));
         });
-        this.selectedPesantren = await this.asramas.find((x: any) => x.id == this.form.get('asramaId')?.value);
-        this.onSelectPesantren(this.selectedPesantren);
+        // this.selectedPesantren = this.pesantrens.find((x: any) => x.id == this.form.get('pesantrenId')?.value);
+        // this.onSelectPesantren(this.selectedPesantren);
       } else {
         const defaultYear = this.academicYears.find((e: any) => e.isDefault === true);
       if (defaultYear) {
