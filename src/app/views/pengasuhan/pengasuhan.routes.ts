@@ -5,7 +5,14 @@ export const routes: Routes = [
     path: 'student-mapping',
     loadComponent: () => import('./mapping-asrama/asrama-student-mapping.component').then(m => m.AsramaStudentMappingComponent),
     data: {
-      title: 'Absensi KBM',
+      title: 'Mapping Santri - Asrama',
+    }
+  },
+  {
+    path: 'halaqoh-mapping',
+    loadComponent: () => import('./mapping-halaqoh/halaqoh-mapping.component').then(m => m.HalaqohMappingComponent),
+    data: {
+      title: 'Mapping Santri - Halaqoh',
     }
   },
   {

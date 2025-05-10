@@ -75,6 +75,11 @@ export const navItems: INavData[] = [
         icon: 'nav-icon-bullet'
       },
       {
+        name: 'Santri - Halaqoh',
+        url: '/pengasuhan/halaqoh-mapping',
+        icon: 'nav-icon-bullet'
+      },
+      {
         name: 'Jenis Kegiatan',
         url: '/pengasuhan/jenis-kegiatan',
         icon: 'nav-icon-bullet'

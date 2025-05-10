@@ -1,0 +1,48 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-edit"></i> <span class="h5"> Data Halaqoh</span>
+        </div>
+        <div class="card-body">
+          <tabset #tabset>
+            <tab (selectTab)="refreshList($event)">
+              <ng-template tabHeading><i class="fa fa-list"></i></ng-template>
+              <app-halaqoh-mapping-list (onAdd)="onAdd($event)" (onEdit)="onEdit($event)" [pesantrens]="pesantrens" [academicYears]="academicYears">
+              </app-halaqoh-mapping-list>
+            </tab>
+            <tab
+              *ngFor="let tabz of tabs"
+              [heading]="tabz.title"
+              [active]="tabz.active"
+              (selectTab)="tabz.active = true"
+              (deselect)="tabz.active = false"
+              [disabled]="tabz.disabled"
+              [removable]="tabz.removable"
+              (removed)="onRemoveTab(tabz)"
+              [customClass]="tabz.customClass"
+            >
+              <ng-template
+                [ngTemplateOutlet]="formEdit"
+                [ngTemplateOutletContext]="{ tab: tabz }"
+              >
+              </ng-template>
+            </tab>
+          </tabset>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template let-tab="tab" #formEdit>
+    <app-halaqoh-mapping-edit 
+      [tabset]="tabset"
+      [activeTab]="tab"
+      [pesantrens]="pesantrens"
+      [academicYears]="academicYears"
+      [institutions]="institutions"
+      (onRemove)="onRemoveTab(tab)"
+    ></app-halaqoh-mapping-edit>
+  </ng-template>
+</div>
