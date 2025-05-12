@@ -8,7 +8,7 @@ import Utils from '../../../../shared/util/util';
 import { ToastrService } from 'ngx-toastr';
 import { AcademicActivityTimeService } from '../../../../domain/service/academic-activity-time.service';
 import { Subject } from 'rxjs';
-import { SortService, sortStateSignal } from 'src/app/shared/directive/sort';
+import { SortService, sortStateSignal } from '../../../../shared/directive/sort';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import Swal from 'sweetalert2';
 import { BsModalRef } from 'ngx-bootstrap/modal';

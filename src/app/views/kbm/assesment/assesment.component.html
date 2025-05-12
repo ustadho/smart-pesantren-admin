@@ -14,19 +14,12 @@
                                 (onSelectChange)="loadClassRoom($event)"
                                 [items] ="institutions"></app-base-input>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-6">
                             <app-base-input type="ng-select" [formGroup]="form" label="Tahun Ajaran"
                                 controlName="academicYearId" labelWidth="col-sm-6 col-md-3"
                                 inputWidth="col-sm-6 col-md-9" layout="horizontal"
                                 (onSelectChange)="loadClassRoom($event)"
                                 [items]="academicYears"></app-base-input>
-                        </div>
-                        <div class="col-md-6">
-                            <app-base-input type="ng-select" [formGroup]="form" label="Semester" controlName="semester"
-                                labelWidth="col-sm-6 col-md-3" inputWidth="col-sm-6 col-md-9" layout="horizontal"
-                                [items]="semesters" (onSelectChange)="loadStudent($event)"></app-base-input>
                         </div>
                     </div>
                     <div class="row">
@@ -35,6 +28,13 @@
                                 controlName="subjectId" labelWidth="col-sm-6 col-md-3" inputWidth="col-sm-6 col-md-9"
                                 layout="horizontal" [items]="subjects" (onSelectChange)="loadStudent($event)"></app-base-input>
                         </div>
+                        <div class="col-md-6">
+                            <app-base-input type="ng-select" [formGroup]="form" label="Semester" controlName="semester"
+                                labelWidth="col-sm-6 col-md-3" inputWidth="col-sm-6 col-md-9" layout="horizontal"
+                                [items]="semesters" (onSelectChange)="loadStudent($event)"></app-base-input>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-6">
                             <app-base-input type="ng-select" [formGroup]="form" label="Kelas" controlName="classRoomId"
                                 labelWidth="col-sm-6 col-md-3" inputWidth="col-sm-6 col-md-9" layout="horizontal"

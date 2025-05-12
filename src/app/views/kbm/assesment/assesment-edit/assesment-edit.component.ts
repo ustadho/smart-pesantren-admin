@@ -25,14 +25,14 @@ export class AssesmentEditComponent implements OnInit {
   public modalRef = inject(BsModalRef);
   public onClose: Subject<any> = new Subject<any>();
 
-  constructor() {}
+  constructor() {}  
 
   ngOnInit() {
     // Subscribe to value changes of the grade controls to calculate final grade
     this.form = this.fb.group({
       id:  [null],
       academicYearId: [null],
-      academicYearName: [null],
+      academicYearName: [null], 
       classRoomId: [null],
       classRoomName: [null],
       semester: [null],

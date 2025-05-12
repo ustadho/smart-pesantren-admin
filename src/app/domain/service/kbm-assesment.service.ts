@@ -9,7 +9,11 @@ export class KBMAssesmentService {
   constructor(private http: HttpClient) { }
 
   save(data: any): Observable<any> {
-    return this.http.post<HttpResponse<any>>(`${this.resourceUrl}`, data)
+    if(data.id == null){
+      return this.http.post<HttpResponse<any>>(`${this.resourceUrl}`, data)
+    }else{
+      return this.http.put<HttpResponse<any>>(`${this.resourceUrl}/${data.id}`, data)
+    }
   }
 
   findStudentByClassRoomId(params: any): Observable<any> {
