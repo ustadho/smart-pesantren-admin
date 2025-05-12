@@ -1,0 +1,82 @@
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-edit"></i> <span class="h5"> Penilaian </span>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <app-base-input type="ng-select" [formGroup]="form" label="Institusi"
+                                controlName="institutionId" labelWidth="col-sm-6 col-md-3"
+                                inputWidth="col-sm-6 col-md-9" layout="horizontal"
+                                (onSelectChange)="loadClassRoom($event)"
+                                [items] ="institutions"></app-base-input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <app-base-input type="ng-select" [formGroup]="form" label="Tahun Ajaran"
+                                controlName="academicYearId" labelWidth="col-sm-6 col-md-3"
+                                inputWidth="col-sm-6 col-md-9" layout="horizontal"
+                                (onSelectChange)="loadClassRoom($event)"
+                                [items]="academicYears"></app-base-input>
+                        </div>
+                        <div class="col-md-6">
+                            <app-base-input type="ng-select" [formGroup]="form" label="Semester" controlName="semester"
+                                labelWidth="col-sm-6 col-md-3" inputWidth="col-sm-6 col-md-9" layout="horizontal"
+                                [items]="semesters" (onSelectChange)="loadStudent($event)"></app-base-input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <app-base-input type="ng-select" [formGroup]="form" label="Mata Pelajaran"
+                                controlName="subjectId" labelWidth="col-sm-6 col-md-3" inputWidth="col-sm-6 col-md-9"
+                                layout="horizontal" [items]="subjects" (onSelectChange)="loadStudent($event)"></app-base-input>
+                        </div>
+                        <div class="col-md-6">
+                            <app-base-input type="ng-select" [formGroup]="form" label="Kelas" controlName="classRoomId"
+                                labelWidth="col-sm-6 col-md-3" inputWidth="col-sm-6 col-md-9" layout="horizontal"
+                                [items]="classRooms" (onSelectChange)="loadStudent($event)"></app-base-input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>NIS</th>
+                                        <th>Nama Siswa</th>
+                                        <th>Nilai Tugas</th>
+                                        <th>Nilai UTS</th>
+                                        <th>Nilai UAS</th>
+                                        <th>Nilai Akhir</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let student of students" style="cursor: pointer;" (click)="onSelectRow(student)">
+                                        <td>{{student.studentNis}}</td>
+                                        <td>{{student.studentName}}</td>
+                                        <td [ngClass]="{'text-danger': student.nilaiTugas < 70}" style="width: 100px;">
+                                            {{student.nilaiTugas | number:'1.0-0'}}
+                                        </td>
+                                        <td [ngClass]="{'text-danger': student.nilaiUTS < 70}" style="width: 100px;">
+                                            {{student.nilaiUTS | number:'1.0-0'}}
+                                        </td>
+                                        <td [ngClass]="{'text-danger': student.nilaiUAS < 70}" style="width: 100px;">
+                                            {{student.nilaiUAS | number:'1.0-0'}}
+                                        </td>
+                                        <td [ngClass]="{'text-danger': student.nilaiAkhir < 70}" style="width: 100px;">
+                                            {{student.nilaiAkhir | number:'1.0-0'}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

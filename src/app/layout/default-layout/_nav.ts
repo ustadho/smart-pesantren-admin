@@ -20,6 +20,11 @@ export const navItems: INavData[] = [
         url: '/kbm/presence',
         icon: 'nav-icon-bullet'
       },
+      {
+        name: 'Penilaian',
+        url: '/kbm/assesment',
+        icon: 'nav-icon-bullet'
+      },
     ]
   },
   {

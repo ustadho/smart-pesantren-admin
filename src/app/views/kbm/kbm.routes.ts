@@ -8,4 +8,11 @@ export const routes: Routes = [
       title: 'Absensi KBM',
     }
   },
+  {
+    path: 'assesment',
+    loadComponent: () => import('./assesment/assesment.component').then(m => m.AssesmentComponent),
+    data: {
+      title: 'Penilaian',
+    }
+  },
 ];

@@ -147,6 +147,21 @@
         Ya
       </label>
     </div>
+    <select
+      *ngIf="type == 'select'"
+      class="form-select"
+      aria-label="Default select example"
+      [formControlName]="controlName"
+      [id]="controlName"
+      [ngClass]="{
+        'is-invalid':
+          formGroup.get(controlName)?.invalid &&
+          formGroup.get(controlName)?.touched
+      }"
+    >
+      <option *ngFor="let item of items" [value]="item.value">{{ item.label }}</option>
+    </select>
+
     <div
       *ngIf="formGroup.get(controlName)?.errors?.['required'] && formGroup.get(controlName)?.touched"
       class="invalid-feedback"

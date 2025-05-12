@@ -1,0 +1,43 @@
+<div class="card">
+  <div class="card-header">
+    <h5 class="card-title mb-3">Penilaian T.A {{data?.academicYearName}}
+    </h5>
+  </div>
+  <div class="card-body">
+    <!-- Student Information Section -->
+    <div class="mb-4">
+      <div class="row">
+        <div class="col-md-12">
+          <app-base-input labelWidth="col-sm-6 col-md-4" inputWidth="col-sm-6 col-md-8" layout="horizontal" type="text" label="Kelas" [formGroup]="form" controlName="classRoomName" readonly></app-base-input>
+        </div>
+        <div class="col-md-12">
+          <app-base-input labelWidth="col-sm-6 col-md-4" inputWidth="col-sm-6 col-md-8" layout="horizontal" type="text" label="Pelajaran" [formGroup]="form" controlName="subjectName" readonly></app-base-input>
+        </div>
+        <div class="col-md-12">
+          <app-base-input labelWidth="col-sm-6 col-md-4" inputWidth="col-sm-6 col-md-8" layout="horizontal" type="text" label="Siswa" [formGroup]="form" controlName="studentName" readonly></app-base-input>
+        </div>
+        <div class="col-md-12">
+          <app-base-input labelWidth="col-sm-6 col-md-4" inputWidth="col-sm-6 col-md-8" layout="horizontal" type="text" label="NIS" [formGroup]="form" controlName="studentNis" readonly></app-base-input>
+        </div>
+        <div class="col-md-12">
+          <app-base-input type="number" labelWidth="col-sm-6 col-md-4" inputWidth="col-sm-6 col-md-8" layout="horizontal" label="N. Tugas" [formGroup]="form" controlName="nilaiTugas"></app-base-input>
+        </div>
+        <div class="col-md-12">
+          <app-base-input type="number" labelWidth="col-sm-6 col-md-4" inputWidth="col-sm-6 col-md-8" layout="horizontal" label="Nilai UTS" [formGroup]="form" controlName="nilaiUTS"></app-base-input>
+        </div>
+        <div class="col-md-12">
+          <app-base-input type="number" labelWidth="col-sm-6 col-md-4" inputWidth="col-sm-6 col-md-8" layout="horizontal" label="Nilai UAS" [formGroup]="form" controlName="nilaiUAS"></app-base-input>
+        </div>
+        <div class="col-md-12">
+          <app-base-input type="number" labelWidth="col-sm-6 col-md-4" inputWidth="col-sm-6 col-md-8" layout="horizontal" label="N. Akhir" [formGroup]="form" controlName="nilaiAkhir"></app-base-input>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="d-flex justify-content-end gap-2 mt-4">
+      <button class="btn btn-secondary" (click)="onCancel()">Batal</button>
+      <button class="btn btn-primary" (click)="onSave()">Simpan</button>
+    </div>
+  </div>
+</div>
