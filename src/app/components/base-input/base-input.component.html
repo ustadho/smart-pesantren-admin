@@ -15,6 +15,8 @@
       [id]="controlName"
       [formControlName]="controlName"
       [placeholder]="placeholder"
+      [readonly]="readonly"
+      (input)="onInputChange($event)"
       [ngClass]="{
         'is-invalid':
           formGroup.get(controlName)?.invalid &&

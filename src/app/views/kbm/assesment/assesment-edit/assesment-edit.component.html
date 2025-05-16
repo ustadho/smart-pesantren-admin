@@ -8,28 +8,34 @@
     <div class="mb-4">
       <div class="row">
         <div class="col-md-12">
-          <app-base-input labelWidth="col-sm-6 col-md-4" inputWidth="col-sm-6 col-md-8" layout="horizontal" type="text" label="Kelas" [formGroup]="form" controlName="classRoomName" readonly></app-base-input>
+          <app-base-input labelWidth="col-sm-6 col-md-4" inputWidth="col-sm-6 col-md-8" layout="horizontal" type="text" label="Kelas" [formGroup]="form" controlName="classRoomName" [readonly]="true"></app-base-input>
         </div>
         <div class="col-md-12">
-          <app-base-input labelWidth="col-sm-6 col-md-4" inputWidth="col-sm-6 col-md-8" layout="horizontal" type="text" label="Pelajaran" [formGroup]="form" controlName="subjectName" readonly></app-base-input>
+          <app-base-input labelWidth="col-sm-6 col-md-4" inputWidth="col-sm-6 col-md-8" layout="horizontal" type="text" label="Pelajaran" [formGroup]="form" controlName="subjectName" [readonly]="true"></app-base-input>
         </div>
         <div class="col-md-12">
-          <app-base-input labelWidth="col-sm-6 col-md-4" inputWidth="col-sm-6 col-md-8" layout="horizontal" type="text" label="Siswa" [formGroup]="form" controlName="studentName" readonly></app-base-input>
+          <app-base-input labelWidth="col-sm-6 col-md-4" inputWidth="col-sm-6 col-md-8" layout="horizontal" type="text" label="Siswa" [formGroup]="form" controlName="studentName" [readonly]="true"></app-base-input>
         </div>
         <div class="col-md-12">
-          <app-base-input labelWidth="col-sm-6 col-md-4" inputWidth="col-sm-6 col-md-8" layout="horizontal" type="text" label="NIS" [formGroup]="form" controlName="studentNis" readonly></app-base-input>
+          <app-base-input labelWidth="col-sm-6 col-md-4" inputWidth="col-sm-6 col-md-8" layout="horizontal" type="text" label="NIS" [formGroup]="form" controlName="studentNis" [readonly]="true"></app-base-input>
         </div>
         <div class="col-md-12">
-          <app-base-input type="number" labelWidth="col-sm-6 col-md-4" inputWidth="col-sm-6 col-md-8" layout="horizontal" label="N. Tugas" [formGroup]="form" controlName="nilaiTugas"></app-base-input>
+          <app-base-input type="number" labelWidth="col-sm-6 col-md-4" inputWidth="col-sm-6 col-md-8" layout="horizontal" label="Nilai Harian" [formGroup]="form" controlName="nilaiHarian" (valueChange)="onGradeChange('nilaiHarian', $event)"></app-base-input>
         </div>
         <div class="col-md-12">
-          <app-base-input type="number" labelWidth="col-sm-6 col-md-4" inputWidth="col-sm-6 col-md-8" layout="horizontal" label="Nilai UTS" [formGroup]="form" controlName="nilaiUTS"></app-base-input>
+          <app-base-input type="number" labelWidth="col-sm-6 col-md-4" inputWidth="col-sm-6 col-md-8" layout="horizontal" label="Nilai Ketrampilan" [formGroup]="form" controlName="nilaiKetrampilan" (valueChange)="onGradeChange('nilaiKetrampilan', $event)"></app-base-input>
         </div>
         <div class="col-md-12">
-          <app-base-input type="number" labelWidth="col-sm-6 col-md-4" inputWidth="col-sm-6 col-md-8" layout="horizontal" label="Nilai UAS" [formGroup]="form" controlName="nilaiUAS"></app-base-input>
+          <app-base-input type="number" labelWidth="col-sm-6 col-md-4" inputWidth="col-sm-6 col-md-8" layout="horizontal" label="Nilai Sikap" [formGroup]="form" controlName="nilaiSikap" (valueChange)="onGradeChange('nilaiSikap', $event)"></app-base-input>
         </div>
         <div class="col-md-12">
-          <app-base-input type="number" labelWidth="col-sm-6 col-md-4" inputWidth="col-sm-6 col-md-8" layout="horizontal" label="N. Akhir" [formGroup]="form" controlName="nilaiAkhir"></app-base-input>
+          <app-base-input type="number" labelWidth="col-sm-6 col-md-4" inputWidth="col-sm-6 col-md-8" layout="horizontal" label="Nilai PTS" [formGroup]="form" controlName="nilaiPts" (valueChange)="onGradeChange('nilaiPts', $event)"></app-base-input>
+        </div>
+        <div class="col-md-12">
+          <app-base-input type="number" labelWidth="col-sm-6 col-md-4" inputWidth="col-sm-6 col-md-8" layout="horizontal" label="Nilai PAS" [formGroup]="form" controlName="nilaiPas" (valueChange)="onGradeChange('nilaiPas', $event)"></app-base-input>
+        </div>
+        <div class="col-md-12">
+          <app-base-input type="number" labelWidth="col-sm-6 col-md-4" inputWidth="col-sm-6 col-md-8" layout="horizontal" label="Nilai Akhir" [formGroup]="form" controlName="nilaiAkhir" [readonly]="true"></app-base-input>
         </div>
       </div>
     </div>

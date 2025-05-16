@@ -10,6 +10,7 @@ import { InstitutionService } from '../../../domain/service/institution.service'
 import { KBMAssesmentService } from '../../../domain/service/kbm-assesment.service';
 import { AssesmentEditComponent } from './assesment-edit/assesment-edit.component';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
+import { SettingPenilaianService } from '../../../domain/service/setting-penilaian.service';
 
 @Component({
   selector: 'app-assesment',
@@ -31,7 +32,9 @@ export class AssesmentComponent {
   private subjectService = inject(SubjectService);
   private institutionService = inject(InstitutionService);
   private kbmAssesmentService = inject(KBMAssesmentService);
+  private settingPenilaianService = inject(SettingPenilaianService);
   private modalService = inject(BsModalService);
+  private settingPenilaian: any;
 
   form!: FormGroup;
   institutions: any[] = [];
@@ -79,7 +82,7 @@ export class AssesmentComponent {
     })
   }
 
-  loadClassRoom(event: any) {
+  async loadClassRoom(event: any) {
     if (event == null || this.form.get('institutionId')?.value == null || this.form.get('academicYearId')?.value == null) {
       return;
     }
@@ -105,6 +108,16 @@ export class AssesmentComponent {
     })
   }
 
+  loadSettingPenilaian(event: any) {
+    if (event == null || this.form.get('institutionId')?.value == null) {
+      return;
+    }
+    this.settingPenilaianService.getSettingPenilaian(this.form.get('institutionId')?.value).subscribe((data) => {
+      this.settingPenilaian = data;
+      console.log('settingPenilaian', this.settingPenilaian);
+    })
+  }
+
   onSelectRow(student: any) {
     console.log(student);
     const initialState: ModalOptions = {
@@ -119,6 +132,7 @@ export class AssesmentComponent {
             classRoomName: this.classRooms.find(e=>e.id == this.form.get('classRoomId')?.value)?.name,
             ...student
           },
+          settingPenilaian: this.settingPenilaian
         },
       };
 
@@ -126,7 +140,7 @@ export class AssesmentComponent {
         AssesmentEditComponent,
         initialState
       );
-      this.modalRef.setClass('modal-sm');
+      this.modalRef.setClass('modal-md');
       this.modalRef.content.closeBtnName = 'Close';
       this.modalRef.content.onClose.subscribe((response: any) => {
         if(response == 'success'){

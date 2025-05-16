@@ -68,8 +68,10 @@ export class BaseInputComponent implements OnInit, AfterViewInit {
   @Input() labelFormat: string = '${name}';
   @Input() bindValue: string = 'id';
   @Input() multiple: boolean = false;
+  @Input() readonly: boolean = false;
   @Output() onSelectChange = new EventEmitter<any>();
   @Output() onKeyUp = new EventEmitter<string>();
+  @Output() valueChange = new EventEmitter<any>();
 
   selectedCar: number | null = null;
   private searchText$ = new Subject<string>();
@@ -92,6 +94,12 @@ export class BaseInputComponent implements OnInit, AfterViewInit {
   value: any;
 
   constructor(private datePipe: DatePipe, private cdr: ChangeDetectorRef) {}
+
+  onInputChange(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.formGroup.get(this.controlName)?.setValue(value, { emitEvent: true });
+    this.valueChange.emit(value);
+  }
 
   ngOnInit(): void {
     this.searchText$

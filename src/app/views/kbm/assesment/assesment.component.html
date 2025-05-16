@@ -11,7 +11,7 @@
                             <app-base-input type="ng-select" [formGroup]="form" label="Institusi"
                                 controlName="institutionId" labelWidth="col-sm-6 col-md-3"
                                 inputWidth="col-sm-6 col-md-9" layout="horizontal"
-                                (onSelectChange)="loadClassRoom($event)"
+                                (onSelectChange)="loadSettingPenilaian($event); loadClassRoom($event)"
                                 [items] ="institutions"></app-base-input>
                         </div>
                         <div class="col-md-6">
@@ -40,6 +40,9 @@
                                 labelWidth="col-sm-6 col-md-3" inputWidth="col-sm-6 col-md-9" layout="horizontal"
                                 [items]="classRooms" (onSelectChange)="loadStudent($event)"></app-base-input>
                         </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-primary" (click)="loadStudent(null)">Refresh</button>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
@@ -48,9 +51,11 @@
                                     <tr>
                                         <th>NIS</th>
                                         <th>Nama Siswa</th>
-                                        <th>Nilai Tugas</th>
-                                        <th>Nilai UTS</th>
-                                        <th>Nilai UAS</th>
+                                        <th>Nilai Harian</th>
+                                        <th>Nilai Ketrampilan</th>
+                                        <th>Nilai Sikap</th>
+                                        <th>Nilai PTS</th>
+                                        <th>Nilai PAS</th>
                                         <th>Nilai Akhir</th>
                                     </tr>
                                 </thead>
@@ -58,14 +63,20 @@
                                     <tr *ngFor="let student of students" style="cursor: pointer;" (click)="onSelectRow(student)">
                                         <td>{{student.studentNis}}</td>
                                         <td>{{student.studentName}}</td>
-                                        <td [ngClass]="{'text-danger': student.nilaiTugas < 70}" style="width: 100px;">
-                                            {{student.nilaiTugas | number:'1.0-0'}}
+                                        <td [ngClass]="{'text-danger': student.nilaiHarian < 70}" style="width: 100px;">
+                                            {{student.nilaiHarian | number:'1.0-0'}}
                                         </td>
-                                        <td [ngClass]="{'text-danger': student.nilaiUTS < 70}" style="width: 100px;">
-                                            {{student.nilaiUTS | number:'1.0-0'}}
+                                        <td [ngClass]="{'text-danger': student.nilaiKetrampilan < 70}" style="width: 100px;">
+                                            {{student.nilaiKetrampilan | number:'1.0-0'}}
                                         </td>
-                                        <td [ngClass]="{'text-danger': student.nilaiUAS < 70}" style="width: 100px;">
-                                            {{student.nilaiUAS | number:'1.0-0'}}
+                                        <td [ngClass]="{'text-danger': student.nilaiSikap < 70}" style="width: 100px;">
+                                            {{student.nilaiSikap | number:'1.0-0'}}
+                                        </td>
+                                        <td [ngClass]="{'text-danger': student.nilaiPts < 70}" style="width: 100px;">
+                                            {{student.nilaiPts | number:'1.0-0'}}
+                                        </td>
+                                        <td [ngClass]="{'text-danger': student.nilaiPas < 70}" style="width: 100px;">
+                                            {{student.nilaiPas | number:'1.0-0'}}
                                         </td>
                                         <td [ngClass]="{'text-danger': student.nilaiAkhir < 70}" style="width: 100px;">
                                             {{student.nilaiAkhir | number:'1.0-0'}}
