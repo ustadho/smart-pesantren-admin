@@ -104,6 +104,15 @@ export const routes: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
+    path: 'setting-penilaian',
+    loadComponent: () => import('./setting-penilaian/setting-penilaian.component').then(m => m.SettingPenilaianComponent),
+    data: {
+      title: 'Setting Penilaian',
+      authorities: [ROLE_SUPERADMIN],
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
     path: 'foundation',
     loadComponent: () => import('./foundation/foundation.component').then(m => m.FoundationComponent),
     data: {

@@ -1,0 +1,38 @@
+<form class="form-horizontal" name="form" role="form" novalidate (ngSubmit)="onSubmit()" [formGroup]="form">
+    <div class="animated fadeIn">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header"><i class="fa fa-edit"></i> Setting Penilaian </div>
+                    <div class="card-body">
+                        <app-base-input type="ng-select" [formGroup]="form" label="Institusi/ Lembaga"
+                            controlName="institutionId" labelWidth="col-sm-3 col-md-2" inputWidth="col-sm-9 col-md-6"
+                            layout="horizontal" [items]="institutions"
+                            (onSelectChange)="loadSetting($event)"></app-base-input>
+                        <app-base-input type="number" [formGroup]="form" controlName="persenHarian"
+                            label="Persen Harian" placeholder="0" labelWidth="col-sm-3 col-md-2"
+                            inputWidth="col-sm-9 col-md-2" layout="horizontal">></app-base-input>
+                        <app-base-input type="number" [formGroup]="form" controlName="persenKetrampilan"
+                            label="Persen Ketrampilan" placeholder="0" labelWidth="col-sm-3 col-md-2"
+                            inputWidth="col-sm-9 col-md-2" layout="horizontal">></app-base-input>
+                        <app-base-input type="number" [formGroup]="form" controlName="persenSikap" label="Persen Sikap"
+                            placeholder="0" labelWidth="col-sm-3 col-md-2" inputWidth="col-sm-9 col-md-2"
+                            layout="horizontal">></app-base-input>
+                        <app-base-input type="number" [formGroup]="form" controlName="persenPts" label="Persen PTS"
+                            placeholder="0" labelWidth="col-sm-3 col-md-2" inputWidth="col-sm-9 col-md-2"
+                            layout="horizontal">></app-base-input>
+                        <app-base-input type="number" [formGroup]="form" controlName="persenPas" label="Persen PAS"
+                            placeholder="0" labelWidth="col-sm-3 col-md-2" inputWidth="col-sm-9 col-md-2"
+                            layout="horizontal">></app-base-input>
+                        <div class="row">
+                            <div class="col-sm-10 offset-sm-2">
+                                <app-submit-button [isSubmitting]="isSubmitting" buttonText="Simpan">
+                                </app-submit-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

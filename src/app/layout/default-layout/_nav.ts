@@ -258,6 +258,11 @@ export const navItems: INavData[] = [
         icon: 'nav-icon-bullet'
       },
       {
+        name: 'Penilaian',
+        url: '/setting/setting-penilaian',
+        icon: 'nav-icon-bullet'
+      },
+      {
         name: 'Yayasan',
         url: '/setting/foundation',
         icon: 'nav-icon-bullet'
