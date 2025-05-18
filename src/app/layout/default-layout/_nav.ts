@@ -181,6 +181,11 @@ export const navItems: INavData[] = [
       //   icon: 'nav-icon-bullet'
       // },
       {
+        name: 'Log Mesin',
+        url: '/presence/att-log',
+        icon: 'nav-icon-bullet'
+      },
+      {
         name: 'Hari Libur',
         url: '/presence/holiday',
         icon: 'nav-icon-bullet'

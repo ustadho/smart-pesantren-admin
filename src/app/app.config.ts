@@ -26,6 +26,7 @@ import { provideToastr } from 'ngx-toastr';
 import { provideNgProgressOptions } from 'ngx-progressbar';
 import { progressInterceptor } from 'ngx-progressbar/http';
 import { TimeZoneInterceptor } from './core/interceptor/timezone.interceptor';
+import { provideDaterangepickerLocale } from "ngx-daterangepicker-bootstrap";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -41,6 +42,10 @@ export const appConfig: ApplicationConfig = {
       withViewTransitions(),
       withHashLocation()
     ),
+    provideDaterangepickerLocale({
+      separator: ' - ',
+      applyLabel: 'Okay',
+    }),
     importProvidersFrom(SidebarModule, DropdownModule),
     IconSetService,
     provideAnimations(),

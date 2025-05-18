@@ -2,6 +2,13 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'att-log',
+    loadComponent: () => import('./att-log/att-log.component').then(m => m.AttLogComponent),
+    data: {
+      title: 'Log Mesin'
+    }
+  },
+  {
     path: 'holiday',
     loadComponent: () => import('./holiday/holiday.component').then(m => m.HolidayComponent),
     data: {
