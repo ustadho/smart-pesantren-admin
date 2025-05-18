@@ -36,9 +36,9 @@ public q = '';
   public dateRange: [Date, Date];
 
   constructor() {
+    // Initialize with today's date
     const today = new Date();
-    const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-    this.dateRange = [startOfMonth, today];
+    this.dateRange = [today, today];
   }
   public totalItems: number = 0;
   public page: any;
@@ -46,7 +46,10 @@ public q = '';
   public itemsPerPage = ITEMS_PER_PAGE;
   public predicate: any;
   public data: any[] = [];
-  public selected: { start?: Date; end?: Date } = {};
+  public selected: { start?: Date; end?: Date } = {
+    start: new Date(),
+    end: new Date()
+  };
 
   isLoading = signal(false);
   sortState = sortStateSignal({});
