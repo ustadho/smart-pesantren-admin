@@ -94,7 +94,7 @@
             type="button"
             class="btn btn-danger pr-2"
             (click)="onDelete()"
-            [hidden]="isSubmiting()"
+            [disabled]="isSubmiting()"
           >
             <i class="fa fa-ban"></i> Hapus
           </button>

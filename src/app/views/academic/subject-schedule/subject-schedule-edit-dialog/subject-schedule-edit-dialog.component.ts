@@ -140,11 +140,17 @@ export class SubjectScheduleEditDialogComponent {
           }).then((result: any) => {
             if (result.value) {
               this.isSubmiting.set(true);
-              this.subjectScheduleService.deleteById(this.data.id).subscribe((res) => {
-                this.onClose.next('confirmDeleteItem');
-                this.modalRef.hide();
-                this.toastService.success('Hapus jadwal sukses');
-                this.isSubmiting.set(false);
+              this.subjectScheduleService.deleteById(this.data.id).subscribe({
+                next: (res) => {
+                  this.onClose.next('confirmDeleteItem');
+                  this.modalRef.hide();
+                  this.toastService.success('Hapus jadwal sukses');
+                  this.isSubmiting.set(false);
+                },
+                error: (err) => {
+                  this.toastService.error('Gagal menghapus jadwal');
+                  this.isSubmiting.set(false);
+                }
               });
             }
           })
