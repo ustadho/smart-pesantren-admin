@@ -5,7 +5,7 @@
         <div class="card">
           <div class="card-header">
             <i class="fa fa-edit"></i>
-            <span class="h5"> Kelola Kelas - Santri</span>
+            <span class="h5"> Kelola Ruang Kelas - Santri</span>
           </div>
           <div class="card-body">
             <div class="row">
@@ -52,13 +52,19 @@
                 ></app-base-input>
               </div>
               <div class="col-md-6">
-                <button
-                  class="btn btn-sm btn-primary"
-                  (click)="onStudentLookup()"
-                  [disabled]="selectedClassRoom == null"
-                >
-                  Tambah Santri
-                </button>
+                <div class="row">
+                  <div class="row space-between">
+                    <div class="col">
+                      <label for="">Target Tahfidz : {{form.value.targetTahfidzDesc}}</label>
+                    </div>
+                    <div class="col-auto">
+                      <button *ngIf="form.value != null && form.value.targetTahfidzId != null" type="button" class="btn btn-outline-primary btn-sm" (click)="onUpdateTarget()">
+                        Sesuaikan Semua Santri
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
               </div>
             </div>
             <div class="row mt-2">
@@ -83,6 +89,9 @@
                           <span> Th. Masuk </span>
                         </th>
                         <th>
+                          <span> Target Tahfidz </span>
+                        </th>
+                        <th width="5%">
                           <span> &nbsp; </span>
                         </th>
                       </tr>
@@ -104,6 +113,11 @@
                           <td>{{ d.value.studentName }}</td>
                           <td>{{ d.value.joinYear }}</td>
                           <td>
+                            <span style="cursor: pointer;" class="text-primary" (click)="openTahfidzDialog(d.value, i)">
+                              {{ d.value.targetTahfidzDesc }}
+                            </span>
+                          </td>
+                          <td>
                             <button
                               class="btn btn-sm btn-outline-danger"
                               (click)="onDelete(d.value)"
@@ -114,6 +128,20 @@
                         </tr>
                       </ng-container>
                     </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="5"></td>
+                        <td colspan="2" class="text-right">
+                          <button
+                            class="btn btn-sm btn-outline-primary"
+                            (click)="onStudentLookup()"
+                            [disabled]="selectedClassRoom == null"
+                          >
+                            Tambah Santri
+                          </button>
+                        </td>
+                      </tr>
+                    </tfoot>
                   </table>
                 </div>
               </div>

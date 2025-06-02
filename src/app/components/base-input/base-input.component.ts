@@ -120,8 +120,17 @@ export class BaseInputComponent implements OnInit, AfterViewInit {
 
   customSearchFn(term: string, item: any) {
     term = term.toLowerCase();
-    return item.name.toLowerCase().includes(term);
-    // return item.name.toLowerCase().includes(term) || item?.code == null || item?.code.toLowerCase().includes(term);
+    
+    if (item.name) {
+      return item.name.toLowerCase().includes(term);
+    } else if (item.noHalaman !== undefined) {
+      // Convert both term and noHalaman to string for comparison
+      const searchTerm = term.toString();
+      const noHalaman = item.noHalaman.toString();
+      return noHalaman.includes(searchTerm);
+    }
+    
+    return false;
   }
 
   search(q: string) {
@@ -131,14 +140,14 @@ export class BaseInputComponent implements OnInit, AfterViewInit {
   getBindLabel(item: any): string {
     return this.labelFormat.replace(
       /\$\{(.*?)\}/g,
-      (_, key) => item[key] || ''
+      (_, key) => (item[key] !== null && item[key] !== undefined ? item[key] : '')
     );
   }
-
+  
   formatLabel(item: any): string {
     return this.labelFormat.replace(
       /\$\{(.*?)\}/g,
-      (_, key) => item[key] || ''
+      (_, key) => (item[key] !== null && item[key] !== undefined ? item[key] : '')
     );
   }
 

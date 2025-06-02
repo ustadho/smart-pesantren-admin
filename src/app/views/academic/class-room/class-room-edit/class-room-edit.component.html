@@ -136,13 +136,24 @@
         inputWidth="col-sm-9 col-md-8"
         layout="horizontal"
       ></app-base-input>
+      <app-base-input
+        type="ng-select"
+        [formGroup]="form"
+        label="Target Tahfidz"
+        controlName="targetTahfidz"
+        labelWidth="col-sm-3 col-md-2"
+        inputWidth="col-sm-9 col-md-6"
+        layout="horizontal"
+        [items]="tahfidzKonversis"
+        [labelFormat]="'Hal: ${id} / Target: ${jmlHalaman} Hal. (${konvJuz} Juz ${konvHalaman} Hal.)'"
+      ></app-base-input>
       <div class="row border-top pt-2">
         <div class="d-flex justify-content-between px-2">
           <button
             type="button"
             class="btn btn-danger mr-2"
             (click)="onDelete()"
-            *ngIf="form.get('id')?.value != null"
+            *ngIf="form.get('id')?.value != null" 
           >
             <i class="fa fa-ban"></i> Hapus
           </button>

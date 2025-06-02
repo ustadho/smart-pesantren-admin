@@ -9,6 +9,7 @@ import { ITab } from '../../../../domain/model/tab.model';
 import { ClassRoomService } from '../../../../domain/service/class-room.service';
 import Utils from '../../../../shared/util/util';
 import Swal from 'sweetalert2';
+import { TahfidzKonversiService } from '../../../../domain/service/tahfidz-konversi.service';
 
 @Component({
   selector: 'app-class-room-edit',
@@ -27,6 +28,7 @@ export class ClassRoomEditComponent {
   @Input() locations: any[] = [];
   @Input() teachers: any[] = [];
   @Input() curriculums: any[] = [];
+  @Input() tahfidzKonversis: any[] = [];
   @Output() onRemove = new EventEmitter<any>();
   form: FormGroup;
   isSubmitting = signal(false);
@@ -38,6 +40,7 @@ export class ClassRoomEditComponent {
   constructor(
     private fb: FormBuilder,
     private service: ClassRoomService,
+    private tahfidzKonversiService: TahfidzKonversiService,
     private toast: ToastrService
   ) {
     this.form = fb.group({
@@ -54,6 +57,7 @@ export class ClassRoomEditComponent {
       locationId: [null, [Validators.required]],
       homeTeacherId: [null, [Validators.required]],
       curriculumId: [null, [Validators.required]],
+      targetTahfidz: [null, [Validators.required]],
     });
   }
 
@@ -61,6 +65,10 @@ export class ClassRoomEditComponent {
     if(this.activeTab?.data != null) {
       this.form.patchValue(this.activeTab.data)
     }
+    this.tahfidzKonversiService.findAll().subscribe((data: any) => {
+      console.log('data', data);
+      this.tahfidzKonversis = data;
+    })
   }
   onParentKeyUp(e: any) {
 

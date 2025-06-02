@@ -85,6 +85,16 @@ export const navItems: INavData[] = [
         icon: 'nav-icon-bullet'
       },
       {
+        name: 'Target Tahfidz',
+        url: '/pengasuhan/tahfidz-target',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Konversi Tahfidz',
+        url: '/pengasuhan/tahfidz-konversi',
+        icon: 'nav-icon-bullet'
+      },
+      {
         name: 'Jenis Kegiatan',
         url: '/pengasuhan/jenis-kegiatan',
         icon: 'nav-icon-bullet'

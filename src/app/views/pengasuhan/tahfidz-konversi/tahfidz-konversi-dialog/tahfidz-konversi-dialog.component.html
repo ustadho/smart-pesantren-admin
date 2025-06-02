@@ -1,0 +1,31 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Update Tahfidz Target</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="bsModalRef.hide()"></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="form">
+      <div class="row">
+        <div class="col-md-12">
+          <app-base-input
+            type="ng-select"
+            [formGroup]="form"
+            [items]="tahfidzData"
+            [labelFormat]="'Hal: ${id} / Target: ${jmlHalaman} Hal. (${konvJuz} Juz ${konvHalaman} Hal.)'"
+            label="Halaman"
+            controlName="tahfidzId"
+            placeholder="Pilih ID"
+            (change)="onTahfidzChange($event)"
+          ></app-base-input>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="bsModalRef.hide()">Close</button>
+    <app-submit-button
+      [isSubmitting]="isSubmitting()"
+      (click)="onUpdate()"
+    >
+      Update
+    </app-submit-button>
+  </div>

@@ -1,27 +1,20 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
 import { BaseInputComponent } from '../../../components/base-input/base-input.component';
-import {
-  FormArray,
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { SubmitButtonComponent } from '../../../components/submit-button/submit-button.component';
 import { AcademicYearService } from '../../../domain/service/academic-year.service';
+import { TahfidzTargetSantriService } from '../../../domain/service/tahfidz-target.service';
 import { ClassRoomService } from '../../../domain/service/class-room.service';
-import { ClassRoomStudentService } from '../../../domain/service/class-room-student.service';
 import { InstitutionService } from '../../../domain/service/institution.service';
 import { StudentCategoryService } from '../../../domain/service/student-category.service';
-import { CommonModule } from '@angular/common';
-import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
-import { StudentLookupComponent } from '../student/student-lookup/student-lookup.component';
-import { SubmitButtonComponent } from '../../../components/submit-button/submit-button.component';
+import { StudentLookupComponent } from '../../academic/student/student-lookup/student-lookup.component';
 import Swal from 'sweetalert2';
-import { ToastrService } from 'ngx-toastr';
-import { TahfidzKonversiService } from '../../../domain/service/tahfidz-konversi.service';
-import { TahfidzKonversiDialogComponent } from '../../pengasuhan/tahfidz-konversi/tahfidz-konversi-dialog/tahfidz-konversi-dialog.component';
 
 @Component({
-  selector: 'app-class-room-student',
+  selector: 'app-tahfidz-target',
   standalone: true,
   imports: [
     BaseInputComponent,
@@ -30,16 +23,15 @@ import { TahfidzKonversiDialogComponent } from '../../pengasuhan/tahfidz-konvers
     SubmitButtonComponent,
   ],
   providers: [BsModalService],
-  templateUrl: './class-room-student.component.html',
-  styleUrl: './class-room-student.component.scss',
+  templateUrl: './tahfidz-target.component.html',
+  styleUrl: './tahfidz-target.component.scss'
 })
-export class ClassRoomStudentComponent {
+export class TahfidzTargetComponent {
   form!: FormGroup;
   academicYears: any[] = [];
   classRooms: any[] = [];
   institutions: any[] = [];
   categories: any[] = [];
-  tahfidzData: any[] = [];
   selectedClassRoom: any = null;
   isSubmitting = signal(false);
 
@@ -48,10 +40,9 @@ export class ClassRoomStudentComponent {
   private classRoomService = inject(ClassRoomService);
   private institutionService = inject(InstitutionService);
   private categoryService = inject(StudentCategoryService);
-  private classRoomStudentService = inject(ClassRoomStudentService);
+  private tahfidzTargetService = inject(TahfidzTargetSantriService);
   private bsModalService = inject(BsModalService);
   private toast = inject(ToastrService);
-  private tahfidzKonversiService = inject(TahfidzKonversiService);
   modalRef?: BsModalRef;
 
   ngOnInit(): void {
@@ -59,8 +50,6 @@ export class ClassRoomStudentComponent {
       academicYearId: [null],
       institutionId: [null],
       classRoomId: [null],
-      targetTahfidzId: [null],
-      targetTahfidzDesc: [null],
       students: this.fb.array([]),
     });
 
@@ -78,51 +67,24 @@ export class ClassRoomStudentComponent {
     this.categoryService.findAll('').subscribe((data) => {
       this.categories = data.body;
     });
-    this.tahfidzKonversiService.findAll().subscribe({
-      next: (data) => {
-        this.tahfidzData = data;
-      },
-      error: (error) => {
-        this.tahfidzData = [];
-      }
-    });
   }
 
   onSelectClassRoom(e: any) {
     this.selectedClassRoom = e;
+    this.classRoomService.findOne(e.id).subscribe((data) => {
+      this.selectedClassRoom = data.body;
+    });
     this.loadStudent();
   }
 
-  onUpdateTarget() {
-    if(this.form.value.targetTahfidzId == null) {
-      return;
-    }
-    this.isSubmitting.set(true);
-    const details = this.form.get('students') as FormArray;
-    for (let index = 0; index < details.length; index++) {
-      const el = details.at(index);
-      details.at(index).patchValue({
-        targetTahfidzId: this.form.value.targetTahfidzId,
-        targetTahfidzDesc: this.form.value.targetTahfidzDesc,
-      });
-    }
-    this.isSubmitting.set(false);
-  }
-
   onSave() {
-    this.isSubmitting.set(true);
-    this.classRoomStudentService
-      .save(this.form.getRawValue())
-      .subscribe({
-        next: (data: any) => {
-          this.toast.success('Simpan data sukses');
-          this.isSubmitting.set(false);
-        },
-        error: (error: any) => {
-          this.toast.error(error.error?.message || 'Gagal menyimpan data');
-          this.isSubmitting.set(false);
-        }
-      });
+    // this.isSubmitting.set(true);
+    // this.tahfidzTargetService
+    //   .save(this.form.getRawValue())
+    //   .subscribe((data: any) => {
+    //     console.log('success');
+    //   });
+    // this.isSubmitting.set(false);
   }
 
   onStudentLookup() {
@@ -160,12 +122,27 @@ export class ClassRoomStudentComponent {
             nisn: el.nisn,
             name: el.name,
             joinYear: el.joinYear,
-            targetTahfidzId: this.form.value.targetTahfidzId,
-            targetTahfidzDesc: this.form.value.targetTahfidzDesc??'',
+            target: el.target,
           })
         );
       }
     });
+  }
+
+  onUpdateTarget() {
+    if(this.selectedClassRoom == null || this.selectedClassRoom.targetTahfidz == null) {
+      return;
+    }
+    this.isSubmitting.set(true);
+    const details = this.form.get('students') as FormArray;
+    for (let index = 0; index < details.length; index++) {
+      const el = details.at(index);
+      details.at(index).patchValue({
+        targetId: this.selectedClassRoom?.targetTahfidz,
+        targetInfo: this.selectedClassRoom?.targetTahfidzInfo,
+      });
+    }
+    this.isSubmitting.set(false);
   }
 
   loadClassRoom() {
@@ -194,63 +171,17 @@ export class ClassRoomStudentComponent {
       return;
     }
 
-    this.classRoomStudentService
+    this.tahfidzTargetService
       .findByClassRoomId(this.form.value.classRoomId)
       .subscribe((data) => {
+        console.log('data', data)
         this.form.patchValue(data.body);
         const students = this.form.get('students') as FormArray;
         students.clear();
-        data.body.students.forEach((s: any) => {
+        data.body.forEach((s: any) => {
           students.push(this.fb.group(s));
         });
       });
-  }
-
-  onDelete(a: any) {
-    Swal.fire({
-      title: 'Hapus data',
-      text: `Anda yakin untuk menghapus ' ${a.name} - ${a.nis}'?`,
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      cancelButtonText: 'Batal',
-      confirmButtonText: 'Ya Benar',
-    }).then((result) => {
-      if (result.value) {
-        this.classRoomStudentService.deleteById(a.id).subscribe((response) => {
-          if (this.form.getRawValue().id != null) {
-            this.toast.success('Hapus data sukses');
-            this.loadStudent()
-          }
-        });
-      }
-    });
-  }
-
-  openTahfidzDialog(data: any, index: number) {
-    const config: ModalOptions = {
-      class: 'modal-lg',
-      initialState: {
-        tahfidzData: this.tahfidzData,
-        initialValue: data,
-        index
-      }
-    };
-
-    const modalRef = this.bsModalService.show(TahfidzKonversiDialogComponent, config);
-    const subscription = modalRef.onHide?.subscribe((result: any) => {
-      subscription?.unsubscribe(); // Unsubscribe immediately to prevent multiple executions
-      
-      if (result && result.id) { // Only process if we have a valid result with an id
-        const details = this.form.get('students') as FormArray;
-        const selected = this.tahfidzData.find((e) => e.id == result.id);
-        details.at(index).patchValue({
-          targetTahfidzId: selected.id,
-          targetTahfidzDesc: `Hal. ${selected.id} / Target: ${selected.jmlHalaman} Hal. (${selected.konvJuz} Juz ${selected.konvHalaman} Hal.)`
-        });
-      }
-    });
   }
 
   get getFormDetailControls() {

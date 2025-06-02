@@ -16,6 +16,20 @@ export const routes: Routes = [
     }
   },
   {
+    path: 'tahfidz-target',
+    loadComponent: () => import('./tahfidz-target/tahfidz-target.component').then(m => m.TahfidzTargetComponent),
+    data: {
+      title: 'Target tahfidz',
+    }
+  },
+  {
+    path: 'tahfidz-konversi',
+    loadComponent: () => import('./tahfidz-konversi/tahfidz-konversi.component').then(m => m.TahfidzKonversiComponent),
+    data: {
+      title: 'Konversi tahfidz',
+    }
+  },
+  {
     path: 'jenis-kegiatan',
     loadComponent: () => import('./jenis-kegiatan/jenis-kegiatan.component').then(m => m.JenisKegiatanComponent),
     data: {
