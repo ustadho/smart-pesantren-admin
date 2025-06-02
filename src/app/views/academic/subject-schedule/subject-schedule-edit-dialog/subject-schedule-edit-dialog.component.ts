@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import Utils from '../../../../shared/util/util';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-subject-schedule-edit-dialog2',
@@ -127,13 +128,33 @@ export class SubjectScheduleEditDialogComponent {
   }
 
   onDelete() {
-    this.isSubmiting.set(true);
-    this.subjectScheduleService.deleteById(this.data.id).subscribe((res) => {
-      this.onClose.next('confirmDeleteItem');
-      this.modalRef.hide();
-      this.toastService.success('Hapus jadwal sukses');
-      this.isSubmiting.set(false);
-    });
+    Swal.fire({
+            title: `Hapus data`,
+            text: `Anda yakin untuk menghapus data ini?`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Batal',
+            confirmButtonText: 'Ya Benar',
+          }).then((result: any) => {
+            if (result.value) {
+              this.isSubmiting.set(true);
+              this.subjectScheduleService.deleteById(this.data.id).subscribe({
+                next: (res) => {
+                  this.onClose.next('confirmDeleteItem');
+                  this.modalRef.hide();
+                  this.toastService.success('Hapus jadwal sukses');
+                  this.isSubmiting.set(false);
+                },
+                error: (err) => {
+                  this.toastService.error('Gagal menghapus jadwal');
+                  this.isSubmiting.set(false);
+                }
+              });
+            }
+          })
+
   }
 
   get subjectTeachersControls(): FormArray<FormGroup> {
