@@ -13,29 +13,43 @@
                                 <table class="table table-sm table-hover">
                                     <thead class="table-light">
                                         <tr>
-                                            <th>
-                                                <span>No. Halaman</span>
+                                            <th rowspan="2">
+                                                <span>No. Hal</span>
                                             </th>
-                                            <th>
-                                                <span>Jumlah Halaman</span>
+                                            <th rowspan="2">
+                                                <span>Jml. Hal</span>
                                             </th>
-                                            <th>
-                                                <span>Konversi Juz</span>
+                                            <th rowspan="2">
+                                                <span>Juz</span>
                                             </th>
-                                            <th>
-                                                <span>Konversi Halaman</span>
+                                            <th rowspan="2">
+                                                <span>Hal.</span>
                                             </th>
-                                            <th>
+                                            <th colspan="3" class="text-center">
+                                                <span>Awal Halaman</span>
+                                            </th>
+                                            <th colspan="3" class="text-center">
+                                                <span>Akhir Halaman</span>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th style="background-color: yellow;">
                                                 <span>No. Surat</span>
                                             </th>
                                             <th>
-                                                <span>Nama Surat</span>
-                                            </th>
-                                            <th>
-                                                <span>اسم السورة</span>
+                                                <span>Surat</span>
                                             </th>
                                             <th class="text-center">
-                                                <span>Jumlah Ayat</span>
+                                                <span>Ayat</span>
+                                            </th>
+                                            <th style="background-color: yellow;">
+                                                <span>No. Surat</span>
+                                            </th>
+                                            <th>
+                                                <span>Surat</span>
+                                            </th>
+                                            <th class="text-center">
+                                                <span>Ayat</span>
                                             </th>
                                         </tr>
                                     </thead>
@@ -46,10 +60,12 @@
                                                 <td>{{ d.jmlHalaman | number }}</td>
                                                 <td>{{ d.konvJuz | number }}</td>
                                                 <td>{{ d.konvHalaman | number }}</td>
-                                                <td>{{ d.noSurat | number}}</td>
-                                                <td>{{ d.namaSurat }}</td>
-                                                <td class="text-end">{{ d.namaSuratArab }}</td>
-                                                <td class="text-center">{{ d.jmlAyat | number }}</td>
+                                                <td style="background-color: yellow;">{{ d.awalNoSurat | number}}</td>
+                                                <td>{{ d.awalNamaSurat }}</td>
+                                                <td class="text-center">{{ d.awalAyatSurat | number }}</td>
+                                                <td style="background-color: yellow;">{{ d.akhirNoSurat | number}}</td>
+                                                <td>{{ d.akhirNamaSurat }}</td>
+                                                <td class="text-center">{{ d.akhirAyatSurat | number }}</td>
                                             </tr>
                                         </ng-container>
                                     </tbody>

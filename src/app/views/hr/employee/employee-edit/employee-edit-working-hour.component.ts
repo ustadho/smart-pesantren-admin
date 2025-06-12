@@ -41,6 +41,7 @@ import { WorkingHourService } from '../../../../domain/service/working-hour.serv
 export class EmployeeEditWorkingHourComponent implements OnInit {
   @Input() activeTab?: ITab;
   @Input() form!: FormGroup;
+  @Input() locations!: any[];
   @Output() onRemove = new EventEmitter<any>();
   modalRef?: BsModalRef;
   workingHours: any[] = [];

@@ -128,15 +128,6 @@
         [items]="curriculums"
       ></app-base-input>
       <app-base-input
-        type="textarea"
-        [formGroup]="form"
-        label="Keterangan"
-        controlName="description"
-        labelWidth="col-sm-3 col-md-2"
-        inputWidth="col-sm-9 col-md-8"
-        layout="horizontal"
-      ></app-base-input>
-      <app-base-input
         type="ng-select"
         [formGroup]="form"
         label="Target Tahfidz"
@@ -146,6 +137,15 @@
         layout="horizontal"
         [items]="tahfidzKonversis"
         [labelFormat]="'Hal: ${id} / Target: ${jmlHalaman} Hal. (${konvJuz} Juz ${konvHalaman} Hal.)'"
+      ></app-base-input>
+      <app-base-input
+        type="textarea"
+        [formGroup]="form"
+        label="Keterangan"
+        controlName="description"
+        labelWidth="col-sm-3 col-md-2"
+        inputWidth="col-sm-9 col-md-8"
+        layout="horizontal"
       ></app-base-input>
       <div class="row border-top pt-2">
         <div class="d-flex justify-content-between px-2">

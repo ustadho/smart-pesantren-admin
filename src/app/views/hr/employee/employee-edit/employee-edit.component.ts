@@ -29,6 +29,7 @@ import { EmployeeEditUnorComponent } from './employee-edit-unor.component';
 import { EmployeeEditAddressComponent } from './employee-edit-personal.component';
 import { EmployeeEditWorkingHourComponent } from './employee-edit-working-hour.component';
 import { PersonalPhotoComponent } from '../../../../components/personal-photo/personal-photo.component';
+import { LocationService } from '../../../../domain/service/location.service';
 
 @Component({
   selector: 'app-employee-edit',
@@ -67,9 +68,11 @@ export class EmployeeEditComponent implements OnInit {
     { id: 'M', name: 'Laki-Laki' },
     { id: 'F', name: 'Perempuan' },
   ];
+  locations: any[] = [];
 
   private service = inject(EmployeeService);
   private jobLevelService = inject(JobLevelService);
+  private locationService = inject(LocationService);
   private toast = inject(ToastrService);
 
   constructor(private fb: FormBuilder) {
@@ -109,6 +112,7 @@ export class EmployeeEditComponent implements OnInit {
       joinDate: [new Date(), [Validators.required]],
       statusId: [null, [Validators.required]],
       workingHourId: [null, [Validators.required]],
+      presenceLocationId: [null, [Validators.required]],
       workingShift: [false, [Validators.required]],
       formalEducations: this.fb.array([]),
       workingHours: this.fb.array([]),
@@ -117,6 +121,10 @@ export class EmployeeEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.locationService.findAll('').subscribe((res: any) => {
+      this.locations = res.body;
+    });
+
     if (this.activeTab?.data != null) {
       this.form.patchValue(this.activeTab.data);
     }
