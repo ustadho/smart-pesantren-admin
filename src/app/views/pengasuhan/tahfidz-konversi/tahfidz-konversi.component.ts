@@ -6,7 +6,7 @@ import { CommonModule, DecimalPipe } from '@angular/common';
 @Component({
   selector: 'app-tahfidz-konversi',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DecimalPipe],
   templateUrl: './tahfidz-konversi.component.html',
   styleUrls: ['./tahfidz-konversi.component.scss']
 })
@@ -18,6 +18,10 @@ export class TahfidzKonversiComponent {
   private tahfidzKonversiService = inject(TahfidzKonversiService);
 
   ngOnInit(): void {
+    this.onRefresh();
+  }
+
+  onRefresh(): void {
     this.tahfidzKonversiService.findAll().subscribe({
       next: (data) => {
         console.log('data', data);
