@@ -6,9 +6,6 @@ import {
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { AcademicYearService } from '../../../../domain/service/academic-year.service';
-import { AsramaService } from '../../../../domain/service/asrama.service';
-import { AsramaMappingService } from '../../../../domain/service/asrama-mapping.service';
 import { CommonModule } from '@angular/common';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { StudentLookupComponent } from '../../../academic/student/student-lookup/student-lookup.component';
@@ -49,7 +46,6 @@ export class HalaqohMappingEditComponent {
   isSubmitting = signal(false);
 
   private fb = inject(FormBuilder);
-  private asramaService = inject(AsramaService);
   private employeeService = inject(EmployeeService);
   private halaqohService = inject(HalaqohService);
   private bsModalService = inject(BsModalService);
@@ -69,12 +65,6 @@ export class HalaqohMappingEditComponent {
       students: this.fb.array([]),
     });
 
-    this.asramaService.findAll({
-      locationId: '',
-      q: '',
-    }).subscribe((data) => {
-      this.asramas = data.body;
-    })
     this.employeeService.findAll('').subscribe((data) => {
       this.employees = data.body;
     });
@@ -180,24 +170,6 @@ export class HalaqohMappingEditComponent {
         );
       }
     });
-  }
-
-  loadClassRoom() {
-    this.asramas = [];
-    if (
-      this.form.value.academicYearId == null ||
-      this.form.value.institutionId == null
-    ) {
-      return;
-    }
-    this.form.get('classRoomId')?.setValue(null);
-    this.asramaService
-      .findAllSantri(
-        this.form.value.asramaId,
-      )
-      .subscribe((data) => {
-        this.asramas = data.body;
-      });
   }
 
   loadStudent() {

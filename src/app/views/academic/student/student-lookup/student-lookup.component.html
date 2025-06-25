@@ -39,6 +39,20 @@
                     >
                     </ng-select>
                   </label>
+                  <label for="classRoomId" class="col-md-2"
+                    >Kelas
+                    <ng-select
+                      placeholder="Kelas"
+                      id="classRoomId"
+                      name="classRoomId"
+                      [items]="classRooms"
+                      bindLabel="name"
+                      bindValue="id"
+                      formControlName="classRoomId"
+                      (change)="page = 1; loadAll()"
+                    >
+                    </ng-select>
+                  </label>
                   <label for="q" class="col-md-3"
                     >Pencarian
                     <input
@@ -108,8 +122,8 @@
                           <span> Tgl. Lahir </span
                           ><fa-icon icon="sort"></fa-icon>
                         </th>
-                        <th jhiSortBy="category.name">
-                          <span> Kategori </span><fa-icon icon="sort"></fa-icon>
+                        <th jhiSortBy="classRoom.name">
+                          <span> Kelas </span><fa-icon icon="sort"></fa-icon>
                         </th>
                         <th jhiSortBy="status">
                           <span> Status </span><fa-icon icon="sort"></fa-icon>
@@ -139,7 +153,7 @@
                           <td>{{ detail.value.name }}</td>
                           <td>{{ detail.value.sex }}</td>
                           <td>{{ detail.value.dob | date : "dd/MM/yyyy" }}</td>
-                          <td>{{ detail.value.category }}</td>
+                          <td>{{ detail.value.classRoom }}</td>
                           <td>{{ detail.value.status }}</td>
                           <td>{{ detail.value.joinYear }}</td>
                         </tr>
@@ -166,6 +180,27 @@
                 lastText="&raquo;"
               >
               </pagination>
+            </div>
+
+            <!-- Selected Students Section -->
+            <div class="row mt-3" *ngIf="selectedStudents.length > 0">
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header">
+                    <i class="fa fa-check-circle"></i>
+                    <span class="h6"> Santri Terpilih ({{selectedStudents.length}})</span>
+                  </div>
+                  <div class="card-body">
+                    <div class="d-flex flex-wrap gap-2">
+                      <span *ngFor="let student of selectedStudents" class="badge bg-primary p-2 me-2 mb-2">
+                        {{student.name}}
+                        <button type="button" class="btn-close btn-close-white ms-2" aria-label="Close" 
+                          (click)="removeSelectedStudent(student)" style="font-size: 0.65rem;"></button>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div class="row border-top pt-2">

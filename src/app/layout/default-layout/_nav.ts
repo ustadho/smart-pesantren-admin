@@ -80,7 +80,7 @@ export const navItems: INavData[] = [
         icon: 'nav-icon-bullet'
       },
       {
-        name: 'Santri - Halaqoh',
+        name: 'Halaqoh',
         url: '/pengasuhan/halaqoh-mapping',
         icon: 'nav-icon-bullet'
       },
