@@ -66,7 +66,6 @@ export class ClassRoomEditComponent {
       this.form.patchValue(this.activeTab.data)
     }
     this.tahfidzKonversiService.findAll().subscribe((data: any) => {
-      console.log('data', data);
       this.tahfidzKonversis = data;
     })
   }

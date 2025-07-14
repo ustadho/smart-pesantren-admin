@@ -61,8 +61,16 @@ export class ClassRoomListComponent {
   }
 
   ngOnInit(): void {
-    this.handleNavigation();
+  }
 
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      if(this.academicYears != null && this.academicYears.length > 0) {
+        const academicYear = this.academicYears.find((item: any) => item.isDefault == true);
+        this.filterForm.get('academicYearId')?.setValue(academicYear?.id);
+      }
+      this.handleNavigation();
+    }, 500);
   }
 
   public loadAll() {
@@ -116,7 +124,7 @@ export class ClassRoomListComponent {
     this.loadAll();
   }
 
-  private handleNavigation(): void {
+  public handleNavigation(): void {
     combineLatest([this.activatedRoute.data, this.activatedRoute.queryParamMap]).subscribe(([data, params]) => {
       const page = params.get('page');
       this.page = +(page ?? 1);

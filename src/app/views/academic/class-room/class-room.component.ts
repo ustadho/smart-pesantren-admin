@@ -120,8 +120,8 @@ export class ClassRoomComponent implements AfterViewInit {
   }
 
   refreshList(evt: any) {
-    if (this.listComponent) {
-      this.listComponent.transition();
+    if (this.listComponent && this.academicYears.length > 0) {
+      this.listComponent.handleNavigation();
     }
   }
 }
