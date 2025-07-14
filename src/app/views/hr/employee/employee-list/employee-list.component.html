@@ -147,7 +147,7 @@
                       <td>{{ d.name }}</td>
                       <td>{{ d.organizationName }}</td>
                       <td>{{ d.sex == "M" ? "Laki-Laki" : "Perempuan" }}</td>
-                      <td>{{ d.pob.name }}</td>
+                      <td>{{ d.pobName ?? '-' }}</td>
                       <td>{{ d.dob | date : "dd/MM/YYYY" }}</td>
                       <td class="text-center">
                         <span *ngIf="d.active; else unchecked">&#x2714;</span>

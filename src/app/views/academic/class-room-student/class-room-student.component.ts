@@ -170,6 +170,10 @@ export class ClassRoomStudentComponent {
 
   loadClassRoom() {
     this.classRooms = [];
+    this.form.get('classRoomId')?.setValue(null);
+    this.form.get('targetTahfidzDesc')?.setValue('');
+    this.form.get('targetTahfidzId')?.setValue(null);
+    this.getFormDetailControls.clear();
     if (
       this.form.value.academicYearId == null ||
       this.form.value.institutionId == null
