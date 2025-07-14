@@ -49,13 +49,6 @@ export class StudentEditGuardianComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.form.getRawValue() != null) {
-      if (this.form.getRawValue().subdistrictId != null) {
-        this.subdistrictService
-          .findBy(this.form.getRawValue().subdistrictId)
-          .subscribe((res: any) => {
-            this.subDistricts = [res.body];
-          });
-      }
       if(this.form.getRawValue().subDistrictId != null) {
         this.subdistrictService.findBy(this.form.getRawValue().subDistrictId).subscribe((res: any) => {
           this.subDistricts = [res.body]
