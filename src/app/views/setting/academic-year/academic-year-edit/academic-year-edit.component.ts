@@ -43,7 +43,10 @@ export class AcademicYearEditComponent {
 
   ngOnInit(): void {
     if(this.activeTab?.data != null) {
+      console.log('this.activeTab?.data', this.activeTab?.data)
       this.form.patchValue(this.activeTab.data)
+      this.form.get('startDate')?.setValue(new Date(this.activeTab.data.startDate))
+      this.form.get('endDate')?.setValue(new Date(this.activeTab.data.endDate))
     }
   }
   onParentKeyUp(e: any) {
