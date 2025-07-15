@@ -119,7 +119,7 @@ export class ClassRoomStudentComponent {
           this.isSubmitting.set(false);
         },
         error: (error: any) => {
-          this.toast.error(error.error?.message || 'Gagal menyimpan data');
+          this.toast.error(error.error?.detail || 'Gagal menyimpan data');
           this.isSubmitting.set(false);
         }
       });
@@ -156,9 +156,9 @@ export class ClassRoomStudentComponent {
           this.fb.group({
             id: null,
             studentId: el.id,
-            nis: el.nis,
-            nisn: el.nisn,
-            name: el.name,
+            studentNis: el.nis,
+            studentNisn: el.nisn,
+            studentName: el.name,
             joinYear: el.joinYear,
             targetTahfidzId: this.form.value.targetTahfidzId,
             targetTahfidzDesc: this.form.value.targetTahfidzDesc??'',
@@ -205,7 +205,19 @@ export class ClassRoomStudentComponent {
         const students = this.form.get('students') as FormArray;
         students.clear();
         data.body.students.forEach((s: any) => {
-          students.push(this.fb.group(s));
+          //students.push(this.fb.group(s));
+          students.push(
+            this.fb.group({
+              id: s.id,
+              studentId: s.studentId,
+              nis: s.studentNis,
+              nisn: s.studentNisn,
+              name: s.studentName,
+              joinYear: s.joinYear,
+              targetTahfidzId: s.targetTahfidzId,
+              targetTahfidzDesc: s.targetTahfidzDesc,
+            })
+          );
         });
       });
   }
@@ -245,7 +257,7 @@ export class ClassRoomStudentComponent {
     const modalRef = this.bsModalService.show(TahfidzKonversiDialogComponent, config);
     const subscription = modalRef.onHide?.subscribe((result: any) => {
       subscription?.unsubscribe(); // Unsubscribe immediately to prevent multiple executions
-      
+
       if (result && result.id) { // Only process if we have a valid result with an id
         const details = this.form.get('students') as FormArray;
         const selected = this.tahfidzData.find((e) => e.id == result.id);
