@@ -49,20 +49,6 @@ export class StudentEditParentComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    if (this.form.getRawValue() != null) {
-      if (this.form.getRawValue().subdistrictId != null) {
-        this.subdistrictService
-          .findBy(this.form.getRawValue().subdistrictId)
-          .subscribe((res: any) => {
-            this.subDistricts = [res.body];
-          });
-      }
-      if(this.form.getRawValue().subDistrictId != null) {
-        this.subdistrictService.findBy(this.form.getRawValue().subDistrictId).subscribe((res: any) => {
-          this.subDistricts = [res.body]
-        })
-      }
-    }
     this.eventManager.subscribe('personTitlesLoaded', (res: any) => {
       if(res.content != null && res.content.length > 0) {
         this.maleTitles = res.content.filter((x: any) => x.sex == 'M');

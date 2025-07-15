@@ -81,11 +81,9 @@ export class AsramaStudentMappingEditComponent {
   ngAfterViewInit(): void {
     setTimeout(async ()=> {
       if(this.activeTab?.data != null) {
-        console.log('this.activeTab.data', this.activeTab.data)
         if(this.activeTab.data != null) {
           this.form.patchValue(this.activeTab.data)
         }
-        console.log('this.activeTab.data', this.activeTab.data)
         const students = this.form.get('students') as FormArray;
         students.clear();
         this.activeTab.data.students.forEach((s: any) => {
@@ -104,10 +102,9 @@ export class AsramaStudentMappingEditComponent {
 
   onSelectAsrama(e: any) {
     this.selectedAsrama = e;
-    if(e == null) 
+    if(e == null)
       return;
     this.musyrifs = this.employees.filter((x: any) => x.sex == e.sex);
-    console.log(e)
     if(e.id != null && this.form.value.academicYearId != null) {
       this.asramaMappingService.findOneByAsramaAndYear(e.id, this.form.value.academicYearId).subscribe((data) => {
         this.form.patchValue(data.body);
@@ -219,7 +216,6 @@ export class AsramaStudentMappingEditComponent {
   }
 
   onDelete() {
-    console.log('this.activeTab',  this.activeTab)
     if(this.activeTab == null || this.activeTab.data == null) {
       return
     }

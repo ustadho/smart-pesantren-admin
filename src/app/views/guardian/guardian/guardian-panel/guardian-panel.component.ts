@@ -32,6 +32,7 @@ export class GuardianPanelComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.form.getRawValue().permanentSubdistrictId != null) {
+      console.log('xxxxxxx')
       this.subdistrictService.findBy(this.form.getRawValue().permanentSubdistrictId).subscribe((res: any) => {
         this.subDistricts = [res.body]
       })
